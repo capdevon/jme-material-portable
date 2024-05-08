@@ -135,7 +135,7 @@ public class JsonMaterialExporter { //implements JmeExporter {
         }
     }
 
-    protected JsonTexture formatMatParamTexture(MatParamTexture param) {
+    private JsonTexture formatMatParamTexture(MatParamTexture param) {
         JsonTexture json = new JsonTexture();
         StringBuilder sb = new StringBuilder();
         Texture tex = (Texture) param.getValue();
@@ -171,7 +171,7 @@ public class JsonMaterialExporter { //implements JmeExporter {
         return json;
     }
 
-    protected String formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
+    private String formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
         WrapMode mode;
         try {
             mode = texVal.getWrap(axis);
