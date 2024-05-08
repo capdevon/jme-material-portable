@@ -1,0 +1,100 @@
+{
+  "MaterialDef": {
+    "name": "PBR Lighting", // Assuming this is the material name
+    "MaterialParameters": [
+      {
+        "type": "Int",
+        "name": "BoundDrawBuffer"
+      },
+      {
+        "type": "Float",
+        "name": "AlphaDiscardThreshold",
+        "value": 0.0 // Assuming a default value
+      },
+      {
+        "type": "Float",
+        "name": "Metallic",
+        "value": 1.0
+      },
+      {
+        "type": "Color",
+        "name": "Specular",
+        "value": [1.0, 1.0, 1.0, 1.0]
+      },
+      {
+        "type": "Float",
+        "name": "Glossiness",
+        "value": 1.0
+      },
+      {
+        "type": "Texture2D",
+        "name": "ParallaxMap",
+        "colorSpace": "Linear"
+      }
+      // ... and so on ...
+    ],
+    "Techniques": [
+      {
+        "name": "Default", // Assuming technique name can be extracted
+        "LightMode": "SinglePassAndImageBased",
+        "VertexShader": "Common/MatDefs/Light/PBRLighting.vert",
+        "FragmentShader": "Common/MatDefs/Light/PBRLighting.frag",
+        "ShaderLanguages": ["GLSL300", "GLSL150", "GLSL110" ],
+        "WorldParameters": [
+          "WorldViewProjectionMatrix",
+          "CameraPosition",
+          "WorldMatrix",
+          "WorldNormalMatrix",
+          "ViewProjectionMatrix",
+          "ViewMatrix"
+        ],
+        "Defines": [
+          {
+            "name": "BOUND_DRAW_BUFFER",
+            "param": "BoundDrawBuffer"
+          },
+          {
+            "name": "BASECOLORMAP",
+            "param": "BaseColorMap"
+          },
+          {
+            "name": "VERTEX_COLOR",
+            "param": "UseVertexColor"
+          }
+          // ... other defines mapping parameters to names ...
+        ]
+      },
+      {
+        "name": "PreShadow", // Assuming technique name can be extracted
+        "VertexShader": "Common/MatDefs/Shadow/PreShadow.vert",
+        "FragmentShader": "Common/MatDefs/Shadow/PreShadowPBR.frag",
+        "ShaderLanguages": ["GLSL300", "GLSL150", "GLSL110" ],
+        "WorldParameters": [
+          "WorldViewProjectionMatrix",
+          "WorldViewMatrix",
+          "ViewProjectionMatrix",
+          "ViewMatrix"
+        ],
+        "Defines": [
+          {
+            "name": "BOUND_DRAW_BUFFER",
+            "param": "AlphaDiscardThreshold"
+          },
+          {
+            "name": "DISCARD_ALPHA",
+            "param": "AlphaDiscardThreshold"
+          }
+          // ... other defines mapping parameters to names ...
+        ],
+        "ForcedRenderState": {
+          "faceCull": "Off",
+          "depthTest": true,
+          "depthWrite": true,
+          "polyOffset": [5, 3],
+          "colorWrite": false
+        }
+      }
+      // ... other techniques following the same structure ...
+    ]
+  }
+}

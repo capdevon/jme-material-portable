@@ -1,0 +1,53 @@
+{
+	"name": "MyMaterial",
+	"def": "Common/MatDefs/Light/Lighting.j3md",
+	"materialParameters": [
+		{
+			"name": "Diffuse",
+			"value": [0.5, 0.5, 0.5, 1]
+		},
+		{
+			"name": "UseMaterialColors",
+			"value": true
+		},
+		{
+			"name": "ParallaxHeight",
+			"value": 0.05
+		},
+		{
+			"name": "Ambient",
+			"value": [0.2, 0.2, 0.2, 1]
+		},
+		{
+			"name": "BackfaceShadows",
+			"value": false
+		},
+		{
+			"name": "DiffuseMap",
+			"texture": {
+				"path": "Models/Ferrari/red_car_texture.jpg",
+				"wrapMode": "Repeat",
+				"minFilter": "BilinearNoMipMaps",
+				"magFilter": "Bilinear",
+				"flipY": true
+			}
+		},
+		{
+			"name": "Specular",
+			"value": [0.5, 0.5, 0.5, 1]
+		},
+		{
+			"name": "Shininess",
+			"value": 12.5
+		}
+	],
+	"additionalRenderState": {
+		"faceCull": "Back",
+		"blend": "Off",
+		"depthWrite": true,
+		"colorWrite": true,
+		"depthTest": true,
+		"wireframe": false,
+		"polyOffset": [1.0, 1.0]
+	}
+}

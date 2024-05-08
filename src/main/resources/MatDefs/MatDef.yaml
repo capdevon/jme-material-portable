@@ -1,0 +1,36 @@
+MaterialDef: Advanced PBR Terrain
+
+MaterialParameters:
+
+  - type: Texture2D
+    name: BaseColorMap
+    path: path/to/albedo/texture0.png  # Assuming path is stored separately
+    colorspace: LINEAR
+    
+  - type: TextureArray
+    name: AlbedoTextureArray
+    colorspace: LINEAR
+	TexturePaths:
+	  - path/to/albedo/texture0.png
+	  - path/to/albedo/texture1.png
+	  - path/to/albedo/texture2.png
+	  
+  - type: Float
+    name: Roughness_0
+    value: 0.0
+
+  - type: Float
+    name: Metallic_0
+    value: 0.0
+    
+  - type: Bool
+    name: useTriPlanarMapping
+    value: false  # Assuming default value
+    
+  - type: Color
+    name: BaseColor
+    value: [ 1.0, 1.0, 1.0, 1.0 ]
+
+  - type: Color
+    name: Emissive
+    value: !Color 

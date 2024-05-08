@@ -1,0 +1,25 @@
+MaterialDef Debug Normals {
+
+    MaterialParameters {
+        Int BoundDrawBuffer
+        // For instancing
+        Boolean UseInstancing
+    }
+
+    Technique {
+        VertexShader   GLSL300 GLSL150 GLSL100: Common/MatDefs/Misc/ShowNormals.vert
+        FragmentShader GLSL300 GLSL150 GLSL100: Common/MatDefs/Misc/ShowNormals.frag
+
+        WorldParameters {
+            WorldViewProjectionMatrix
+            ViewProjectionMatrix
+            ViewMatrix
+            ProjectionMatrix
+        }
+
+        Defines {
+            BOUND_DRAW_BUFFER: BoundDrawBuffer
+            INSTANCING : UseInstancing
+        }
+    }
+}
