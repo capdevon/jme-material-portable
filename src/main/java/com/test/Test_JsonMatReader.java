@@ -3,6 +3,7 @@ package com.test;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -10,6 +11,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jme3.app.SimpleApplication;
+import com.jme3.asset.TextureKey;
 import com.jme3.material.MatParam;
 import com.jme3.material.MatParamTexture;
 import com.jme3.material.Material;
@@ -25,6 +27,8 @@ import com.jme3.math.Vector3f;
 import com.jme3.math.Vector4f;
 import com.jme3.shader.VarType;
 import com.jme3.system.JmeContext;
+import com.jme3.texture.Texture;
+import com.jme3.texture.Texture.WrapMode;
 
 public class Test_JsonMatReader extends SimpleApplication {
 
@@ -89,31 +93,10 @@ public class Test_JsonMatReader extends SimpleApplication {
         data.addProperty("name", mat.getName());
         data.addProperty("def", mat.getMaterialDef().getAssetName());
 
-        JsonArray parameters = new JsonArray();
-        for (MatParam param : mat.getParams()) {
-            JsonObject obj = null;
-            if (param instanceof MatParamTexture) {
-                //formatMatParamTexture((MatParamTexture) param);
-            } else {
-                obj = formatMatParam(param);
-            }
-            
-            if (obj != null) {
-                parameters.add(obj);
-            }
-        }
+        JsonArray parameters = toJson(mat.getParams());
         data.add("materialParameters", parameters);
 
-        RenderState rs = mat.getAdditionalRenderState();
-        JsonObject renderState = new JsonObject();
-        renderState.addProperty("depthWrite", rs.isDepthWrite());
-        renderState.addProperty("colorWrite", rs.isColorWrite());
-        renderState.addProperty("depthTest", rs.isDepthTest());
-        renderState.addProperty("wireframe", rs.isWireframe());
-        renderState.addProperty("faceCull", rs.getFaceCullMode().name());
-        renderState.addProperty("blend", rs.getBlendMode().name());
-        JsonArray polyOffset = toJsonArray(rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits());
-        renderState.add("polyOffset", polyOffset);
+        JsonObject renderState = toJson(mat.getAdditionalRenderState());
         data.add("additionalRenderState", renderState);
 
         // Convert JsonObject to String
@@ -126,51 +109,91 @@ public class Test_JsonMatReader extends SimpleApplication {
 //            writer.write(jsonString);
 //        }
     }
+
+    /**
+     * @param params
+     * @return
+     */
+    private static JsonArray toJson(Collection<MatParam> params) {
+        JsonArray parameters = new JsonArray();
+        for (MatParam param : params) {
+            JsonObject json = null;
+            if (param instanceof MatParamTexture) {
+                //formatMatParamTexture((MatParamTexture) param);
+            } else {
+                json = formatMatParam(param);
+            }
+            
+            if (json != null) {
+                parameters.add(json);
+            }
+        }
+        return parameters;
+    }
+
+    /**
+     * @param rs
+     * @return
+     */
+    private static JsonObject toJson(RenderState rs) {
+        JsonObject json = new JsonObject();
+        json.addProperty("depthWrite", rs.isDepthWrite());
+        json.addProperty("colorWrite", rs.isColorWrite());
+        json.addProperty("depthTest", rs.isDepthTest());
+        json.addProperty("wireframe", rs.isWireframe());
+        json.addProperty("faceCull", rs.getFaceCullMode().name());
+        json.addProperty("blend", rs.getBlendMode().name());
+        
+        JsonArray polyOffset = toJsonArray(rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits());
+        json.add("polyOffset", polyOffset);
+        
+        return json;
+    }
     
     private static JsonObject formatMatParam(MatParam param) {
-        JsonObject jsonObj = new JsonObject();
-        jsonObj.addProperty("name", param.getName());
+        JsonObject json = new JsonObject();
+        json.addProperty("name", param.getName());
         
         VarType type = param.getVarType();
         Object val = param.getValue();
         
         switch (type) {
             case Boolean:
-                jsonObj.addProperty("value", (Boolean) val);
+                json.addProperty("value", (Boolean) val);
                 break;
                 
             case Float:
-                jsonObj.addProperty("value", (Float) val);
+                json.addProperty("value", (Float) val);
                 break;
                 
             case Int:
-                jsonObj.addProperty("value", (Integer) val);
+                json.addProperty("value", (Integer) val);
                 break;
                 
             case Vector2:
                 Vector2f v2 = (Vector2f) val;
-                jsonObj.add("value", toJsonArray(v2.toArray(null)));
+                json.add("value", toJsonArray(v2.toArray(null)));
                 break;
                 
             case Vector3:
                 Vector3f v3 = (Vector3f) val;
-                jsonObj.add("value", toJsonArray(v3.toArray(null)));
+                json.add("value", toJsonArray(v3.toArray(null)));
                 break;
                 
             case Vector4:
                 // can be either ColorRGBA, Vector4f or Quaternion
                 if (val instanceof Vector4f) {
                     Vector4f v4 = (Vector4f) val;
-                    jsonObj.add("value", toJsonArray(v4.toArray(null)));
+                    json.add("value", toJsonArray(v4.toArray(null)));
                     
                 } else if (val instanceof ColorRGBA) {
                     ColorRGBA color = (ColorRGBA) val;
-                    jsonObj.add("value", toJsonArray(color.toArray(null)));
+                    json.add("value", toJsonArray(color.toArray(null)));
                     
                 } else if (val instanceof Quaternion) {
                     Quaternion q = (Quaternion) val;
                     float[] array = { q.getX(), q.getY(), q.getZ(), q.getW() };
-                    jsonObj.add("value", toJsonArray(array));
+                    json.add("value", toJsonArray(array));
 
                 } else {
                     throw new UnsupportedOperationException("Unexpected Vector4 type: " + val);
@@ -180,7 +203,7 @@ public class Test_JsonMatReader extends SimpleApplication {
             default:
                 return null; // parameter type not supported in J3M
         }
-        return jsonObj;
+        return json;
     }
     
     private static JsonArray toJsonArray(float... values) {
@@ -189,6 +212,53 @@ public class Test_JsonMatReader extends SimpleApplication {
             jsonArray.add(values[i]);
         }
         return jsonArray;
+    }
+    
+    private JsonObject formatMatParamTexture(MatParamTexture param) {
+        JsonObject json = new JsonObject();
+        json.addProperty("name", param.getName());
+        
+        Texture tex = (Texture) param.getValue();
+        TextureKey key;
+        if (tex != null) {
+            key = (TextureKey) tex.getKey();
+
+            if (key != null) {
+                json.addProperty("path", key.getName());
+                
+                if (key.isFlipY()) {
+                    json.addProperty("flipY", true);
+                }
+            }
+
+//            sb.append(formatWrapMode(tex, Texture.WrapAxis.S)); //TODO:
+//            sb.append(formatWrapMode(tex, Texture.WrapAxis.T)); //TODO:
+//            sb.append(formatWrapMode(tex, Texture.WrapAxis.R)); //TODO:
+
+            //Min and Mag filter
+            if (tex.getMinFilter() != Texture.MinFilter.Trilinear) {
+                json.addProperty("minFilter", tex.getMinFilter().name());
+            }
+            if (tex.getMagFilter() != Texture.MagFilter.Bilinear) {
+                json.addProperty("magFilter", tex.getMagFilter().name());
+            }
+        }
+
+        return json;
+    }
+
+    private String formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
+        WrapMode mode;
+        try {
+            mode = texVal.getWrap(axis);
+        } catch (IllegalArgumentException e) {
+            // this axis doesn't exist on the texture
+            return "";
+        }
+        if (mode != WrapMode.EdgeClamp) {
+            return "Wrap" + mode.name() + "_" + axis.name() + " ";
+        }
+        return "";
     }
 
 }
