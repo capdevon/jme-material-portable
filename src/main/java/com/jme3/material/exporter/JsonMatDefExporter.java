@@ -26,18 +26,12 @@ public class JsonMatDefExporter {
      * @throws IOException
      */
     public void save(MaterialDef matDef, File f) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        sb.append("name : ").append(matDef.getName()).append("\n");
         Collection<MatParam> matParams = matDef.getMaterialParams();
         
 //        for (MatParam param : matParams) {
-//            sb.append(param);
 //            if (param instanceof MatParamTexture) {
-//                sb.append(" ").append(((MatParamTexture) param).getColorSpace());
 //            }
-//            sb.append("\n");
 //        }
-//        System.out.println(sb.toString());
 
         for (String defName : matDef.getTechniqueDefsNames()) {
             List<TechniqueDef> defs = matDef.getTechniqueDefs(defName);
