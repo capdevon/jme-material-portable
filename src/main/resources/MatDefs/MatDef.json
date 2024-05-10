@@ -477,7 +477,7 @@
 	      {
 	         "name":"Default",
 	         "FragmentShader":"Common/MatDefs/Light/PBRLighting.frag",
-	         "ShaderLanguages":"GLSL150",
+	         "ShaderLanguages":["GLSL300", "GLSL150", "GLSL100"],
 	         "VertexShader":"Common/MatDefs/Light/PBRLighting.vert",
 	         "LightMode":"SinglePassAndImageBased",
 	         "WorldParameters":[
