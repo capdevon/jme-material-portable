@@ -6,5 +6,5 @@ public class JsonMaterialDef {
 
     public String name;
     public List<JsonMatParam> materialParameters;
-    public JsonTechnique technique;
+    public List<JsonTechnique> techniques;
 }
