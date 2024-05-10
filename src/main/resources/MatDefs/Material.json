@@ -40,7 +40,8 @@
                "wrapMode":"Repeat",
                "minFilter":"BilinearNoMipMaps",
                "magFilter":"Bilinear",
-               "flipY":true
+               "flipY":true,
+               "anisotropy": 4 //2, 4, 8
             }
          },
          {
