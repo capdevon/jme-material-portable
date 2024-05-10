@@ -1,10 +1,8 @@
 package com.test;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,11 +15,7 @@ import com.jme3.material.MatParamTexture;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.material.exporter.JsonMaterialExporter;
-import com.jme3.material.json.JsonMatParam;
-import com.jme3.material.json.JsonMaterial;
-import com.jme3.material.json.JsonRenderState;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.math.Vector4f;
@@ -180,7 +174,6 @@ public class Test_JsonMaterial extends SimpleApplication {
                 break;
                 
             case Vector4:
-                // can be either ColorRGBA, Vector4f or Quaternion
                 if (val instanceof Vector4f) {
                     Vector4f v4 = (Vector4f) val;
                     json.add("value", toJsonArray(v4.toArray(null)));
@@ -188,11 +181,6 @@ public class Test_JsonMaterial extends SimpleApplication {
                 } else if (val instanceof ColorRGBA) {
                     ColorRGBA color = (ColorRGBA) val;
                     json.add("value", toJsonArray(color.toArray(null)));
-                    
-                } else if (val instanceof Quaternion) {
-                    Quaternion q = (Quaternion) val;
-                    float[] array = { q.getX(), q.getY(), q.getZ(), q.getW() };
-                    json.add("value", toJsonArray(array));
 
                 } else {
                     throw new UnsupportedOperationException("Unexpected Vector4 type: " + val);

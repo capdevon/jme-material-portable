@@ -18,7 +18,6 @@ import com.jme3.material.json.JsonMaterial;
 import com.jme3.material.json.JsonRenderState;
 import com.jme3.material.json.JsonTexture;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.math.Vector4f;
@@ -79,24 +78,25 @@ public class JsonMaterialExporter { //implements JmeExporter {
     }
 
     /**
-     * @param renderState
+     * @param rs
      * @return
      */
-    private JsonRenderState toJson(RenderState renderState) {
+    private JsonRenderState toJson(RenderState rs) {
         JsonRenderState json = new JsonRenderState();
-        json.faceCull = renderState.getFaceCullMode();
-        json.blend = renderState.getBlendMode();
-        json.wireframe = renderState.isWireframe();
-        json.depthWrite = renderState.isDepthWrite();
-        json.colorWrite = renderState.isColorWrite();
-        json.depthTest = renderState.isDepthTest();
-        json.polyOffset = new float[] { renderState.getPolyOffsetFactor(), renderState.getPolyOffsetUnits() };
+        json.faceCull = rs.getFaceCullMode();
+        json.blend = rs.getBlendMode();
+        json.wireframe = rs.isWireframe();
+        json.depthWrite = rs.isDepthWrite();
+        json.colorWrite = rs.isColorWrite();
+        json.depthTest = rs.isDepthTest();
+        json.polyOffset = new float[] { rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits() };
         return json;
     }
     
     private Object formatMatParam(MatParam param) {
         VarType type = param.getVarType();
         Object val = param.getValue();
+        
         switch (type) {
             case Boolean:
             case Float:
@@ -112,7 +112,6 @@ public class JsonMaterialExporter { //implements JmeExporter {
                 return vec3.toArray(null);
                 
             case Vector4:
-                // can be either ColorRGBA, Vector4f or Quaternion
                 if (val instanceof Vector4f) {
                     Vector4f vec4 = (Vector4f) val;
                     return vec4.toArray(null);
@@ -120,10 +119,6 @@ public class JsonMaterialExporter { //implements JmeExporter {
                 } else if (val instanceof ColorRGBA) {
                     ColorRGBA color = (ColorRGBA) val;
                     return color.toArray(null);
-
-                } else if (val instanceof Quaternion) {
-                    Quaternion q = (Quaternion) val;
-                    return new float[] { q.getX(), q.getY(), q.getZ(), q.getW() };
 
                 } else {
                     throw new UnsupportedOperationException("Unexpected Vector4 type: " + val);
@@ -136,37 +131,31 @@ public class JsonMaterialExporter { //implements JmeExporter {
 
     private JsonTexture formatMatParamTexture(MatParamTexture param) {
         JsonTexture json = new JsonTexture();
-        StringBuilder sb = new StringBuilder();
         Texture tex = (Texture) param.getValue();
-        TextureKey key;
         if (tex != null) {
-            key = (TextureKey) tex.getKey();
-
-            if (key != null && key.isFlipY()) {
-                sb.append("Flip ");
-                json.flipY = true;
+            
+            TextureKey key = (TextureKey) tex.getKey();
+            if (key != null) {
+                json.path = key.getName();
+                
+                if (key.isFlipY()) {
+                    json.flipY = true;
+                }
             }
 
-            sb.append(formatWrapMode(tex, Texture.WrapAxis.S)); //TODO:
-            sb.append(formatWrapMode(tex, Texture.WrapAxis.T)); //TODO:
-            sb.append(formatWrapMode(tex, Texture.WrapAxis.R)); //TODO:
+//            sb.append(formatWrapMode(tex, Texture.WrapAxis.S));
+//            sb.append(formatWrapMode(tex, Texture.WrapAxis.T));
+//            sb.append(formatWrapMode(tex, Texture.WrapAxis.R));
 
             //Min and Mag filter
             if (tex.getMinFilter() != Texture.MinFilter.Trilinear) {
-                sb.append("Min").append(tex.getMinFilter().name()).append(" ");
                 json.minFilter = tex.getMinFilter();
             }
-
             if (tex.getMagFilter() != Texture.MagFilter.Bilinear) {
-                sb.append("Mag").append(tex.getMagFilter().name()).append(" ");
                 json.magFilter = tex.getMagFilter();
             }
-
-            sb.append("\"").append(key.getName()).append("\"");
-            json.path = key.getName();
         }
 
-        System.out.println("### " + sb.toString());
         return json;
     }
 
