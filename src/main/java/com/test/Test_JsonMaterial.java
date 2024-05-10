@@ -17,9 +17,9 @@ import com.jme3.material.MatParamTexture;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.material.exporter.JsonMaterialExporter;
-import com.jme3.material.exporter.JsonMaterialExporter.JsonMatParam;
-import com.jme3.material.exporter.JsonMaterialExporter.JsonMaterial;
-import com.jme3.material.exporter.JsonMaterialExporter.JsonRenderState;
+import com.jme3.material.json.JsonMatParam;
+import com.jme3.material.json.JsonMaterial;
+import com.jme3.material.json.JsonRenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
@@ -30,10 +30,9 @@ import com.jme3.system.JmeContext;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 
-public class Test_JsonMatReader extends SimpleApplication {
+public class Test_JsonMaterial extends SimpleApplication {
 
     /**
-     * 
      * @param args
      */
     public static void main(String[] args) {
@@ -42,7 +41,7 @@ public class Test_JsonMatReader extends SimpleApplication {
 //        String fileName = home + "/src/main/resources/MatDefs/Material2.json";
 //        fromJson(fileName);
         
-        Test_JsonMatReader app = new Test_JsonMatReader();
+        Test_JsonMaterial app = new Test_JsonMaterial();
         app.start(JmeContext.Type.Headless);
     }
 
@@ -61,32 +60,32 @@ public class Test_JsonMatReader extends SimpleApplication {
     
     /**
      */
-    public static void fromJson(String fileName) {
-        
-        try (FileReader reader = new FileReader(fileName)) {
-            Gson gson = new Gson();
-
-            // Deserialize JSON into a Material object
-            JsonMaterial material = gson.fromJson(reader, JsonMaterial.class);
-
-            // Access data from the Material object
-            System.out.println("Material Name: " + material.getName());
-            System.out.println("Material Definition: " + material.getDef());
-
-            // Access MaterialParameters list
-            List<JsonMatParam> parameters = material.getMaterialParameters();
-            for (JsonMatParam param : parameters) {
-                System.out.println(param);
-            }
-
-            // Access AdditionalRenderState
-            JsonRenderState renderState = material.getAdditionalRenderState();
-            System.out.println(renderState);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+//    public static void fromJson(String fileName) {
+//        
+//        try (FileReader reader = new FileReader(fileName)) {
+//            Gson gson = new Gson();
+//
+//            // Deserialize JSON into a Material object
+//            JsonMaterial material = gson.fromJson(reader, JsonMaterial.class);
+//
+//            // Access data from the Material object
+//            System.out.println("Material Name: " + material.getName());
+//            System.out.println("Material Definition: " + material.getDef());
+//
+//            // Access MaterialParameters list
+//            List<JsonMatParam> parameters = material.getMaterialParameters();
+//            for (JsonMatParam param : parameters) {
+//                System.out.println(param);
+//            }
+//
+//            // Access AdditionalRenderState
+//            JsonRenderState renderState = material.getAdditionalRenderState();
+//            System.out.println(renderState);
+//
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
     
     public static void toJson(Material mat, File f) {
         JsonObject data = new JsonObject();
@@ -158,16 +157,16 @@ public class Test_JsonMatReader extends SimpleApplication {
         Object val = param.getValue();
         
         switch (type) {
-            case Boolean:
-                json.addProperty("value", (Boolean) val);
+            case Int:
+                json.addProperty("value", (Integer) val);
                 break;
                 
             case Float:
                 json.addProperty("value", (Float) val);
                 break;
                 
-            case Int:
-                json.addProperty("value", (Integer) val);
+            case Boolean:
+                json.addProperty("value", (Boolean) val);
                 break;
                 
             case Vector2:
@@ -219,10 +218,9 @@ public class Test_JsonMatReader extends SimpleApplication {
         json.addProperty("name", param.getName());
         
         Texture tex = (Texture) param.getValue();
-        TextureKey key;
         if (tex != null) {
-            key = (TextureKey) tex.getKey();
-
+            
+            TextureKey key = (TextureKey) tex.getKey();
             if (key != null) {
                 json.addProperty("path", key.getName());
                 
