@@ -3,7 +3,6 @@ package com.jme3.material.exporter;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,8 +13,10 @@ import com.jme3.material.MatParam;
 import com.jme3.material.MatParamTexture;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
-import com.jme3.material.RenderState.BlendMode;
-import com.jme3.material.RenderState.FaceCullMode;
+import com.jme3.material.json.JsonMatParam;
+import com.jme3.material.json.JsonMaterial;
+import com.jme3.material.json.JsonRenderState;
+import com.jme3.material.json.JsonTexture;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;
@@ -23,8 +24,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.math.Vector4f;
 import com.jme3.shader.VarType;
 import com.jme3.texture.Texture;
-import com.jme3.texture.Texture.MagFilter;
-import com.jme3.texture.Texture.MinFilter;
 import com.jme3.texture.Texture.WrapMode;
 
 public class JsonMaterialExporter { //implements JmeExporter {
@@ -213,105 +212,4 @@ public class JsonMaterialExporter { //implements JmeExporter {
 //        return null;
 //    }
     
-    //Define classes to represent the JSON structure
-    public static class JsonMaterial {
-
-        private String name;
-        private String def;
-        private List<JsonMatParam> materialParameters;
-        private JsonRenderState additionalRenderState;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getDef() {
-            return def;
-        }
-
-        public void setDef(String def) {
-            this.def = def;
-        }
-
-        public List<JsonMatParam> getMaterialParameters() {
-            return materialParameters;
-        }
-
-        public void setMaterialParameters(List<JsonMatParam> materialParameters) {
-            this.materialParameters = materialParameters;
-        }
-
-        public JsonRenderState getAdditionalRenderState() {
-            return additionalRenderState;
-        }
-
-        public void setAdditionalRenderState(JsonRenderState additionalRenderState) {
-            this.additionalRenderState = additionalRenderState;
-        }
-
-    }
-
-    public static class JsonMatParam {
-        
-        String name;
-        Object value; // Can be primitive or object
-        JsonTexture texture;
-
-        @Override
-        public String toString() {
-            return "MaterialParameter [name=" + name 
-                    + ", value=" + value 
-                    + ", texture=" + texture 
-                    + "]";
-        }
-
-    }
-    
-    public static class JsonTexture {
-        
-        String path;
-        boolean flipY;
-        WrapMode wrapMode;
-        MinFilter minFilter;
-        MagFilter magFilter;
-        
-        @Override
-        public String toString() {
-            return "JsonTexture [path=" + path 
-                    + ", flipY=" + flipY 
-                    + ", wrapMode=" + wrapMode 
-                    + ", minFilter=" + minFilter 
-                    + ", magFilter=" + magFilter 
-                    + "]";
-        }
-        
-    }
-
-    public static class JsonRenderState {
-        
-        FaceCullMode faceCull;
-        boolean depthWrite;
-        boolean colorWrite;
-        float[] polyOffset;
-        boolean depthTest;
-        BlendMode blend;
-        boolean wireframe;
-
-        @Override
-        public String toString() {
-            return "AdditionalRenderState [faceCull=" + faceCull 
-                    + ", depthWrite=" + depthWrite 
-                    + ", colorWrite=" + colorWrite 
-                    + ", polyOffset=" + Arrays.toString(polyOffset) 
-                    + ", depthTest=" + depthTest 
-                    + ", blend=" + blend
-                    + ", wireframe=" + wireframe 
-                    + "]";
-        }
-
-    }
 }
