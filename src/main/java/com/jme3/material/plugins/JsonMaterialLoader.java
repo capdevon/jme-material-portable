@@ -87,7 +87,6 @@ public class JsonMaterialLoader implements AssetLoader {
 
         try (InputStream in = info.openStream()) {
             this.key = info.getKey();
-            System.err.println(key.getClass());
 
             // Create a JsonReader from the InputStream
             JsonReader reader = new JsonReader(new InputStreamReader(in, StandardCharsets.UTF_8));
@@ -121,20 +120,20 @@ public class JsonMaterialLoader implements AssetLoader {
      * @return
      * @throws IOException
      */
-    public Material loadMaterial(AssetManager assetManager, String fileName) throws IOException {
-        
-        this.assetManager = assetManager;
-
-        try (FileReader reader = new FileReader(fileName)) {
-
-            Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-            loadFromRoot(jsonObject);
-
-            // return the Material object
-            return material;
-        }
-    }
+//    public Material loadMaterial(AssetManager assetManager, String fileName) throws IOException {
+//        
+//        this.assetManager = assetManager;
+//
+//        try (FileReader reader = new FileReader(fileName)) {
+//
+//            Gson gson = new Gson();
+//            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+//            loadFromRoot(jsonObject);
+//
+//            // return the Material object
+//            return material;
+//        }
+//    }
     
 //    public MaterialDef loadMaterialDef(AssetManager manager, AssetKey key) throws IOException {
 //        this.key = key;
@@ -171,14 +170,14 @@ public class JsonMaterialLoader implements AssetLoader {
             // NOTE: pass the filename for defs, so they can be loaded later
             materialDef.setAssetName(key.getName());
             
-            // Parse Techniques
-            for (JsonElement el : joMaterial.getAsJsonArray("Techniques")) {
-                readTechnique(el.getAsJsonObject());
-            }
-
             // Parse MaterialParameters
             for (JsonElement el : joMaterial.getAsJsonArray("MaterialParameters")) {
                 readParam(el.getAsJsonObject());
+            }
+
+            // Parse Techniques
+            for (JsonElement el : joMaterial.getAsJsonArray("Techniques")) {
+                readTechnique(el.getAsJsonObject());
             }
             
         } else {
@@ -300,7 +299,7 @@ public class JsonMaterialLoader implements AssetLoader {
                     return new Vector3f(vec3[0], vec3[1], vec3[2]);
                 case Vector4:
                     float[] vec4 = parseFloatArray(value, 4);
-                    return new ColorRGBA(vec4[0], vec4[1], vec4[2], vec4[3]);
+                    return new ColorRGBA(vec4[0], vec4[1], vec4[2], vec4[3]); //TODO: Vector4f ?
                 default:
                     throw new UnsupportedOperationException("Unknown type: " + type);
             }
@@ -563,7 +562,7 @@ public class JsonMaterialLoader implements AssetLoader {
             String shaderName = shaderType.name() + "Shader";
             if (jsonObject.has(shaderName)) {
                 String path = jsonObject.get(shaderName).getAsString();
-                String[] languages = parseStringArray(jsonObject.getAsJsonArray("ShaderLanguages"));
+                String[] languages = parseStringArray(jsonObject.get("ShaderLanguages"));
                 readShaderDefinition(shaderType, path, languages);
             }
         }
