@@ -69,9 +69,11 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
             }
             sb.append("\n");
         }
-        System.out.println(sb.toString());
+        System.out.println(sb.toString() + "\n");
 
         for (String defName : matDef.getTechniqueDefsNames()) {
+            System.out.println("____" + defName + "____");
+            
             List<TechniqueDef> defs = matDef.getTechniqueDefs(defName);
             for (TechniqueDef technique : defs) {
                 System.out.println(technique);
@@ -79,7 +81,7 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
                 // World params
                 if (!technique.getWorldBindings().isEmpty()) {
                     for (UniformBinding uniformBinding : technique.getWorldBindings()) {
-                        System.out.println(uniformBinding.toString());
+                        System.out.println("\t" + uniformBinding.toString());
                     }
                 }
 
