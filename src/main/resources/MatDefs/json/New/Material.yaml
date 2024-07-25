@@ -23,7 +23,7 @@ Material:
     value: "false"
   - name: "DiffuseMap"
     texture: 
-      path: "Models/Ferrari/red_car_texture.jpg"
+      path: "Models/Ferrari/car.jpg"
       wrapMode: "Repeat"
       minFilter: "BilinearNoMipMaps"
       magFilter: "Bilinear"
