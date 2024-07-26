@@ -114,13 +114,13 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
     private void loadMaterial() {
         JsonMaterialKey key = new JsonMaterialKey("MatDefs/Material.json");
         Material mat = assetManager.loadAsset(key);
+        
         System.out.println(mat);
-        System.out.println(mat.getKey());
-        System.out.println(mat.getAdditionalRenderState());
-
+        System.out.println("materialParameters:");
         for (MatParam param : mat.getParams()) {
-            System.out.println(param);
+            System.out.printf("    %s %n", param);
         }
+        System.out.println(mat.getAdditionalRenderState());
     }
     
 }
