@@ -76,20 +76,20 @@ public class YamlMaterialLoader implements AssetLoader {
     }
     
     /**
-     * @param map
+     * @param doc
      * @throws IOException
      */
-    private void loadFromRoot(Object map) throws IOException {
+    private void loadFromRoot(Object doc) throws IOException {
 
-        Map<String, Object> propertyMap = (Map) getMap(map).get("Material");
+        Map<String, Object> map = (Map) getMap(doc).get("Material");
 
-        String materialName = getString(propertyMap.get("name"));
+        String materialName = getString(map.get("name"));
         if (materialName.isBlank()) {
             throw new IOException("Material name cannot be empty: " + materialName);
         }
 
         // Extract properties
-        String extendedMat = getString(propertyMap.get("def"));
+        String extendedMat = getString(map.get("def"));
 
         MaterialDef def = assetManager.loadAsset(new AssetKey<MaterialDef>(extendedMat));
         if (def == null) {
@@ -101,13 +101,13 @@ public class YamlMaterialLoader implements AssetLoader {
         material.setName(materialName);
 
         // Parse MaterialParameters
-        List<Object> materialParameters = (List) propertyMap.get("materialParameters");
+        List<Object> materialParameters = (List) map.get("materialParameters");
         for (Object el : materialParameters) {
             readValueParam((Map) el);
         }
 
         // Parse AdditionalRenderState
-        Map<String, Object> additionalRenderState = (Map) propertyMap.get("additionalRenderState");
+        Map<String, Object> additionalRenderState = (Map) map.get("additionalRenderState");
         readRenderState(material.getAdditionalRenderState(), additionalRenderState);
     }
     
@@ -279,23 +279,19 @@ public class YamlMaterialLoader implements AssetLoader {
     /// PROPERTY READERS
 
     protected static boolean getBoolean(Object obj) throws IOException {
-        if (obj instanceof Boolean) {
-            return ((Boolean) obj).booleanValue();
-        } else {
-            String value = getString(obj).trim().toLowerCase();
-            if (YAML_YES_VALUES.contains(value)) {
-                return true;
-            }
-            if (YAML_NO_VALUES.contains(value)) {
-                return false;
-            }
-            throw new IOException("Invalid yaml boolean value: " + value);
+        String value = getString(obj).trim().toLowerCase();
+        if (YAML_YES_VALUES.contains(value)) {
+            return true;
         }
+        if (YAML_NO_VALUES.contains(value)) {
+            return false;
+        }
+        throw new IOException("Invalid yaml boolean value: " + value);
     }
 
     protected static int getInt(Object obj) throws IOException {
         try {
-            return Integer.parseInt(obj.toString());
+            return Integer.parseInt(getString(obj));
         } catch (NumberFormatException e) {
             throw new IOException("Invalid yaml int value: " + obj);
         }
@@ -303,21 +299,21 @@ public class YamlMaterialLoader implements AssetLoader {
 
     protected static float getFloat(Object obj) throws IOException {
         try {
-            return Float.parseFloat(obj.toString());
+            return Float.parseFloat(getString(obj));
         } catch (NumberFormatException e) {
             throw new IOException("Invalid yaml float value: " + obj);
         }
     }
-
-    protected static String getString(Object obj) {
-        return (String) obj;
-    }
     
     protected static <T extends Enum<T>> T getEnum(Object obj, Class<T> enumType) {
-        String value = getString(obj);
-        return Enum.valueOf(enumType, value);
+        String name = getString(obj);
+        return Enum.valueOf(enumType, name);
     }
 
+    protected static String getString(Object obj) {
+        return obj.toString();
+    }
+    
     @SuppressWarnings("unchecked")
     protected static Map<String, Object> getMap(Object obj) throws IOException {
         if (obj instanceof Map<?, ?>) {
