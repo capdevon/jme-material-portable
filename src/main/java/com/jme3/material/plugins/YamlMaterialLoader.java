@@ -60,10 +60,8 @@ public class YamlMaterialLoader implements AssetLoader {
             
             Yaml yaml = new Yaml();
             Object map = yaml.load(new UnicodeReader(in));
-            
-            loadFromRoot(map);
-            
             System.out.println(map);
+            loadFromRoot(map);
         }
         
         if (material != null) {
