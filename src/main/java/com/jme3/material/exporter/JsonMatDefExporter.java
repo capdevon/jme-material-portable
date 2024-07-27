@@ -265,11 +265,11 @@ public class JsonMatDefExporter {
     }
     
     private static JsonArray toJsonArray(float... values) {
-        JsonArray jsonArray = new JsonArray();
+        JsonArray array = new JsonArray();
         for (int i = 0; i < values.length; i++) {
-            jsonArray.add(values[i]);
+            array.add(values[i]);
         }
-        return jsonArray;
+        return array;
     }
     
 }

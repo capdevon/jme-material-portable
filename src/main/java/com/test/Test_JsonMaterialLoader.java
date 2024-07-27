@@ -99,7 +99,7 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
         }
     }
     
-    private static String getMatParamNameForDefineId(TechniqueDef techniqueDef, Collection<MatParam> matParams, int defineId) {
+    private String getMatParamNameForDefineId(TechniqueDef techniqueDef, Collection<MatParam> matParams, int defineId) {
         for (MatParam matParam : matParams) {
             Integer id = techniqueDef.getShaderParamDefineId(matParam.getName());
             if (id != null && id == defineId) {
