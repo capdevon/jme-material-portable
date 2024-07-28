@@ -1,0 +1,21 @@
+Material MyMaterial : Common/MatDefs/Light/Lighting.j3md {
+    MaterialParameters {
+        Diffuse : 0.505882 0.505882 0.505882 1.0
+        UseMaterialColors : true
+        ParallaxHeight : 0.05
+        Ambient : 0.2 0.2 0.2 1.0
+        BackfaceShadows : false
+        DiffuseMap : WrapRepeat_S WrapRepeat_T "Models/Ferrari/car.jpg"
+        Specular : 0.5 0.5 0.5 1.0
+        Shininess : 12.5
+    }
+    AdditionalRenderState {
+        FaceCull Back
+        DepthWrite On
+        ColorWrite On
+        PolyOffset 0.0 0.0
+        DepthTest On
+        Blend Off
+        Wireframe Off
+    }
+}
