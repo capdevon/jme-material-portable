@@ -26,7 +26,7 @@
          {
             "name":"DiffuseMap",
             "texture":{
-               "path":"Models/Ferrari/car.jpg",
+               "path":"Models/Ferrari/Car.jpg",
                "wrapMode":"Repeat",
                "minFilter":"BilinearNoMipMaps",
                "magFilter":"Bilinear",

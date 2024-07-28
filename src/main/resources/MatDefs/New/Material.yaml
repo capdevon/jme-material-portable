@@ -10,7 +10,7 @@ Material:
     - "0.505882"
     - "1"
   - name: "UseMaterialColors"
-    value: "true"
+    value: true
   - name: "ParallaxHeight"
     value: "0.05"
   - name: "Ambient"
@@ -20,14 +20,14 @@ Material:
     - "0.2"
     - "1"
   - name: "BackfaceShadows"
-    value: "false"
+    value: false
   - name: "DiffuseMap"
     texture: 
-      path: "Models/Ferrari/car.jpg"
+      path: "Models/Ferrari/Car.jpg"
       wrapMode: "Repeat"
       minFilter: "BilinearNoMipMaps"
       magFilter: "Bilinear"
-      flipY: "true"
+      flipY: false
       anisotropy: "4"
   - name: "Specular"
     value: 
@@ -40,10 +40,8 @@ Material:
   additionalRenderState: 
     faceCull: "Back"
     blend: "Off"
-    depthWrite: "true"
-    colorWrite: "true"
-    depthTest: "true"
-    wireframe: "false"
-    polyOffset: 
-    - "1"
-    - "1"
+    depthWrite: true
+    colorWrite: true
+    depthTest: true
+    wireframe: false
+    polyOffset: [0.0, 0.0]
