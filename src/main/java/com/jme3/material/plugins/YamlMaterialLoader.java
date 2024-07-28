@@ -73,6 +73,36 @@ public class YamlMaterialLoader implements AssetLoader {
         }
     }
     
+    public Material loadMaterial(AssetManager assetManager, String fileName) {
+        this.assetManager = assetManager;
+
+        try (InputStream in = getResourceAsStream(fileName)) {
+            Yaml yaml = new Yaml();
+            Object map = yaml.load(new UnicodeReader(in));
+            System.out.println(map);
+            loadFromRoot(map);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return material;
+    }
+
+    /**
+     * Loads a resource file as an InputStream.
+     * 
+     * @throws IOException
+     */
+    private InputStream getResourceAsStream(String name) throws IOException {
+        ClassLoader loader = YamlMaterialLoader.class.getClassLoader();
+        InputStream stream = loader.getResourceAsStream(name);
+        if (stream == null) {
+            throw new IOException("Resource not found: " + name);
+        }
+        return stream;
+    }
+    
     /**
      * @param doc
      * @throws IOException

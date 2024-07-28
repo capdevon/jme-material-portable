@@ -2,13 +2,15 @@ package com.test;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.YamlMaterialKey;
-import com.jme3.material.MatParam;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
-import com.jme3.material.RenderState;
-import com.jme3.material.RenderState.BlendMode;
-import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.material.plugins.YamlMaterialLoader;
-import com.jme3.system.JmeContext;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.SceneGraphVisitorAdapter;
+import com.jme3.scene.Spatial;
 
 /**
  * 
@@ -22,60 +24,44 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
      */
     public static void main(String[] args) {
         Test_YamlMaterialLoader app = new Test_YamlMaterialLoader();
-        app.start(JmeContext.Type.Headless);
+        app.start();
+//        app.start(JmeContext.Type.Headless);
     }
 
     @Override
     public void simpleInitApp() {
         assetManager.registerLoader(YamlMaterialLoader.class, "yaml");
 
-        YamlMaterialKey key = new YamlMaterialKey("MatDefs/New/Material.yaml");
-        Material mat = assetManager.loadAsset(key);
-        printDebug(mat);
+//        YamlMaterialKey key = new YamlMaterialKey("MatDefs/New/Material.yaml");
+//        Material mat = assetManager.loadAsset(key);
         
-        stop();
+        YamlMaterialLoader loader = new YamlMaterialLoader();
+        Material mat = loader.loadMaterial(assetManager, "MatDefs/New/Material.yaml");
+        
+        MaterialDebug.print(mat);
+        
+        loadModel(mat);
+//        stop();
     }
 
     /**
      * @param mat
      */
-    private void printDebug(Material mat) {
-        System.out.println(mat);
-        System.out.println("MaterialParameters:");
-        for (MatParam param : mat.getParams()) {
-            System.out.println("      " + param);
-        }
+    private void loadModel(Material mat) {
+        viewPort.setBackgroundColor(ColorRGBA.LightGray);
+        flyCam.setMoveSpeed(20);
         
-        System.out.println("AdditionalRenderState:");
-        RenderState renderState = mat.getAdditionalRenderState();
-        BlendMode blendMode = renderState.getBlendMode();
-        FaceCullMode faceCullMode = renderState.getFaceCullMode();
-
-        if (blendMode != RenderState.BlendMode.Off) {
-            System.out.println("      Blend " + blendMode.name());
-        }
-        if (faceCullMode != RenderState.FaceCullMode.Back) {
-            System.out.println("      FaceCull " + faceCullMode.name());
-        }
-        if (renderState.isWireframe()) {
-            System.out.println("      Wireframe On");
-        }
-        if (!renderState.isDepthTest()) {
-            System.out.println("      DepthTest Off");
-        }
-        if (!renderState.isDepthWrite()) {
-            System.out.println("      DepthWrite Off");
-        }
-        if (!renderState.isColorWrite()) {
-            System.out.println("      ColorWrite Off");
-        }
-
-        float factor = renderState.getPolyOffsetFactor();
-        float units = renderState.getPolyOffsetUnits();
-
-        if (factor != 0 || units != 0) {
-            System.out.println("      PolyOffset " + factor + " " + units);
-        }
+        Spatial model = assetManager.loadModel("Models/Ferrari/Car.j3o");
+        model.depthFirstTraversal(new SceneGraphVisitorAdapter() {
+            @Override
+            public void visit(Geometry geom) {
+                geom.setMaterial(mat);
+            }
+        });
+        
+        rootNode.attachChild(model);
+        rootNode.addLight(new AmbientLight());
+        rootNode.addLight(new DirectionalLight(new Vector3f(0, -1, 0)));
     }
 
 }
