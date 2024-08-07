@@ -1,6 +1,7 @@
 package com.jme3.material.exporter;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -40,15 +41,18 @@ public class JsonMaterialExporter2 {
         JsonObject renderState = toJson(mat.getAdditionalRenderState());
         data.add("additionalRenderState", renderState);
 
+        JsonObject jsonMaterial = new JsonObject();
+        jsonMaterial.add("Material", data);
+        
         // Convert JsonObject to String
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonString = gson.toJson(data);
+        String jsonString = gson.toJson(jsonMaterial);
         System.out.println(jsonString);
 
         // Write JSON String to file
-//        try (FileWriter writer = new FileWriter(f)) {
-//            writer.write(jsonString);
-//        }
+        try (FileWriter writer = new FileWriter(f)) {
+            writer.write(jsonString);
+        }
     }
 
     /**

@@ -44,15 +44,15 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
     /**
      */
     private void loadMaterialDef() {
-        MaterialDef matDef = assetManager.loadAsset(new AssetKey<MaterialDef>("MatDefs/New/MatDef.json"));
-//      MaterialDef def = assetManager.loadAsset(new JsonMaterialDefKey("MatDefs/New/MatDef.json"));
+        MaterialDef matDef = assetManager.loadAsset(new AssetKey<MaterialDef>("MatDefs/New/PBRLighting.json"));
+//      MaterialDef def = assetManager.loadAsset(new JsonMaterialDefKey("MatDefs/New/PBRLighting.json"));
         MaterialDebug.print(matDef);
     }
 
     /**
      */
     private void loadMaterial() {
-        JsonMaterialKey key = new JsonMaterialKey("MatDefs/New/Material.json");
+        JsonMaterialKey key = new JsonMaterialKey("Materials/Material.json");
         Material mat = assetManager.loadAsset(key);
         MaterialDebug.print(mat);
     }

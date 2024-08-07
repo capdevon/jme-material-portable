@@ -32,11 +32,11 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
     public void simpleInitApp() {
         assetManager.registerLoader(YamlMaterialLoader.class, "yaml");
 
-//        YamlMaterialKey key = new YamlMaterialKey("MatDefs/New/Material.yaml");
+//        YamlMaterialKey key = new YamlMaterialKey("Materials/Material.yaml");
 //        Material mat = assetManager.loadAsset(key);
         
         YamlMaterialLoader loader = new YamlMaterialLoader();
-        Material mat = loader.loadMaterial(assetManager, "MatDefs/New/Material.yaml");
+        Material mat = loader.loadMaterial(assetManager, "Materials/Material.yaml");
         
         MaterialDebug.print(mat);
         

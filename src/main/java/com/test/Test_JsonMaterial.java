@@ -15,7 +15,7 @@ public class Test_JsonMaterial extends SimpleApplication {
     public static void main(String[] args) {
         
 //        String home = System.getProperty("user.dir");
-//        String fileName = home + "/src/main/resources/MatDefs/Material.json";
+//        String fileName = home + "/src/main/resources/Materials/Material.json";
 //        fromJson(fileName);
         
         Test_JsonMaterial app = new Test_JsonMaterial();

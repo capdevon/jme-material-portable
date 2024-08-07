@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jme3.material.MatParam;
@@ -52,7 +54,10 @@ public class JsonMatDefExporter {
             }
         }
         data.add("Techniques", tenchiques);
-        System.out.println(data);
+        
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonString = gson.toJson(data);
+        System.out.println(jsonString);
         
         // Write JSON String to file
 //      try (FileWriter writer = new FileWriter(f)) {
