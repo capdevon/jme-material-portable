@@ -1,0 +1,1289 @@
+{
+  "name": "Unshaded",
+  "MaterialParameters": [
+    {
+      "type": "Texture2D",
+      "name": "ShadowMap5"
+    },
+    {
+      "type": "Texture2D",
+      "name": "ShadowMap4"
+    },
+    {
+      "type": "Boolean",
+      "name": "SeparateTexCoord"
+    },
+    {
+      "type": "Vector3",
+      "name": "LightPos"
+    },
+    {
+      "type": "Texture2D",
+      "name": "ColorMap"
+    },
+    {
+      "type": "Vector4",
+      "name": "Splits"
+    },
+    {
+      "type": "Boolean",
+      "name": "UseInstancing"
+    },
+    {
+      "type": "Texture2D",
+      "name": "ShadowMap1"
+    },
+    {
+      "type": "Texture2D",
+      "name": "ShadowMap0"
+    },
+    {
+      "type": "Vector3",
+      "name": "LightDir"
+    },
+    {
+      "type": "Texture2D",
+      "name": "ShadowMap3"
+    },
+    {
+      "type": "Texture2D",
+      "name": "ShadowMap2"
+    },
+    {
+      "type": "Vector2",
+      "name": "FadeInfo"
+    },
+    {
+      "type": "Float",
+      "name": "PCFEdge"
+    },
+    {
+      "type": "Texture2D",
+      "name": "GlowMap"
+    },
+    {
+      "type": "Float",
+      "name": "ShadowIntensity"
+    },
+    {
+      "type": "Float",
+      "name": "PointSize",
+      "value": 1.0
+    },
+    {
+      "type": "Int",
+      "name": "NumberOfMorphTargets"
+    },
+    {
+      "type": "Boolean",
+      "name": "BackfaceShadows",
+      "value": true
+    },
+    {
+      "type": "Vector4",
+      "name": "Color"
+    },
+    {
+      "type": "Int",
+      "name": "FilterMode"
+    },
+    {
+      "type": "Float",
+      "name": "DesaturationValue"
+    },
+    {
+      "type": "Float",
+      "name": "ShadowMapSize"
+    },
+    {
+      "type": "Boolean",
+      "name": "VertexColor"
+    },
+    {
+      "type": "Vector4",
+      "name": "GlowColor"
+    },
+    {
+      "type": "FloatArray",
+      "name": "MorphWeights"
+    },
+    {
+      "type": "Matrix4",
+      "name": "LightViewProjectionMatrix1"
+    },
+    {
+      "type": "Float",
+      "name": "AlphaDiscardThreshold"
+    },
+    {
+      "type": "Matrix4",
+      "name": "LightViewProjectionMatrix2"
+    },
+    {
+      "type": "Matrix4",
+      "name": "LightViewProjectionMatrix0"
+    },
+    {
+      "type": "Int",
+      "name": "NumberOfTargetsBuffers"
+    },
+    {
+      "type": "Boolean",
+      "name": "HardwareShadows"
+    },
+    {
+      "type": "Matrix4",
+      "name": "LightViewProjectionMatrix5"
+    },
+    {
+      "type": "Matrix4",
+      "name": "LightViewProjectionMatrix3"
+    },
+    {
+      "type": "Matrix4Array",
+      "name": "BoneMatrices"
+    },
+    {
+      "type": "Matrix4",
+      "name": "LightViewProjectionMatrix4"
+    },
+    {
+      "type": "Texture2D",
+      "name": "LightMap"
+    },
+    {
+      "type": "Int",
+      "name": "BoundDrawBuffer"
+    },
+    {
+      "type": "Int",
+      "name": "NumberOfBones"
+    }
+  ],
+  "Techniques": [
+    {
+      "name": "PostShadow",
+      "FragmentShader": "Common/MatDefs/Shadow/PostShadow.frag",
+      "ShaderLanguages": "GLSL300",
+      "VertexShader": "Common/MatDefs/Shadow/PostShadow.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "HARDWARE_SHADOWS",
+          "param": "HardwareShadows"
+        },
+        {
+          "name": "FILTER_MODE",
+          "param": "FilterMode"
+        },
+        {
+          "name": "PCFEDGE",
+          "param": "PCFEdge"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "COLOR_MAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "SHADOWMAP_SIZE",
+          "param": "ShadowMapSize"
+        },
+        {
+          "name": "FADE",
+          "param": "FadeInfo"
+        },
+        {
+          "name": "PSSM",
+          "param": "Splits"
+        },
+        {
+          "name": "POINTLIGHT",
+          "param": "LightViewProjectionMatrix5"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "BACKFACE_SHADOWS",
+          "param": "BackfaceShadows"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ],
+      "ForcedRenderState": {
+        "Blend": "Modulate",
+        "DepthWrite": false,
+        "PolyOffset": [
+          -0.1,
+          0.0
+        ]
+      }
+    },
+    {
+      "name": "PostShadow",
+      "FragmentShader": "Common/MatDefs/Shadow/PostShadow.frag",
+      "ShaderLanguages": "GLSL150",
+      "VertexShader": "Common/MatDefs/Shadow/PostShadow.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "HARDWARE_SHADOWS",
+          "param": "HardwareShadows"
+        },
+        {
+          "name": "FILTER_MODE",
+          "param": "FilterMode"
+        },
+        {
+          "name": "PCFEDGE",
+          "param": "PCFEdge"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "COLOR_MAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "SHADOWMAP_SIZE",
+          "param": "ShadowMapSize"
+        },
+        {
+          "name": "FADE",
+          "param": "FadeInfo"
+        },
+        {
+          "name": "PSSM",
+          "param": "Splits"
+        },
+        {
+          "name": "POINTLIGHT",
+          "param": "LightViewProjectionMatrix5"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "BACKFACE_SHADOWS",
+          "param": "BackfaceShadows"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ],
+      "ForcedRenderState": {
+        "Blend": "Modulate",
+        "DepthWrite": false,
+        "PolyOffset": [
+          -0.1,
+          0.0
+        ]
+      }
+    },
+    {
+      "name": "PostShadow",
+      "FragmentShader": "Common/MatDefs/Shadow/PostShadow.frag",
+      "ShaderLanguages": "GLSL100",
+      "VertexShader": "Common/MatDefs/Shadow/PostShadow.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "HARDWARE_SHADOWS",
+          "param": "HardwareShadows"
+        },
+        {
+          "name": "FILTER_MODE",
+          "param": "FilterMode"
+        },
+        {
+          "name": "PCFEDGE",
+          "param": "PCFEdge"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "COLOR_MAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "SHADOWMAP_SIZE",
+          "param": "ShadowMapSize"
+        },
+        {
+          "name": "FADE",
+          "param": "FadeInfo"
+        },
+        {
+          "name": "PSSM",
+          "param": "Splits"
+        },
+        {
+          "name": "POINTLIGHT",
+          "param": "LightViewProjectionMatrix5"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "BACKFACE_SHADOWS",
+          "param": "BackfaceShadows"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ],
+      "ForcedRenderState": {
+        "Blend": "Modulate",
+        "DepthWrite": false,
+        "PolyOffset": [
+          -0.1,
+          0.0
+        ]
+      }
+    },
+    {
+      "name": "PostShadow",
+      "FragmentShader": "Common/MatDefs/Shadow/PostShadow.frag",
+      "ShaderLanguages": "GLSL310",
+      "VertexShader": "Common/MatDefs/Shadow/PostShadow.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "HARDWARE_SHADOWS",
+          "param": "HardwareShadows"
+        },
+        {
+          "name": "FILTER_MODE",
+          "param": "FilterMode"
+        },
+        {
+          "name": "PCFEDGE",
+          "param": "PCFEdge"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "COLOR_MAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "SHADOWMAP_SIZE",
+          "param": "ShadowMapSize"
+        },
+        {
+          "name": "FADE",
+          "param": "FadeInfo"
+        },
+        {
+          "name": "PSSM",
+          "param": "Splits"
+        },
+        {
+          "name": "POINTLIGHT",
+          "param": "LightViewProjectionMatrix5"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "BACKFACE_SHADOWS",
+          "param": "BackfaceShadows"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ],
+      "ForcedRenderState": {
+        "Blend": "Modulate",
+        "DepthWrite": false,
+        "PolyOffset": [
+          -0.1,
+          0.0
+        ]
+      }
+    },
+    {
+      "name": "PreNormalPass",
+      "FragmentShader": "Common/MatDefs/SSAO/normal.frag",
+      "ShaderLanguages": "GLSL300",
+      "VertexShader": "Common/MatDefs/SSAO/normal.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldViewMatrix",
+        "NormalMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "COLORMAP_ALPHA",
+          "param": "ColorMap"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ]
+    },
+    {
+      "name": "PreNormalPass",
+      "FragmentShader": "Common/MatDefs/SSAO/normal.frag",
+      "ShaderLanguages": "GLSL150",
+      "VertexShader": "Common/MatDefs/SSAO/normal.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldViewMatrix",
+        "NormalMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "COLORMAP_ALPHA",
+          "param": "ColorMap"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ]
+    },
+    {
+      "name": "PreNormalPass",
+      "FragmentShader": "Common/MatDefs/SSAO/normal.frag",
+      "ShaderLanguages": "GLSL100",
+      "VertexShader": "Common/MatDefs/SSAO/normal.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldViewMatrix",
+        "NormalMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "COLORMAP_ALPHA",
+          "param": "ColorMap"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ]
+    },
+    {
+      "name": "PreNormalPass",
+      "FragmentShader": "Common/MatDefs/SSAO/normal.frag",
+      "ShaderLanguages": "GLSL310",
+      "VertexShader": "Common/MatDefs/SSAO/normal.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldViewMatrix",
+        "NormalMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "COLORMAP_ALPHA",
+          "param": "ColorMap"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ]
+    },
+    {
+      "name": "PreShadow",
+      "FragmentShader": "Common/MatDefs/Shadow/PreShadow.frag",
+      "ShaderLanguages": "GLSL300",
+      "VertexShader": "Common/MatDefs/Shadow/PreShadow.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldViewMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "COLOR_MAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ],
+      "ForcedRenderState": {
+        "FaceCull": "Off",
+        "ColorWrite": false,
+        "PolyOffset": [
+          5.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "name": "PreShadow",
+      "FragmentShader": "Common/MatDefs/Shadow/PreShadow.frag",
+      "ShaderLanguages": "GLSL150",
+      "VertexShader": "Common/MatDefs/Shadow/PreShadow.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldViewMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "COLOR_MAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ],
+      "ForcedRenderState": {
+        "FaceCull": "Off",
+        "ColorWrite": false,
+        "PolyOffset": [
+          5.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "name": "PreShadow",
+      "FragmentShader": "Common/MatDefs/Shadow/PreShadow.frag",
+      "ShaderLanguages": "GLSL100",
+      "VertexShader": "Common/MatDefs/Shadow/PreShadow.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldViewMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "COLOR_MAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ],
+      "ForcedRenderState": {
+        "FaceCull": "Off",
+        "ColorWrite": false,
+        "PolyOffset": [
+          5.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "name": "PreShadow",
+      "FragmentShader": "Common/MatDefs/Shadow/PreShadow.frag",
+      "ShaderLanguages": "GLSL310",
+      "VertexShader": "Common/MatDefs/Shadow/PreShadow.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "WorldViewMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "COLOR_MAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ],
+      "ForcedRenderState": {
+        "FaceCull": "Off",
+        "ColorWrite": false,
+        "PolyOffset": [
+          5.0,
+          3.0
+        ]
+      }
+    },
+    {
+      "name": "Glow",
+      "FragmentShader": "Common/MatDefs/Light/Glow.frag",
+      "ShaderLanguages": "GLSL300",
+      "VertexShader": "Common/MatDefs/Misc/Unshaded.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "HAS_GLOWMAP",
+          "param": "GlowMap"
+        },
+        {
+          "name": "HAS_GLOWCOLOR",
+          "param": "GlowColor"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "HAS_POINTSIZE",
+          "param": "PointSize"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ]
+    },
+    {
+      "name": "Glow",
+      "FragmentShader": "Common/MatDefs/Light/Glow.frag",
+      "ShaderLanguages": "GLSL150",
+      "VertexShader": "Common/MatDefs/Misc/Unshaded.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "HAS_GLOWMAP",
+          "param": "GlowMap"
+        },
+        {
+          "name": "HAS_GLOWCOLOR",
+          "param": "GlowColor"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "HAS_POINTSIZE",
+          "param": "PointSize"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ]
+    },
+    {
+      "name": "Glow",
+      "FragmentShader": "Common/MatDefs/Light/Glow.frag",
+      "ShaderLanguages": "GLSL100",
+      "VertexShader": "Common/MatDefs/Misc/Unshaded.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "HAS_GLOWMAP",
+          "param": "GlowMap"
+        },
+        {
+          "name": "HAS_GLOWCOLOR",
+          "param": "GlowColor"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "HAS_POINTSIZE",
+          "param": "PointSize"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ]
+    },
+    {
+      "name": "Glow",
+      "FragmentShader": "Common/MatDefs/Light/Glow.frag",
+      "ShaderLanguages": "GLSL310",
+      "VertexShader": "Common/MatDefs/Misc/Unshaded.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "HAS_GLOWMAP",
+          "param": "GlowMap"
+        },
+        {
+          "name": "HAS_GLOWCOLOR",
+          "param": "GlowColor"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "HAS_POINTSIZE",
+          "param": "PointSize"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        }
+      ]
+    },
+    {
+      "name": "Default",
+      "FragmentShader": "Common/MatDefs/Misc/Unshaded.frag",
+      "ShaderLanguages": "GLSL300",
+      "VertexShader": "Common/MatDefs/Misc/Unshaded.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "SEPARATE_TEXCOORD",
+          "param": "SeparateTexCoord"
+        },
+        {
+          "name": "HAS_COLORMAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "HAS_LIGHTMAP",
+          "param": "LightMap"
+        },
+        {
+          "name": "HAS_VERTEXCOLOR",
+          "param": "VertexColor"
+        },
+        {
+          "name": "HAS_POINTSIZE",
+          "param": "PointSize"
+        },
+        {
+          "name": "HAS_COLOR",
+          "param": "Color"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        },
+        {
+          "name": "DESATURATION",
+          "param": "DesaturationValue"
+        }
+      ]
+    },
+    {
+      "name": "Default",
+      "FragmentShader": "Common/MatDefs/Misc/Unshaded.frag",
+      "ShaderLanguages": "GLSL150",
+      "VertexShader": "Common/MatDefs/Misc/Unshaded.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "SEPARATE_TEXCOORD",
+          "param": "SeparateTexCoord"
+        },
+        {
+          "name": "HAS_COLORMAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "HAS_LIGHTMAP",
+          "param": "LightMap"
+        },
+        {
+          "name": "HAS_VERTEXCOLOR",
+          "param": "VertexColor"
+        },
+        {
+          "name": "HAS_POINTSIZE",
+          "param": "PointSize"
+        },
+        {
+          "name": "HAS_COLOR",
+          "param": "Color"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        },
+        {
+          "name": "DESATURATION",
+          "param": "DesaturationValue"
+        }
+      ]
+    },
+    {
+      "name": "Default",
+      "FragmentShader": "Common/MatDefs/Misc/Unshaded.frag",
+      "ShaderLanguages": "GLSL100",
+      "VertexShader": "Common/MatDefs/Misc/Unshaded.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "SEPARATE_TEXCOORD",
+          "param": "SeparateTexCoord"
+        },
+        {
+          "name": "HAS_COLORMAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "HAS_LIGHTMAP",
+          "param": "LightMap"
+        },
+        {
+          "name": "HAS_VERTEXCOLOR",
+          "param": "VertexColor"
+        },
+        {
+          "name": "HAS_POINTSIZE",
+          "param": "PointSize"
+        },
+        {
+          "name": "HAS_COLOR",
+          "param": "Color"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        },
+        {
+          "name": "DESATURATION",
+          "param": "DesaturationValue"
+        }
+      ]
+    },
+    {
+      "name": "Default",
+      "FragmentShader": "Common/MatDefs/Misc/Unshaded.frag",
+      "ShaderLanguages": "GLSL310",
+      "VertexShader": "Common/MatDefs/Misc/Unshaded.vert",
+      "WorldParameters": [
+        "WorldViewProjectionMatrix",
+        "ViewProjectionMatrix",
+        "ViewMatrix"
+      ],
+      "Defines": [
+        {
+          "name": "BOUND_DRAW_BUFFER",
+          "param": "BoundDrawBuffer"
+        },
+        {
+          "name": "INSTANCING",
+          "param": "UseInstancing"
+        },
+        {
+          "name": "SEPARATE_TEXCOORD",
+          "param": "SeparateTexCoord"
+        },
+        {
+          "name": "HAS_COLORMAP",
+          "param": "ColorMap"
+        },
+        {
+          "name": "HAS_LIGHTMAP",
+          "param": "LightMap"
+        },
+        {
+          "name": "HAS_VERTEXCOLOR",
+          "param": "VertexColor"
+        },
+        {
+          "name": "HAS_POINTSIZE",
+          "param": "PointSize"
+        },
+        {
+          "name": "HAS_COLOR",
+          "param": "Color"
+        },
+        {
+          "name": "NUM_BONES",
+          "param": "NumberOfBones"
+        },
+        {
+          "name": "DISCARD_ALPHA",
+          "param": "AlphaDiscardThreshold"
+        },
+        {
+          "name": "NUM_MORPH_TARGETS",
+          "param": "NumberOfMorphTargets"
+        },
+        {
+          "name": "NUM_TARGETS_BUFFERS",
+          "param": "NumberOfTargetsBuffers"
+        },
+        {
+          "name": "DESATURATION",
+          "param": "DesaturationValue"
+        }
+      ]
+    }
+  ]
+}
