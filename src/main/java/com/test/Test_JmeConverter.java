@@ -94,6 +94,7 @@ public class Test_JmeConverter extends SimpleApplication {
             e.printStackTrace();
         }
     }
+    
     /**
      * Writes the material to a JSON file.
      * 
