@@ -15,14 +15,16 @@ import com.jme3.scene.Spatial;
 import com.jme3.system.JmeContext;
 
 /**
+ * A simple application to convert JME models and materials.
+ * This application loads a model, processes its materials, and exports them to JSON and J3O formats.
  * 
  * @author capdevon
  */
 public class Test_JmeConverter extends SimpleApplication {
 
-    private static final String resources = "src/main/resources/";
-    private static final String inputDir = "Models/YBot";
-    private static final String characterModel = "YBot"; // Main Character (T-pose)
+    private static final String RESOURCE_DIR    = "src/main/resources/";
+    private static final String ASSET_DIR       = "Models/YBot";
+    private static final String CHARACTER_MODEL = "YBot"; // Main Character
     
     /**
      *
@@ -35,11 +37,11 @@ public class Test_JmeConverter extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        Spatial myModel = assetManager.loadModel(inputDir + "/" + characterModel + ".gltf");
+        Spatial myModel = assetManager.loadModel(ASSET_DIR + "/" + CHARACTER_MODEL + ".gltf");
 
         removeEmptyNode(myModel);
 
-        String dirName = resources + inputDir;
+        String dirName = RESOURCE_DIR + ASSET_DIR;
         myModel.depthFirstTraversal(new SceneGraphVisitorAdapter() {
             @Override
             public void visit(Geometry geom) {
@@ -48,24 +50,29 @@ public class Test_JmeConverter extends SimpleApplication {
                 mat.setName(geom.getName());
                 
                 File file = new File(dirName, geom.getName() + ".json");
-                MaterialKey key = new MaterialKey(inputDir + "/" + file.getName());
+                MaterialKey key = new MaterialKey(ASSET_DIR + "/" + file.getName());
                 mat.setKey(key);
                 writeJ3m(mat, file);
             }
         });
 
-        File fout = new File(dirName, characterModel + ".j3o");
+        File fout = new File(dirName, CHARACTER_MODEL + ".j3o");
         writeJ3o(myModel, fout);
 
         stop();
+        System.out.println("Done!");
     }
     
+    /**
+     * Removes empty nodes from the model.
+     * 
+     * @param model the spatial model to process
+     */
     private void removeEmptyNode(Spatial model) {
         model.breadthFirstTraversal(new SceneGraphVisitorAdapter() {
             @Override
             public void visit(Node node) {
-                if (node.getChildren().isEmpty()) {
-                    System.out.println("Removing " + node);
+                if (node.getQuantity() == 0) {
                     node.removeFromParent();
                 }
             }
@@ -73,32 +80,28 @@ public class Test_JmeConverter extends SimpleApplication {
     }
 
     /**
-     * Save spatial to j3o file.
-     *
-     * @param sp
-     * @param file
+     * Writes the model to a J3O file.
+     * 
+     * @param model the spatial model to export
+     * @param file the file to write to
      */
-    private void writeJ3o(Spatial sp, File file) {
+    private void writeJ3o(Spatial model, File file) {
         try {
-            System.out.println("Converting j3o: " + file.getAbsolutePath());
             BinaryExporter exporter = BinaryExporter.getInstance();
-            exporter.save(sp, file);
+            exporter.save(model, file);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     /**
-     * Save Material to j3m file.
-     *
-     * @param material
-     * @param file
+     * Writes the material to a JSON file.
+     * 
+     * @param mat the material to export
+     * @param file the file to write to
      */
     private void writeJ3m(Material mat, File file) {
         try {
-            System.out.println("Writing material:" + file.getAbsolutePath());
-            System.out.println(mat.getKey().getFolder() + " " + mat.getKey().getName() + " " + mat.getKey().getExtension());
             JsonMaterialExporter2 exporter = new JsonMaterialExporter2();
             exporter.save(mat, file);
 
