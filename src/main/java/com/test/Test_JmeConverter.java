@@ -45,11 +45,13 @@ public class Test_JmeConverter extends SimpleApplication {
         myModel.depthFirstTraversal(new SceneGraphVisitorAdapter() {
             @Override
             public void visit(Geometry geom) {
-                System.out.println(geom);
-                Material mat = geom.getMaterial();
-                mat.setName(geom.getName());
+                System.out.println("Processing: " + geom);
+                String fileName = geom.getName();
                 
-                File file = new File(dirName, geom.getName() + ".json");
+                Material mat = geom.getMaterial();
+                mat.setName(fileName);
+                
+                File file = new File(dirName, fileName + ".json");
                 MaterialKey key = new MaterialKey(ASSET_DIR + "/" + file.getName());
                 mat.setKey(key);
                 writeJ3m(mat, file);
