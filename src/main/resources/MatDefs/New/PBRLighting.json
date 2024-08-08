@@ -283,10 +283,8 @@
          {
             "name":"PostShadow",
             "FragmentShader":"Common/MatDefs/Shadow/PostShadowPBR.frag",
-            "ShaderLanguages":[
-               "GLSL310","GLSL300","GLSL150","GLSL100"
-            ],
             "VertexShader":"Common/MatDefs/Shadow/PostShadow.vert",
+            "ShaderLanguages":["GLSL310","GLSL300","GLSL150","GLSL100"],
             "WorldParameters":[
                "WorldViewProjectionMatrix",
                "WorldMatrix",
@@ -362,10 +360,8 @@
          {
             "name":"PreShadow",
             "FragmentShader":"Common/MatDefs/Shadow/PreShadowPBR.frag",
-            "ShaderLanguages":[
-               "GLSL300","GLSL150","GLSL100"
-            ],
             "VertexShader":"Common/MatDefs/Shadow/PreShadow.vert",
+            "ShaderLanguages":["GLSL300","GLSL150","GLSL100"],
             "WorldParameters":[
                "WorldViewProjectionMatrix",
                "WorldViewMatrix",
@@ -409,12 +405,8 @@
          {
             "name":"PreNormalPass",
             "FragmentShader":"Common/MatDefs/SSAO/normal.frag",
-            "ShaderLanguages":[
-               "GLSL300",
-               "GLSL150",
-               "GLSL100"
-            ],
             "VertexShader":"Common/MatDefs/SSAO/normal.vert",
+            "ShaderLanguages":["GLSL300","GLSL150","GLSL100"],
             "WorldParameters":[
                "WorldViewProjectionMatrix",
                "WorldViewMatrix",
@@ -452,10 +444,8 @@
          {
             "name":"Glow",
             "FragmentShader":"Common/MatDefs/Light/PBRGlow.frag",
-            "ShaderLanguages":[
-               "GLSL300","GLSL150","GLSL100"
-            ],
             "VertexShader":"Common/MatDefs/Misc/Unshaded.vert",
+            "ShaderLanguages":["GLSL300","GLSL150","GLSL100"],
             "WorldParameters":[
                "WorldViewProjectionMatrix",
                "ViewProjectionMatrix",
@@ -495,10 +485,8 @@
          {
             "name":"Default",
             "FragmentShader":"Common/MatDefs/Light/PBRLighting.frag",
-            "ShaderLanguages":[
-               "GLSL300","GLSL150","GLSL100"
-            ],
             "VertexShader":"Common/MatDefs/Light/PBRLighting.vert",
+            "ShaderLanguages":["GLSL300","GLSL150","GLSL100"],
             "LightMode":"SinglePassAndImageBased",
             "WorldParameters":[
                "WorldViewProjectionMatrix",
