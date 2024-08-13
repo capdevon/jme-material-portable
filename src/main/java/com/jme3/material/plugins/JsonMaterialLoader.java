@@ -120,20 +120,21 @@ public class JsonMaterialLoader implements AssetLoader {
      * @return
      * @throws IOException
      */
-//    public Material loadMaterial(AssetManager assetManager, String fileName) throws IOException {
-//        
-//        this.assetManager = assetManager;
-//
-//        try (FileReader reader = new FileReader(fileName)) {
-//
-//            Gson gson = new Gson();
-//            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-//            loadFromRoot(jsonObject);
-//
-//            // return the Material object
-//            return material;
-//        }
-//    }
+    public Material loadMaterial(AssetManager assetManager, String fileName) throws IOException {
+        
+        this.assetManager = assetManager;
+        this.key = null;
+
+        try (FileReader reader = new FileReader(fileName)) {
+
+            Gson gson = new Gson();
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+            loadFromRoot(jsonObject);
+
+            // return the Material object
+            return material;
+        }
+    }
     
 //    public MaterialDef loadMaterialDef(AssetManager manager, AssetKey key) throws IOException {
 //        this.key = key;
@@ -179,7 +180,6 @@ public class JsonMaterialLoader implements AssetLoader {
             for (JsonElement el : joMaterial.getAsJsonArray("Techniques")) {
                 readTechnique(el.getAsJsonObject());
             }
-            
         } else {
             // Extract properties
             String extendedMat = joMaterial.get("def").getAsString();
@@ -568,6 +568,18 @@ public class JsonMaterialLoader implements AssetLoader {
         }
     }
     
+    private void readShaderDefinition(ShaderType shaderType, String name, String... languages) {
+        shaderNames.put(shaderType, name);
+
+        for (int i = 0; i < languages.length; i++) {
+            if (i >= shaderLanguages.size()) {
+                EnumMap<ShaderType, String> map = new EnumMap<>(ShaderType.class);
+                shaderLanguages.add(map);
+            }
+            shaderLanguages.get(i).put(shaderType, languages[i]);
+        }
+    }
+    
     private String[] parseStringArray(JsonElement el) throws IOException {
         if (el.isJsonArray()) {
             JsonArray jsonArray = el.getAsJsonArray();
@@ -578,18 +590,6 @@ public class JsonMaterialLoader implements AssetLoader {
             return a;
         } else {
             throw new IOException("JsonElement should be an array");
-        }
-    }
-
-    private void readShaderDefinition(ShaderType shaderType, String name, String... languages) {
-        shaderNames.put(shaderType, name);
-
-        for (int i = 0; i < languages.length; i++) {
-            if (i >= shaderLanguages.size()) {
-                EnumMap<ShaderType, String> map = new EnumMap<>(ShaderType.class);
-                shaderLanguages.add(map);
-            }
-            shaderLanguages.get(i).put(shaderType, languages[i]);
         }
     }
     
