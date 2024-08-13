@@ -2,7 +2,9 @@ package com.jme3.material.plugins;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -26,16 +28,29 @@ import com.jme3.material.RenderState.BlendEquationAlpha;
 import com.jme3.material.RenderState.BlendMode;
 import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.material.RenderState.TestFunction;
+import com.jme3.material.TechniqueDef;
+import com.jme3.material.TechniqueDef.LightMode;
+import com.jme3.material.TechniqueDef.LightSpace;
+import com.jme3.material.TechniqueDef.ShadowMode;
+import com.jme3.material.logic.DefaultTechniqueDefLogic;
+import com.jme3.material.logic.MultiPassLightingLogic;
+import com.jme3.material.logic.SinglePassAndImageBasedLightingLogic;
+import com.jme3.material.logic.SinglePassLightingLogic;
+import com.jme3.material.logic.StaticPassLightingLogic;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.shader.DefineList;
+import com.jme3.shader.Shader.ShaderType;
 import com.jme3.shader.VarType;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.MagFilter;
 import com.jme3.texture.Texture.MinFilter;
 import com.jme3.texture.Texture.WrapMode;
 import com.jme3.texture.Texture2D;
+import com.jme3.texture.image.ColorSpace;
 import com.jme3.util.PlaceholderAssets;
+import com.jme3.util.clone.Cloner;
 
 /**
  * 
@@ -49,19 +64,30 @@ public class YamlMaterialLoader implements AssetLoader {
     private AssetKey<?> key;
     
     private Material material;
+    private MaterialDef materialDef;
+    private TechniqueDef technique;
+    private final ArrayList<String> presetDefines = new ArrayList<>();
+
+    private final List<EnumMap<ShaderType, String>> shaderLanguages;
+    private final EnumMap<ShaderType, String> shaderNames;
+    
+    public YamlMaterialLoader() {
+        shaderLanguages = new ArrayList<>();
+        shaderNames = new EnumMap<>(ShaderType.class);
+    }
     
     @Override
     public Object load(AssetInfo info) throws IOException {
-        
+        clearCache();
         this.assetManager = info.getManager();
         
         try (InputStream in = info.openStream()) {
             this.key = info.getKey();
             
             Yaml yaml = new Yaml();
-            Object map = yaml.load(new UnicodeReader(in));
-            System.out.println(map);
-            loadFromRoot(map);
+            Map<String, Object> doc = yaml.load(new UnicodeReader(in));
+            System.out.println(doc);
+            loadFromRoot(doc);
         }
         
         if (material != null) {
@@ -69,18 +95,26 @@ public class YamlMaterialLoader implements AssetLoader {
             return material;
         } else {
             // material definition
-            return null; //materialDef;
+            return materialDef;
         }
+    }
+    
+    /**
+     */
+    private void clearCache() {
+        material = null;
+        materialDef = null;
     }
     
     public Material loadMaterial(AssetManager assetManager, String fileName) {
         this.assetManager = assetManager;
+        this.key = null;
 
         try (InputStream in = getResourceAsStream(fileName)) {
             Yaml yaml = new Yaml();
-            Object map = yaml.load(new UnicodeReader(in));
-            System.out.println(map);
-            loadFromRoot(map);
+            Map<String, Object> doc = yaml.load(new UnicodeReader(in));
+            System.out.println(doc);
+            loadFromRoot(doc);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -95,7 +129,7 @@ public class YamlMaterialLoader implements AssetLoader {
      * @throws IOException
      */
     private InputStream getResourceAsStream(String name) throws IOException {
-        ClassLoader loader = YamlMaterialLoader.class.getClassLoader();
+        ClassLoader loader = getClass().getClassLoader();
         InputStream stream = loader.getResourceAsStream(name);
         if (stream == null) {
             throw new IOException("Resource not found: " + name);
@@ -107,36 +141,68 @@ public class YamlMaterialLoader implements AssetLoader {
      * @param doc
      * @throws IOException
      */
-    private void loadFromRoot(Object doc) throws IOException {
+    private void loadFromRoot(Map<String, Object> doc) throws IOException {
+        
+        // Get the top-level "Material" object
+        Map<String, Object> map = null;
+        boolean extending = false;
 
-        Map<String, Object> map = (Map) getMap(doc).get("Material");
+        if (doc.containsKey("MaterialDef")) {
+            map = (Map) doc.get("MaterialDef");
+            extending = false;
+
+        } else if (doc.containsKey("Material")) {
+            map = (Map) doc.get("Material");
+            extending = true;
+
+        } else {
+            throw new IOException("Specified file is not a Material file");
+        }
 
         String materialName = getString(map.get("name"));
         if (materialName.isBlank()) {
             throw new IOException("Material name cannot be empty: " + materialName);
         }
 
-        // Extract properties
-        String extendedMat = getString(map.get("def"));
+        if (!extending) {
+            materialDef = new MaterialDef(assetManager, materialName);
+            // NOTE: pass the filename for defs, so they can be loaded later
+            materialDef.setAssetName(key.getName());
 
-        MaterialDef def = assetManager.loadAsset(new AssetKey<MaterialDef>(extendedMat));
-        if (def == null) {
-            throw new IOException("Extended material " + extendedMat + " cannot be found.");
+            // Parse MaterialParameters
+            List<Object> materialParameters = (List<Object>) map.get("MaterialParameters");
+            for (Object el : materialParameters) {
+                readParam((Map) el);
+            }
+
+            // Parse Techniques
+            List<Object> techniques = (List<Object>) map.get("Techniques");
+            for (Object el : techniques) {
+                readTechnique((Map) el);
+            }
+        } else {
+            // Extract properties
+            String extendedMat = getString(map.get("def"));
+    
+            MaterialDef def = assetManager.loadAsset(new AssetKey<MaterialDef>(extendedMat));
+            if (def == null) {
+                throw new IOException("Extended material " + extendedMat + " cannot be found.");
+            }
+    
+            material = new Material(def);
+            material.setKey(key);   
+            material.setName(materialName);
+    
+            // Parse MaterialParameters
+            List<Object> materialParameters = (List) map.get("materialParameters");
+            for (Object el : materialParameters) {
+                readValueParam((Map) el);
+            }
+    
+            // Parse AdditionalRenderState
+            Map<String, Object> additionalRenderState = (Map) map.get("additionalRenderState");
+            readRenderState(material.getAdditionalRenderState(), additionalRenderState);
         }
-
-        material = new Material(def);
-        material.setKey(key);
-        material.setName(materialName);
-
-        // Parse MaterialParameters
-        List<Object> materialParameters = (List) map.get("materialParameters");
-        for (Object el : materialParameters) {
-            readValueParam((Map) el);
-        }
-
-        // Parse AdditionalRenderState
-        Map<String, Object> additionalRenderState = (Map) map.get("additionalRenderState");
-        readRenderState(material.getAdditionalRenderState(), additionalRenderState);
     }
     
     private void readRenderState(RenderState renderState, Map<String, Object> map) throws IOException {
@@ -299,10 +365,241 @@ public class YamlMaterialLoader implements AssetLoader {
         return texture;
     }
     
+    // <TYPE> <NAME> [-LINEAR] [ ":" <DEFAULTVAL> ]
+    private void readParam(Map<String, Object> map) throws IOException {
+        String name = getString(map.get("name"));
+        String stringType = getString(map.get("type"));
+
+        ColorSpace colorSpace = null;
+        if (map.containsKey("colorSpace")) {
+            colorSpace = getEnum(map.get("colorSpace"), ColorSpace.class);
+        }
+
+        VarType type;
+        if (stringType.equals("Color")) {
+            type = VarType.Vector4;
+        } else {
+            type = VarType.valueOf(stringType);
+        }
+
+        Object defaultVal = null;
+        if (map.containsKey("value")) {
+            defaultVal = readValue(type, map);
+        }
+        if (type.isTextureType()) {
+            materialDef.addMaterialParamTexture(type, name, colorSpace, (Texture) defaultVal);
+        } else {
+            materialDef.addMaterialParam(type, name, defaultVal);
+        }
+    }
+    
+    private void readTechnique(Map<String, Object> map) throws IOException {
+
+        String name = getString(map.get("name"));
+
+        String techniqueUniqueName = materialDef.getAssetName() + "@" + name;
+        technique = new TechniqueDef(name, techniqueUniqueName.hashCode());
+        readTechniqueStatement(map);
+
+        technique.setShaderPrologue(createShaderPrologue(presetDefines));
+
+        switch (technique.getLightMode()) {
+            case Disable:
+                technique.setLogic(new DefaultTechniqueDefLogic(technique));
+                break;
+            case MultiPass:
+                technique.setLogic(new MultiPassLightingLogic(technique));
+                break;
+            case SinglePass:
+                technique.setLogic(new SinglePassLightingLogic(technique));
+                break;
+            case StaticPass:
+                technique.setLogic(new StaticPassLightingLogic(technique));
+                break;
+            case SinglePassAndImageBased:
+                technique.setLogic(new SinglePassAndImageBasedLightingLogic(technique));
+                break;
+            default:
+                throw new IOException("Light mode not supported:" + technique.getLightMode());
+        }
+
+        List<TechniqueDef> techniqueDefs = new ArrayList<>();
+
+        if (shaderNames.containsKey(ShaderType.Vertex) && shaderNames.containsKey(ShaderType.Fragment)) {
+            if (shaderLanguages.size() > 1) {
+                
+                Cloner cloner = new Cloner();
+                for (int i = 1; i < shaderLanguages.size(); i++) {
+                    cloner.clearIndex();
+                    TechniqueDef td = cloner.clone(technique);
+                    td.setShaderFile(shaderNames, shaderLanguages.get(i));
+                    techniqueDefs.add(td);
+                }
+            }
+            technique.setShaderFile(shaderNames, shaderLanguages.get(0));
+            techniqueDefs.add(technique);
+
+        } else {
+            technique = null;
+            shaderLanguages.clear();
+            shaderNames.clear();
+            presetDefines.clear();
+            logger.log(Level.WARNING, "Fixed function technique ''{0}'' was ignored for material {1}",
+                    new Object[] { name, key });
+            return;
+        }
+
+        for (TechniqueDef techniqueDef : techniqueDefs) {
+            materialDef.addTechniqueDef(techniqueDef);
+        }
+
+        technique = null;
+        shaderLanguages.clear();
+        shaderNames.clear();
+        presetDefines.clear();
+    }
+    
+    private String createShaderPrologue(List<String> presetDefines) {
+        DefineList defList = new DefineList(presetDefines.size());
+        for (int i = 0; i < presetDefines.size(); i++) {
+            defList.set(i, 1);
+        }
+        StringBuilder sb = new StringBuilder();
+        defList.generateSource(sb, presetDefines, null);
+        return sb.toString();
+    }
+    
+    private void readTechniqueStatement(Map<String, Object> map) throws IOException {
+        /**
+         * VertexShader
+         * FragmentShader
+         * GeometryShader
+         * TessellationControlShader
+         * TessellationEvaluationShader
+         */
+        readShaderStatement(map);
+
+        if (map.containsKey("LightMode")) {
+            String lightMode = getString(map.get("LightMode"));
+            technique.setLightMode(LightMode.valueOf(lightMode));
+        }
+        if (map.containsKey("LightSpace")) {
+            String lightSpace = getString(map.get("LightSpace"));
+            technique.setLightSpace(LightSpace.valueOf(lightSpace));
+        }
+        if (map.containsKey("ShadowMode")) {
+            String shadowMode = getString(map.get("ShadowMode"));
+            technique.setShadowMode(ShadowMode.valueOf(shadowMode));
+        }
+
+        List<Object> worldParameters = (List<Object>) map.get("WorldParameters");
+        for (Object el : worldParameters) {
+            technique.addWorldParam(el.toString());
+        }
+
+        if (map.containsKey("RenderState")) {
+            RenderState renderState = new RenderState();
+            readRenderState(renderState, (Map) map.get("RenderState"));
+            technique.setRenderState(renderState);
+        }
+        if (map.containsKey("ForcedRenderState")) {
+            RenderState renderState = new RenderState();
+            readRenderState(renderState, (Map) map.get("ForcedRenderState"));
+            technique.setForcedRenderState(renderState);
+        }
+        if (map.containsKey("Defines")) {
+//            List<Object> defines = (List<Object>) map.get("Defines");
+//            for (Object el : defines) {
+//                readDefine((Map) el);
+//            }
+            
+            readDefine((Map) map.get("Defines"));
+        }
+        if (map.containsKey("NoRender")) {
+            boolean noRender = getBoolean(map.get("NoRender"));
+            technique.setNoRender(noRender);
+        }
+    }
+    
+    // <DEFINENAME> [ ":" <PARAMNAME> ]
+    private void readDefine(Map<String, Object> map) {
+        
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+
+            String paramName = entry.getKey();
+            String defineName = entry.getValue().toString();
+            
+            MatParam param = materialDef.getMaterialParam(paramName);
+            if (param == null) {
+                logger.log(Level.WARNING, "In technique ''{0}'':\n" 
+                        + "Define ''{1}'' mapped to non-existent material parameter ''{2}'', ignoring.", 
+                        new Object[] { technique.getName(), defineName, paramName });
+            } else {
+                presetDefines.add(defineName);
+
+                VarType paramType = param.getVarType();
+                technique.addShaderParamDefine(paramName, paramType, defineName);
+            }
+        }
+        
+//        String defineName = getString(map.get("name"));
+//        presetDefines.add(defineName);
+//
+//        String paramName = getString(map.get("param"));
+//        MatParam param = materialDef.getMaterialParam(paramName);
+//        if (param == null) {
+//            logger.log(Level.WARNING, "In technique ''{0}'':\n" 
+//                    + "Define ''{1}'' mapped to non-existent material parameter ''{2}'', ignoring.", 
+//                    new Object[] { technique.getName(), defineName, paramName });
+//            return;
+//        }
+//
+//        VarType paramType = param.getVarType();
+//        technique.addShaderParamDefine(paramName, paramType, defineName);
+    }
+    
+    // <TYPE> <LANG> : <SOURCE>
+    private void readShaderStatement(Map<String, Object> map) throws IOException {
+        for (ShaderType shaderType : ShaderType.values()) {
+            String shaderName = shaderType.name() + "Shader";
+            if (map.containsKey(shaderName)) {
+                String path = getString(map.get(shaderName));
+                String[] languages = parseStringArray(map.get("ShaderLanguages"));
+                readShaderDefinition(shaderType, path, languages);
+            }
+        }
+    }
+
+    private void readShaderDefinition(ShaderType shaderType, String name, String... languages) {
+        shaderNames.put(shaderType, name);
+
+        for (int i = 0; i < languages.length; i++) {
+            if (i >= shaderLanguages.size()) {
+                EnumMap<ShaderType, String> map = new EnumMap<>(ShaderType.class);
+                shaderLanguages.add(map);
+            }
+            shaderLanguages.get(i).put(shaderType, languages[i]);
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected static String[] parseStringArray(Object obj) throws IOException {
+        if (obj instanceof List<?>) {
+            List<Object> list = (List<Object>) obj;
+            String[] a = new String[list.size()];
+            for (int i = 0; i < a.length; i++) {
+                a[i] = list.get(i).toString();
+            }
+            return a;
+        } else {
+            throw new IOException("Could not parse MaterialDef. Expected List at: " + obj);
+        }
+    }
+    
     /// YAML NODE CONVERTERS
 
-    private static final List<String> YAML_YES_VALUES = Arrays.asList("y", "yes", "true", "on");
-    private static final List<String> YAML_NO_VALUES = Arrays.asList("n", "no", "false", "off");
+    protected static final List<String> YAML_YES_VALUES = Arrays.asList("y", "yes", "true", "on");
+    protected static final List<String> YAML_NO_VALUES = Arrays.asList("n", "no", "false", "off");
 
     /// PROPERTY READERS
 
