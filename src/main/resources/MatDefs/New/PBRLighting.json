@@ -7,72 +7,14 @@
             "name":"SeparateTexCoord"
          },
          {
-            "type":"Vector3",
-            "name":"LightPos"
-         },
-         {
             "type":"Boolean",
             "name":"UseSpecularAA",
             "value":true
          },
          {
-            "type":"Float",
-            "name":"Roughness",
-            "value":1.0
-         },
-         {
-            "type":"Texture2D",
-            "name":"EmissiveMap"
-         },
-         {
-            "type":"Texture2D",
-            "name":"SpecularMap"
-         },
-         {
-            "type":"Float",
-            "name":"Glossiness",
-            "value":1.0
-         },
-         {
-            "type":"Texture2D",
-            "name":"SpecularGlossinessMap"
-         },
-         {
-            "type":"Vector4",
-            "name":"Emissive"
-         },
-         {
-            "type":"Float",
-            "name":"NormalType",
-            "value":-1.0
-         },
-         {
-            "type":"Float",
-            "name":"ShadowIntensity"
-         },
-         {
-            "type":"Texture2D",
-            "name":"MetallicRoughnessMap",
-            "colorSpace":"Linear"
-         },
-         {
-            "type":"Float",
-            "name":"EmissivePower",
-            "value":3.0
-         },
-         {
-            "type":"Float",
-            "name":"NormalScale"
-         },
-         {
             "type":"Boolean",
             "name":"BackfaceShadows",
             "value":false
-         },
-         {
-            "type":"Float",
-            "name":"EmissiveIntensity",
-            "value":2.0
          },
          {
             "type":"Boolean",
@@ -83,83 +25,8 @@
             "name":"SteepParallax"
          },
          {
-            "type":"Float",
-            "name":"Metallic",
-            "value":1.0
-         },
-         {
-            "type":"Matrix4",
-            "name":"LightViewProjectionMatrix1"
-         },
-         {
-            "type":"FloatArray",
-            "name":"MorphWeights"
-         },
-         {
-            "type":"Float",
-            "name":"AlphaDiscardThreshold"
-         },
-         {
-            "type":"Matrix4",
-            "name":"LightViewProjectionMatrix2"
-         },
-         {
-            "type":"Texture2D",
-            "name":"ParallaxMap",
-            "colorSpace":"Linear"
-         },
-         {
-            "type":"Matrix4",
-            "name":"LightViewProjectionMatrix0"
-         },
-         {
             "type":"Boolean",
             "name":"HardwareShadows"
-         },
-         {
-            "type":"Matrix4",
-            "name":"LightViewProjectionMatrix5"
-         },
-         {
-            "type":"Texture2D",
-            "name":"RoughnessMap",
-            "colorSpace":"Linear"
-         },
-         {
-            "type":"Matrix4",
-            "name":"LightViewProjectionMatrix3"
-         },
-         {
-            "type":"Matrix4",
-            "name":"LightViewProjectionMatrix4"
-         },
-         {
-            "type":"Matrix4Array",
-            "name":"BoneMatrices"
-         },
-         {
-            "type":"Texture2D",
-            "name":"GlossinessMap"
-         },
-         {
-            "type":"Float",
-            "name":"SpecularAAKappa"
-         },
-         {
-            "type":"Int",
-            "name":"NumberOfBones"
-         },
-         {
-            "type":"Texture2D",
-            "name":"ShadowMap5"
-         },
-         {
-            "type":"Texture2D",
-            "name":"ShadowMap4"
-         },
-         {
-            "type":"Vector4",
-            "name":"Splits"
          },
          {
             "type":"Boolean",
@@ -170,39 +37,70 @@
             "name":"UseInstancing"
          },
          {
+            "type":"Boolean",
+            "name":"AoPackedInMRMap"
+         },
+         {
+            "type":"Boolean",
+            "name":"PackedNormalParallax"
+         },
+         {
+            "type":"Boolean",
+            "name":"UseVertexColor"
+         },
+         {
+            "type":"Boolean",
+            "name":"LightMapAsAOMap"
+         },
+         {
+            "type":"Float",
+            "name":"Roughness",
+            "value":1
+         },
+         {
+            "type":"Float",
+            "name":"Glossiness",
+            "value":1
+         },
+         {
+            "type":"Float",
+            "name":"NormalType",
+            "value":-1
+         },
+         {
+            "type":"Float",
+            "name":"ShadowIntensity"
+         },
+         {
+            "type":"Float",
+            "name":"EmissivePower",
+            "value":3
+         },
+         {
+            "type":"Float",
+            "name":"NormalScale"
+         },
+         {
+            "type":"Float",
+            "name":"EmissiveIntensity",
+            "value":2
+         },
+         {
+            "type":"Float",
+            "name":"Metallic",
+            "value":1
+         },
+         {
+            "type":"Float",
+            "name":"AlphaDiscardThreshold"
+         },
+         {
+            "type":"Float",
+            "name":"SpecularAAKappa"
+         },
+         {
             "type":"Float",
             "name":"SpecularAASigma"
-         },
-         {
-            "type":"Texture2D",
-            "name":"ShadowMap1"
-         },
-         {
-            "type":"Texture2D",
-            "name":"ShadowMap0"
-         },
-         {
-            "type":"Vector3",
-            "name":"LightDir"
-         },
-         {
-            "type":"Texture2D",
-            "name":"ShadowMap3"
-         },
-         {
-            "type":"Texture2D",
-            "name":"ShadowMap2"
-         },
-         {
-            "type":"Vector2",
-            "name":"FadeInfo"
-         },
-         {
-            "type":"Vector4",
-            "name":"BaseColor",
-            "value":[
-               1.0,1.0,1.0,1.0
-            ]
          },
          {
             "type":"Float",
@@ -214,8 +112,119 @@
             "value":0.05
          },
          {
-            "type":"Boolean",
-            "name":"AoPackedInMRMap"
+            "type":"Float",
+            "name":"AoStrength"
+         },
+         {
+            "type":"Float",
+            "name":"ShadowMapSize"
+         },
+         {
+            "type":"FloatArray",
+            "name":"MorphWeights"
+         },
+         {
+            "type":"Int",
+            "name":"NumberOfBones"
+         },
+         {
+            "type":"Int",
+            "name":"NumberOfMorphTargets"
+         },
+         {
+            "type":"Int",
+            "name":"FilterMode"
+         },
+         {
+            "type":"Int",
+            "name":"NumberOfTargetsBuffers"
+         },
+         {
+            "type":"Int",
+            "name":"BoundDrawBuffer"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix0"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix1"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix2"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix3"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix4"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix5"
+         },
+         {
+            "type":"Matrix4Array",
+            "name":"BoneMatrices"
+         },
+         {
+            "type":"Texture2D",
+            "name":"EmissiveMap"
+         },
+         {
+            "type":"Texture2D",
+            "name":"SpecularMap"
+         },
+         {
+            "type":"Texture2D",
+            "name":"SpecularGlossinessMap"
+         },
+         {
+            "type":"Texture2D",
+            "name":"MetallicRoughnessMap",
+            "colorSpace":"Linear"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ParallaxMap",
+            "colorSpace":"Linear"
+         },
+         {
+            "type":"Texture2D",
+            "name":"RoughnessMap",
+            "colorSpace":"Linear"
+         },
+         {
+            "type":"Texture2D",
+            "name":"GlossinessMap"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap5"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap4"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap1"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap0"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap3"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap2"
          },
          {
             "type":"Texture2D",
@@ -227,56 +236,53 @@
             "name":"BaseColorMap"
          },
          {
-            "type":"Boolean",
-            "name":"PackedNormalParallax"
-         },
-         {
-            "type":"Boolean",
-            "name":"UseVertexColor"
-         },
-         {
-            "type":"Vector4",
-            "name":"Specular",
-            "value":[
-               1.0,1.0,1.0,1.0
-            ]
-         },
-         {
-            "type":"Float",
-            "name":"AoStrength"
-         },
-         {
-            "type":"Int",
-            "name":"NumberOfMorphTargets"
-         },
-         {
             "type":"Texture2D",
             "name":"MetallicMap",
             "colorSpace":"Linear"
-         },
-         {
-            "type":"Boolean",
-            "name":"LightMapAsAOMap"
-         },
-         {
-            "type":"Int",
-            "name":"FilterMode"
-         },
-         {
-            "type":"Float",
-            "name":"ShadowMapSize"
-         },
-         {
-            "type":"Int",
-            "name":"NumberOfTargetsBuffers"
          },
          {
             "type":"Texture2D",
             "name":"LightMap"
          },
          {
-            "type":"Int",
-            "name":"BoundDrawBuffer"
+            "type":"Vector2",
+            "name":"FadeInfo"
+         },
+         {
+            "type":"Vector3",
+            "name":"LightPos"
+         },
+         {
+            "type":"Vector3",
+            "name":"LightDir"
+         },
+         {
+            "type":"Vector4",
+            "name":"Emissive"
+         },
+         {
+            "type":"Vector4",
+            "name":"Splits"
+         },
+         {
+            "type":"Vector4",
+            "name":"BaseColor",
+            "value":[
+               1,
+               1,
+               1,
+               1
+            ]
+         },
+         {
+            "type":"Vector4",
+            "name":"Specular",
+            "value":[
+               1,
+               1,
+               1,
+               1
+            ]
          }
       ],
       "Techniques":[
@@ -284,7 +290,12 @@
             "name":"PostShadow",
             "FragmentShader":"Common/MatDefs/Shadow/PostShadowPBR.frag",
             "VertexShader":"Common/MatDefs/Shadow/PostShadow.vert",
-            "ShaderLanguages":["GLSL310","GLSL300","GLSL150","GLSL100"],
+            "ShaderLanguages":[
+               "GLSL310",
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
             "WorldParameters":[
                "WorldViewProjectionMatrix",
                "WorldMatrix",
@@ -353,7 +364,8 @@
                "Blend":"Modulate",
                "DepthWrite":false,
                "PolyOffset":[
-                  -0.1,0.0
+                  -0.1,
+                  0.0
                ]
             }
          },
@@ -361,7 +373,11 @@
             "name":"PreShadow",
             "FragmentShader":"Common/MatDefs/Shadow/PreShadowPBR.frag",
             "VertexShader":"Common/MatDefs/Shadow/PreShadow.vert",
-            "ShaderLanguages":["GLSL300","GLSL150","GLSL100"],
+            "ShaderLanguages":[
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
             "WorldParameters":[
                "WorldViewProjectionMatrix",
                "WorldViewMatrix",
@@ -398,7 +414,8 @@
                "FaceCull":"Off",
                "ColorWrite":false,
                "PolyOffset":[
-                  5.0,3.0
+                  5.0,
+                  3.0
                ]
             }
          },
@@ -406,7 +423,11 @@
             "name":"PreNormalPass",
             "FragmentShader":"Common/MatDefs/SSAO/normal.frag",
             "VertexShader":"Common/MatDefs/SSAO/normal.vert",
-            "ShaderLanguages":["GLSL300","GLSL150","GLSL100"],
+            "ShaderLanguages":[
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
             "WorldParameters":[
                "WorldViewProjectionMatrix",
                "WorldViewMatrix",
@@ -445,7 +466,11 @@
             "name":"Glow",
             "FragmentShader":"Common/MatDefs/Light/PBRGlow.frag",
             "VertexShader":"Common/MatDefs/Misc/Unshaded.vert",
-            "ShaderLanguages":["GLSL300","GLSL150","GLSL100"],
+            "ShaderLanguages":[
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
             "WorldParameters":[
                "WorldViewProjectionMatrix",
                "ViewProjectionMatrix",
@@ -486,7 +511,11 @@
             "name":"Default",
             "FragmentShader":"Common/MatDefs/Light/PBRLighting.frag",
             "VertexShader":"Common/MatDefs/Light/PBRLighting.vert",
-            "ShaderLanguages":["GLSL300","GLSL150","GLSL100"],
+            "ShaderLanguages":[
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
             "LightMode":"SinglePassAndImageBased",
             "WorldParameters":[
                "WorldViewProjectionMatrix",

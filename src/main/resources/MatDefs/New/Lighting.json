@@ -1,698 +1,730 @@
 {
-  "name": "Phong Lighting",
-  "MaterialParameters": [
-    {
-      "type": "Float",
-      "name": "ExpSqFog"
-    },
-    {
-      "type": "Boolean",
-      "name": "SeparateTexCoord"
-    },
-    {
-      "type": "Vector3",
-      "name": "LightPos"
-    },
-    {
-      "type": "Boolean",
-      "name": "VertexLighting"
-    },
-    {
-      "type": "Texture2D",
-      "name": "DiffuseMap"
-    },
-    {
-      "type": "Float",
-      "name": "ExpFog"
-    },
-    {
-      "type": "Texture2D",
-      "name": "SpecularMap"
-    },
-    {
-      "type": "Texture2D",
-      "name": "GlowMap"
-    },
-    {
-      "type": "Float",
-      "name": "NormalType"
-    },
-    {
-      "type": "Float",
-      "name": "ShadowIntensity"
-    },
-    {
-      "type": "Boolean",
-      "name": "BackfaceShadows",
-      "value": false
-    },
-    {
-      "type": "Boolean",
-      "name": "EnvMapAsSphereMap"
-    },
-    {
-      "type": "Boolean",
-      "name": "SteepParallax"
-    },
-    {
-      "type": "Matrix4",
-      "name": "LightViewProjectionMatrix1"
-    },
-    {
-      "type": "FloatArray",
-      "name": "MorphWeights"
-    },
-    {
-      "type": "Float",
-      "name": "AlphaDiscardThreshold"
-    },
-    {
-      "type": "Matrix4",
-      "name": "LightViewProjectionMatrix2"
-    },
-    {
-      "type": "Vector3",
-      "name": "FresnelParams"
-    },
-    {
-      "type": "Texture2D",
-      "name": "ParallaxMap",
-      "colorSpace": "Linear"
-    },
-    {
-      "type": "Matrix4",
-      "name": "LightViewProjectionMatrix0"
-    },
-    {
-      "type": "Boolean",
-      "name": "HardwareShadows"
-    },
-    {
-      "type": "Matrix4",
-      "name": "LightViewProjectionMatrix5"
-    },
-    {
-      "type": "Matrix4",
-      "name": "LightViewProjectionMatrix3"
-    },
-    {
-      "type": "Matrix4",
-      "name": "LightViewProjectionMatrix4"
-    },
-    {
-      "type": "Matrix4Array",
-      "name": "BoneMatrices"
-    },
-    {
-      "type": "Int",
-      "name": "NumberOfBones"
-    },
-    {
-      "type": "Texture2D",
-      "name": "ShadowMap5"
-    },
-    {
-      "type": "Texture2D",
-      "name": "ShadowMap4"
-    },
-    {
-      "type": "Vector4",
-      "name": "Splits"
-    },
-    {
-      "type": "Vector2",
-      "name": "LinearFog"
-    },
-    {
-      "type": "Boolean",
-      "name": "UseInstancing"
-    },
-    {
-      "type": "TextureCubeMap",
-      "name": "EnvMap"
-    },
-    {
-      "type": "Texture2D",
-      "name": "ShadowMap1"
-    },
-    {
-      "type": "Texture2D",
-      "name": "ShadowMap0"
-    },
-    {
-      "type": "Vector3",
-      "name": "LightDir"
-    },
-    {
-      "type": "Texture2D",
-      "name": "ShadowMap3"
-    },
-    {
-      "type": "Texture2D",
-      "name": "ShadowMap2"
-    },
-    {
-      "type": "Vector2",
-      "name": "FadeInfo"
-    },
-    {
-      "type": "Boolean",
-      "name": "UseMaterialColors"
-    },
-    {
-      "type": "Float",
-      "name": "PCFEdge"
-    },
-    {
-      "type": "Float",
-      "name": "ParallaxHeight",
-      "value": 0.05
-    },
-    {
-      "type": "Boolean",
-      "name": "UseFog"
-    },
-    {
-      "type": "Texture2D",
-      "name": "NormalMap",
-      "colorSpace": "Linear"
-    },
-    {
-      "type": "Boolean",
-      "name": "PackedNormalParallax"
-    },
-    {
-      "type": "Boolean",
-      "name": "UseVertexColor"
-    },
-    {
-      "type": "Vector4",
-      "name": "Specular"
-    },
-    {
-      "type": "Vector4",
-      "name": "Diffuse"
-    },
-    {
-      "type": "Int",
-      "name": "NumberOfMorphTargets"
-    },
-    {
-      "type": "Int",
-      "name": "FilterMode"
-    },
-    {
-      "type": "Vector4",
-      "name": "FogColor"
-    },
-    {
-      "type": "Texture2D",
-      "name": "AlphaMap",
-      "colorSpace": "Linear"
-    },
-    {
-      "type": "Float",
-      "name": "Shininess",
-      "value": 1.0
-    },
-    {
-      "type": "Float",
-      "name": "ShadowMapSize"
-    },
-    {
-      "type": "Vector4",
-      "name": "Ambient"
-    },
-    {
-      "type": "Vector4",
-      "name": "GlowColor"
-    },
-    {
-      "type": "Texture2D",
-      "name": "ColorRamp"
-    },
-    {
-      "type": "Int",
-      "name": "NumberOfTargetsBuffers"
-    },
-    {
-      "type": "Texture2D",
-      "name": "LightMap"
-    },
-    {
-      "type": "Int",
-      "name": "BoundDrawBuffer"
-    }
-  ],
-  "Techniques": [
-    {
-      "name": "PostShadow",
-      "FragmentShader": "Common/MatDefs/Shadow/PostShadow.frag",
-      "VertexShader": "Common/MatDefs/Shadow/PostShadow.vert",
-      "ShaderLanguages":["GLSL310","GLSL300","GLSL150","GLSL100"],
-      "WorldParameters": [
-        "WorldViewProjectionMatrix",
-        "WorldMatrix",
-        "ViewProjectionMatrix",
-        "ViewMatrix",
-        "NormalMatrix"
+   "MaterialDef":{
+      "name":"Phong Lighting",
+      "MaterialParameters":[
+         {
+            "type":"Boolean",
+            "name":"SeparateTexCoord"
+         },
+         {
+            "type":"Boolean",
+            "name":"VertexLighting"
+         },
+         {
+            "type":"Boolean",
+            "name":"BackfaceShadows",
+            "value":false
+         },
+         {
+            "type":"Boolean",
+            "name":"EnvMapAsSphereMap"
+         },
+         {
+            "type":"Boolean",
+            "name":"SteepParallax"
+         },
+         {
+            "type":"Boolean",
+            "name":"HardwareShadows"
+         },
+         {
+            "type":"Boolean",
+            "name":"UseInstancing"
+         },
+         {
+            "type":"Boolean",
+            "name":"UseMaterialColors"
+         },
+         {
+            "type":"Boolean",
+            "name":"UseFog"
+         },
+         {
+            "type":"Boolean",
+            "name":"PackedNormalParallax"
+         },
+         {
+            "type":"Boolean",
+            "name":"UseVertexColor"
+         },
+         {
+            "type":"Float",
+            "name":"ExpSqFog"
+         },
+         {
+            "type":"Float",
+            "name":"ExpFog"
+         },
+         {
+            "type":"Float",
+            "name":"NormalType"
+         },
+         {
+            "type":"Float",
+            "name":"ShadowIntensity"
+         },
+         {
+            "type":"Float",
+            "name":"AlphaDiscardThreshold"
+         },
+         {
+            "type":"Float",
+            "name":"PCFEdge"
+         },
+         {
+            "type":"Float",
+            "name":"ParallaxHeight",
+            "value":0.05
+         },
+         {
+            "type":"Float",
+            "name":"Shininess",
+            "value":1
+         },
+         {
+            "type":"Float",
+            "name":"ShadowMapSize"
+         },
+         {
+            "type":"FloatArray",
+            "name":"MorphWeights"
+         },
+         {
+            "type":"Int",
+            "name":"NumberOfBones"
+         },
+         {
+            "type":"Int",
+            "name":"NumberOfMorphTargets"
+         },
+         {
+            "type":"Int",
+            "name":"FilterMode"
+         },
+         {
+            "type":"Int",
+            "name":"NumberOfTargetsBuffers"
+         },
+         {
+            "type":"Int",
+            "name":"BoundDrawBuffer"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix0"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix1"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix2"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix3"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix4"
+         },
+         {
+            "type":"Matrix4",
+            "name":"LightViewProjectionMatrix5"
+         },
+         {
+            "type":"Matrix4Array",
+            "name":"BoneMatrices"
+         },
+         {
+            "type":"Texture2D",
+            "name":"DiffuseMap"
+         },
+         {
+            "type":"Texture2D",
+            "name":"SpecularMap"
+         },
+         {
+            "type":"Texture2D",
+            "name":"GlowMap"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ParallaxMap",
+            "colorSpace":"Linear"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap5"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap4"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap1"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap0"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap3"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ShadowMap2"
+         },
+         {
+            "type":"Texture2D",
+            "name":"NormalMap",
+            "colorSpace":"Linear"
+         },
+         {
+            "type":"Texture2D",
+            "name":"AlphaMap",
+            "colorSpace":"Linear"
+         },
+         {
+            "type":"Texture2D",
+            "name":"ColorRamp"
+         },
+         {
+            "type":"Texture2D",
+            "name":"LightMap"
+         },
+         {
+            "type":"TextureCubeMap",
+            "name":"EnvMap"
+         },
+         {
+            "type":"Vector2",
+            "name":"LinearFog"
+         },
+         {
+            "type":"Vector2",
+            "name":"FadeInfo"
+         },
+         {
+            "type":"Vector3",
+            "name":"LightPos"
+         },
+         {
+            "type":"Vector3",
+            "name":"FresnelParams"
+         },
+         {
+            "type":"Vector3",
+            "name":"LightDir"
+         },
+         {
+            "type":"Vector4",
+            "name":"Splits"
+         },
+         {
+            "type":"Vector4",
+            "name":"Specular"
+         },
+         {
+            "type":"Vector4",
+            "name":"Diffuse"
+         },
+         {
+            "type":"Vector4",
+            "name":"FogColor"
+         },
+         {
+            "type":"Vector4",
+            "name":"Ambient"
+         },
+         {
+            "type":"Vector4",
+            "name":"GlowColor"
+         }
       ],
-      "Defines": [
-        {
-          "name": "BOUND_DRAW_BUFFER",
-          "param": "BoundDrawBuffer"
-        },
-        {
-          "name": "HARDWARE_SHADOWS",
-          "param": "HardwareShadows"
-        },
-        {
-          "name": "FILTER_MODE",
-          "param": "FilterMode"
-        },
-        {
-          "name": "PCFEDGE",
-          "param": "PCFEdge"
-        },
-        {
-          "name": "DISCARD_ALPHA",
-          "param": "AlphaDiscardThreshold"
-        },
-        {
-          "name": "SHADOWMAP_SIZE",
-          "param": "ShadowMapSize"
-        },
-        {
-          "name": "FADE",
-          "param": "FadeInfo"
-        },
-        {
-          "name": "PSSM",
-          "param": "Splits"
-        },
-        {
-          "name": "POINTLIGHT",
-          "param": "LightViewProjectionMatrix5"
-        },
-        {
-          "name": "NUM_BONES",
-          "param": "NumberOfBones"
-        },
-        {
-          "name": "INSTANCING",
-          "param": "UseInstancing"
-        },
-        {
-          "name": "BACKFACE_SHADOWS",
-          "param": "BackfaceShadows"
-        },
-        {
-          "name": "NUM_MORPH_TARGETS",
-          "param": "NumberOfMorphTargets"
-        },
-        {
-          "name": "NUM_TARGETS_BUFFERS",
-          "param": "NumberOfTargetsBuffers"
-        }
-      ],
-      "ForcedRenderState": {
-        "Blend": "Modulate",
-        "DepthWrite": false,
-        "PolyOffset": [
-          -0.1,
-          0.0
-        ]
-      }
-    },
-    {
-      "name": "PreShadow",
-      "FragmentShader": "Common/MatDefs/Shadow/PreShadow.frag",
-      "VertexShader": "Common/MatDefs/Shadow/PreShadow.vert",
-      "ShaderLanguages":["GLSL310","GLSL300","GLSL150","GLSL100"],
-      "WorldParameters": [
-        "WorldViewProjectionMatrix",
-        "WorldViewMatrix",
-        "ViewProjectionMatrix",
-        "ViewMatrix"
-      ],
-      "Defines": [
-        {
-          "name": "BOUND_DRAW_BUFFER",
-          "param": "BoundDrawBuffer"
-        },
-        {
-          "name": "DISCARD_ALPHA",
-          "param": "AlphaDiscardThreshold"
-        },
-        {
-          "name": "NUM_BONES",
-          "param": "NumberOfBones"
-        },
-        {
-          "name": "INSTANCING",
-          "param": "UseInstancing"
-        },
-        {
-          "name": "NUM_MORPH_TARGETS",
-          "param": "NumberOfMorphTargets"
-        },
-        {
-          "name": "NUM_TARGETS_BUFFERS",
-          "param": "NumberOfTargetsBuffers"
-        }
-      ],
-      "ForcedRenderState": {
-        "FaceCull": "Off",
-        "ColorWrite": false,
-        "PolyOffset": [
-          5.0,
-          3.0
-        ]
-      }
-    },
-    {
-      "name": "PreNormalPass",
-      "FragmentShader": "Common/MatDefs/SSAO/normal.frag",
-      "VertexShader": "Common/MatDefs/SSAO/normal.vert",
-      "ShaderLanguages":["GLSL310","GLSL300","GLSL150","GLSL100"],
-      "WorldParameters": [
-        "WorldViewProjectionMatrix",
-        "WorldViewMatrix",
-        "NormalMatrix",
-        "ViewProjectionMatrix",
-        "ViewMatrix"
-      ],
-      "Defines": [
-        {
-          "name": "BOUND_DRAW_BUFFER",
-          "param": "BoundDrawBuffer"
-        },
-        {
-          "name": "DIFFUSEMAP_ALPHA",
-          "param": "DiffuseMap"
-        },
-        {
-          "name": "NUM_BONES",
-          "param": "NumberOfBones"
-        },
-        {
-          "name": "INSTANCING",
-          "param": "UseInstancing"
-        },
-        {
-          "name": "NUM_MORPH_TARGETS",
-          "param": "NumberOfMorphTargets"
-        },
-        {
-          "name": "NUM_TARGETS_BUFFERS",
-          "param": "NumberOfTargetsBuffers"
-        }
+      "Techniques":[
+         {
+            "name":"PostShadow",
+            "FragmentShader":"Common/MatDefs/Shadow/PostShadow.frag",
+            "VertexShader":"Common/MatDefs/Shadow/PostShadow.vert",
+            "ShaderLanguages":[
+               "GLSL310",
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
+            "WorldParameters":[
+               "WorldViewProjectionMatrix",
+               "WorldMatrix",
+               "ViewProjectionMatrix",
+               "ViewMatrix",
+               "NormalMatrix"
+            ],
+            "Defines":[
+               {
+                  "name":"BOUND_DRAW_BUFFER",
+                  "param":"BoundDrawBuffer"
+               },
+               {
+                  "name":"HARDWARE_SHADOWS",
+                  "param":"HardwareShadows"
+               },
+               {
+                  "name":"FILTER_MODE",
+                  "param":"FilterMode"
+               },
+               {
+                  "name":"PCFEDGE",
+                  "param":"PCFEdge"
+               },
+               {
+                  "name":"DISCARD_ALPHA",
+                  "param":"AlphaDiscardThreshold"
+               },
+               {
+                  "name":"SHADOWMAP_SIZE",
+                  "param":"ShadowMapSize"
+               },
+               {
+                  "name":"FADE",
+                  "param":"FadeInfo"
+               },
+               {
+                  "name":"PSSM",
+                  "param":"Splits"
+               },
+               {
+                  "name":"POINTLIGHT",
+                  "param":"LightViewProjectionMatrix5"
+               },
+               {
+                  "name":"NUM_BONES",
+                  "param":"NumberOfBones"
+               },
+               {
+                  "name":"INSTANCING",
+                  "param":"UseInstancing"
+               },
+               {
+                  "name":"BACKFACE_SHADOWS",
+                  "param":"BackfaceShadows"
+               },
+               {
+                  "name":"NUM_MORPH_TARGETS",
+                  "param":"NumberOfMorphTargets"
+               },
+               {
+                  "name":"NUM_TARGETS_BUFFERS",
+                  "param":"NumberOfTargetsBuffers"
+               }
+            ],
+            "ForcedRenderState":{
+               "Blend":"Modulate",
+               "DepthWrite":false,
+               "PolyOffset":[
+                  -0.1,
+                  0.0
+               ]
+            }
+         },
+         {
+            "name":"PreShadow",
+            "FragmentShader":"Common/MatDefs/Shadow/PreShadow.frag",
+            "VertexShader":"Common/MatDefs/Shadow/PreShadow.vert",
+            "ShaderLanguages":[
+               "GLSL310",
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
+            "WorldParameters":[
+               "WorldViewProjectionMatrix",
+               "WorldViewMatrix",
+               "ViewProjectionMatrix",
+               "ViewMatrix"
+            ],
+            "Defines":[
+               {
+                  "name":"BOUND_DRAW_BUFFER",
+                  "param":"BoundDrawBuffer"
+               },
+               {
+                  "name":"DISCARD_ALPHA",
+                  "param":"AlphaDiscardThreshold"
+               },
+               {
+                  "name":"NUM_BONES",
+                  "param":"NumberOfBones"
+               },
+               {
+                  "name":"INSTANCING",
+                  "param":"UseInstancing"
+               },
+               {
+                  "name":"NUM_MORPH_TARGETS",
+                  "param":"NumberOfMorphTargets"
+               },
+               {
+                  "name":"NUM_TARGETS_BUFFERS",
+                  "param":"NumberOfTargetsBuffers"
+               }
+            ],
+            "ForcedRenderState":{
+               "FaceCull":"Off",
+               "ColorWrite":false,
+               "PolyOffset":[
+                  5.0,
+                  3.0
+               ]
+            }
+         },
+         {
+            "name":"PreNormalPass",
+            "FragmentShader":"Common/MatDefs/SSAO/normal.frag",
+            "VertexShader":"Common/MatDefs/SSAO/normal.vert",
+            "ShaderLanguages":[
+               "GLSL310",
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
+            "WorldParameters":[
+               "WorldViewProjectionMatrix",
+               "WorldViewMatrix",
+               "NormalMatrix",
+               "ViewProjectionMatrix",
+               "ViewMatrix"
+            ],
+            "Defines":[
+               {
+                  "name":"BOUND_DRAW_BUFFER",
+                  "param":"BoundDrawBuffer"
+               },
+               {
+                  "name":"DIFFUSEMAP_ALPHA",
+                  "param":"DiffuseMap"
+               },
+               {
+                  "name":"NUM_BONES",
+                  "param":"NumberOfBones"
+               },
+               {
+                  "name":"INSTANCING",
+                  "param":"UseInstancing"
+               },
+               {
+                  "name":"NUM_MORPH_TARGETS",
+                  "param":"NumberOfMorphTargets"
+               },
+               {
+                  "name":"NUM_TARGETS_BUFFERS",
+                  "param":"NumberOfTargetsBuffers"
+               }
+            ]
+         },
+         {
+            "name":"Glow",
+            "FragmentShader":"Common/MatDefs/Light/Glow.frag",
+            "VertexShader":"Common/MatDefs/Misc/Unshaded.vert",
+            "ShaderLanguages":[
+               "GLSL310",
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
+            "WorldParameters":[
+               "WorldViewProjectionMatrix",
+               "ViewProjectionMatrix",
+               "ViewMatrix"
+            ],
+            "Defines":[
+               {
+                  "name":"BOUND_DRAW_BUFFER",
+                  "param":"BoundDrawBuffer"
+               },
+               {
+                  "name":"HAS_GLOWMAP",
+                  "param":"GlowMap"
+               },
+               {
+                  "name":"HAS_GLOWCOLOR",
+                  "param":"GlowColor"
+               },
+               {
+                  "name":"NUM_BONES",
+                  "param":"NumberOfBones"
+               },
+               {
+                  "name":"INSTANCING",
+                  "param":"UseInstancing"
+               },
+               {
+                  "name":"NUM_MORPH_TARGETS",
+                  "param":"NumberOfMorphTargets"
+               },
+               {
+                  "name":"NUM_TARGETS_BUFFERS",
+                  "param":"NumberOfTargetsBuffers"
+               }
+            ]
+         },
+         {
+            "name":"Default",
+            "FragmentShader":"Common/MatDefs/Light/SPLighting.frag",
+            "VertexShader":"Common/MatDefs/Light/SPLighting.vert",
+            "ShaderLanguages":[
+               "GLSL310",
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
+            "LightMode":"SinglePass",
+            "WorldParameters":[
+               "WorldViewProjectionMatrix",
+               "NormalMatrix",
+               "WorldViewMatrix",
+               "ViewMatrix",
+               "CameraPosition",
+               "WorldMatrix",
+               "ViewProjectionMatrix"
+            ],
+            "Defines":[
+               {
+                  "name":"BOUND_DRAW_BUFFER",
+                  "param":"BoundDrawBuffer"
+               },
+               {
+                  "name":"VERTEX_COLOR",
+                  "param":"UseVertexColor"
+               },
+               {
+                  "name":"VERTEX_LIGHTING",
+                  "param":"VertexLighting"
+               },
+               {
+                  "name":"MATERIAL_COLORS",
+                  "param":"UseMaterialColors"
+               },
+               {
+                  "name":"DIFFUSEMAP",
+                  "param":"DiffuseMap"
+               },
+               {
+                  "name":"NORMALMAP",
+                  "param":"NormalMap"
+               },
+               {
+                  "name":"SPECULARMAP",
+                  "param":"SpecularMap"
+               },
+               {
+                  "name":"PARALLAXMAP",
+                  "param":"ParallaxMap"
+               },
+               {
+                  "name":"NORMALMAP_PARALLAX",
+                  "param":"PackedNormalParallax"
+               },
+               {
+                  "name":"STEEP_PARALLAX",
+                  "param":"SteepParallax"
+               },
+               {
+                  "name":"ALPHAMAP",
+                  "param":"AlphaMap"
+               },
+               {
+                  "name":"COLORRAMP",
+                  "param":"ColorRamp"
+               },
+               {
+                  "name":"LIGHTMAP",
+                  "param":"LightMap"
+               },
+               {
+                  "name":"SEPARATE_TEXCOORD",
+                  "param":"SeparateTexCoord"
+               },
+               {
+                  "name":"DISCARD_ALPHA",
+                  "param":"AlphaDiscardThreshold"
+               },
+               {
+                  "name":"USE_REFLECTION",
+                  "param":"EnvMap"
+               },
+               {
+                  "name":"SPHERE_MAP",
+                  "param":"EnvMapAsSphereMap"
+               },
+               {
+                  "name":"NUM_BONES",
+                  "param":"NumberOfBones"
+               },
+               {
+                  "name":"INSTANCING",
+                  "param":"UseInstancing"
+               },
+               {
+                  "name":"NUM_MORPH_TARGETS",
+                  "param":"NumberOfMorphTargets"
+               },
+               {
+                  "name":"NUM_TARGETS_BUFFERS",
+                  "param":"NumberOfTargetsBuffers"
+               },
+               {
+                  "name":"NORMAL_TYPE",
+                  "param":"NormalType"
+               },
+               {
+                  "name":"USE_FOG",
+                  "param":"UseFog"
+               },
+               {
+                  "name":"FOG_LINEAR",
+                  "param":"LinearFog"
+               },
+               {
+                  "name":"FOG_EXP",
+                  "param":"ExpFog"
+               },
+               {
+                  "name":"FOG_EXPSQ",
+                  "param":"ExpSqFog"
+               }
+            ]
+         },
+         {
+            "name":"Default",
+            "FragmentShader":"Common/MatDefs/Light/Lighting.frag",
+            "VertexShader":"Common/MatDefs/Light/Lighting.vert",
+            "ShaderLanguages":[
+               "GLSL310",
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
+            "LightMode":"MultiPass",
+            "WorldParameters":[
+               "WorldViewProjectionMatrix",
+               "NormalMatrix",
+               "WorldViewMatrix",
+               "ViewMatrix",
+               "CameraPosition",
+               "WorldMatrix",
+               "ViewProjectionMatrix"
+            ],
+            "Defines":[
+               {
+                  "name":"BOUND_DRAW_BUFFER",
+                  "param":"BoundDrawBuffer"
+               },
+               {
+                  "name":"VERTEX_COLOR",
+                  "param":"UseVertexColor"
+               },
+               {
+                  "name":"VERTEX_LIGHTING",
+                  "param":"VertexLighting"
+               },
+               {
+                  "name":"MATERIAL_COLORS",
+                  "param":"UseMaterialColors"
+               },
+               {
+                  "name":"DIFFUSEMAP",
+                  "param":"DiffuseMap"
+               },
+               {
+                  "name":"NORMALMAP",
+                  "param":"NormalMap"
+               },
+               {
+                  "name":"SPECULARMAP",
+                  "param":"SpecularMap"
+               },
+               {
+                  "name":"PARALLAXMAP",
+                  "param":"ParallaxMap"
+               },
+               {
+                  "name":"NORMALMAP_PARALLAX",
+                  "param":"PackedNormalParallax"
+               },
+               {
+                  "name":"STEEP_PARALLAX",
+                  "param":"SteepParallax"
+               },
+               {
+                  "name":"ALPHAMAP",
+                  "param":"AlphaMap"
+               },
+               {
+                  "name":"COLORRAMP",
+                  "param":"ColorRamp"
+               },
+               {
+                  "name":"LIGHTMAP",
+                  "param":"LightMap"
+               },
+               {
+                  "name":"SEPARATE_TEXCOORD",
+                  "param":"SeparateTexCoord"
+               },
+               {
+                  "name":"DISCARD_ALPHA",
+                  "param":"AlphaDiscardThreshold"
+               },
+               {
+                  "name":"USE_REFLECTION",
+                  "param":"EnvMap"
+               },
+               {
+                  "name":"SPHERE_MAP",
+                  "param":"EnvMapAsSphereMap"
+               },
+               {
+                  "name":"NUM_BONES",
+                  "param":"NumberOfBones"
+               },
+               {
+                  "name":"INSTANCING",
+                  "param":"UseInstancing"
+               },
+               {
+                  "name":"NUM_MORPH_TARGETS",
+                  "param":"NumberOfMorphTargets"
+               },
+               {
+                  "name":"NUM_TARGETS_BUFFERS",
+                  "param":"NumberOfTargetsBuffers"
+               },
+               {
+                  "name":"NORMAL_TYPE",
+                  "param":"NormalType"
+               },
+               {
+                  "name":"USE_FOG",
+                  "param":"UseFog"
+               },
+               {
+                  "name":"FOG_LINEAR",
+                  "param":"LinearFog"
+               },
+               {
+                  "name":"FOG_EXP",
+                  "param":"ExpFog"
+               },
+               {
+                  "name":"FOG_EXPSQ",
+                  "param":"ExpSqFog"
+               }
+            ]
+         }
       ]
-    },
-    {
-      "name": "Glow",
-      "FragmentShader": "Common/MatDefs/Light/Glow.frag",
-      "VertexShader": "Common/MatDefs/Misc/Unshaded.vert",
-      "ShaderLanguages":["GLSL310","GLSL300","GLSL150","GLSL100"],
-      "WorldParameters": [
-        "WorldViewProjectionMatrix",
-        "ViewProjectionMatrix",
-        "ViewMatrix"
-      ],
-      "Defines": [
-        {
-          "name": "BOUND_DRAW_BUFFER",
-          "param": "BoundDrawBuffer"
-        },
-        {
-          "name": "HAS_GLOWMAP",
-          "param": "GlowMap"
-        },
-        {
-          "name": "HAS_GLOWCOLOR",
-          "param": "GlowColor"
-        },
-        {
-          "name": "NUM_BONES",
-          "param": "NumberOfBones"
-        },
-        {
-          "name": "INSTANCING",
-          "param": "UseInstancing"
-        },
-        {
-          "name": "NUM_MORPH_TARGETS",
-          "param": "NumberOfMorphTargets"
-        },
-        {
-          "name": "NUM_TARGETS_BUFFERS",
-          "param": "NumberOfTargetsBuffers"
-        }
-      ]
-    },
-    {
-      "name": "Default",
-      "FragmentShader": "Common/MatDefs/Light/SPLighting.frag",
-      "VertexShader": "Common/MatDefs/Light/SPLighting.vert",
-      "ShaderLanguages":["GLSL310","GLSL300","GLSL150","GLSL100"],
-      "LightMode": "SinglePass",
-      "WorldParameters": [
-        "WorldViewProjectionMatrix",
-        "NormalMatrix",
-        "WorldViewMatrix",
-        "ViewMatrix",
-        "CameraPosition",
-        "WorldMatrix",
-        "ViewProjectionMatrix"
-      ],
-      "Defines": [
-        {
-          "name": "BOUND_DRAW_BUFFER",
-          "param": "BoundDrawBuffer"
-        },
-        {
-          "name": "VERTEX_COLOR",
-          "param": "UseVertexColor"
-        },
-        {
-          "name": "VERTEX_LIGHTING",
-          "param": "VertexLighting"
-        },
-        {
-          "name": "MATERIAL_COLORS",
-          "param": "UseMaterialColors"
-        },
-        {
-          "name": "DIFFUSEMAP",
-          "param": "DiffuseMap"
-        },
-        {
-          "name": "NORMALMAP",
-          "param": "NormalMap"
-        },
-        {
-          "name": "SPECULARMAP",
-          "param": "SpecularMap"
-        },
-        {
-          "name": "PARALLAXMAP",
-          "param": "ParallaxMap"
-        },
-        {
-          "name": "NORMALMAP_PARALLAX",
-          "param": "PackedNormalParallax"
-        },
-        {
-          "name": "STEEP_PARALLAX",
-          "param": "SteepParallax"
-        },
-        {
-          "name": "ALPHAMAP",
-          "param": "AlphaMap"
-        },
-        {
-          "name": "COLORRAMP",
-          "param": "ColorRamp"
-        },
-        {
-          "name": "LIGHTMAP",
-          "param": "LightMap"
-        },
-        {
-          "name": "SEPARATE_TEXCOORD",
-          "param": "SeparateTexCoord"
-        },
-        {
-          "name": "DISCARD_ALPHA",
-          "param": "AlphaDiscardThreshold"
-        },
-        {
-          "name": "USE_REFLECTION",
-          "param": "EnvMap"
-        },
-        {
-          "name": "SPHERE_MAP",
-          "param": "EnvMapAsSphereMap"
-        },
-        {
-          "name": "NUM_BONES",
-          "param": "NumberOfBones"
-        },
-        {
-          "name": "INSTANCING",
-          "param": "UseInstancing"
-        },
-        {
-          "name": "NUM_MORPH_TARGETS",
-          "param": "NumberOfMorphTargets"
-        },
-        {
-          "name": "NUM_TARGETS_BUFFERS",
-          "param": "NumberOfTargetsBuffers"
-        },
-        {
-          "name": "NORMAL_TYPE",
-          "param": "NormalType"
-        },
-        {
-          "name": "USE_FOG",
-          "param": "UseFog"
-        },
-        {
-          "name": "FOG_LINEAR",
-          "param": "LinearFog"
-        },
-        {
-          "name": "FOG_EXP",
-          "param": "ExpFog"
-        },
-        {
-          "name": "FOG_EXPSQ",
-          "param": "ExpSqFog"
-        }
-      ]
-    },
-    {
-      "name": "Default",
-      "FragmentShader": "Common/MatDefs/Light/Lighting.frag",
-      "VertexShader": "Common/MatDefs/Light/Lighting.vert",
-      "ShaderLanguages":["GLSL310","GLSL300","GLSL150","GLSL100"],
-      "LightMode": "MultiPass",
-      "WorldParameters": [
-        "WorldViewProjectionMatrix",
-        "NormalMatrix",
-        "WorldViewMatrix",
-        "ViewMatrix",
-        "CameraPosition",
-        "WorldMatrix",
-        "ViewProjectionMatrix"
-      ],
-      "Defines": [
-        {
-          "name": "BOUND_DRAW_BUFFER",
-          "param": "BoundDrawBuffer"
-        },
-        {
-          "name": "VERTEX_COLOR",
-          "param": "UseVertexColor"
-        },
-        {
-          "name": "VERTEX_LIGHTING",
-          "param": "VertexLighting"
-        },
-        {
-          "name": "MATERIAL_COLORS",
-          "param": "UseMaterialColors"
-        },
-        {
-          "name": "DIFFUSEMAP",
-          "param": "DiffuseMap"
-        },
-        {
-          "name": "NORMALMAP",
-          "param": "NormalMap"
-        },
-        {
-          "name": "SPECULARMAP",
-          "param": "SpecularMap"
-        },
-        {
-          "name": "PARALLAXMAP",
-          "param": "ParallaxMap"
-        },
-        {
-          "name": "NORMALMAP_PARALLAX",
-          "param": "PackedNormalParallax"
-        },
-        {
-          "name": "STEEP_PARALLAX",
-          "param": "SteepParallax"
-        },
-        {
-          "name": "ALPHAMAP",
-          "param": "AlphaMap"
-        },
-        {
-          "name": "COLORRAMP",
-          "param": "ColorRamp"
-        },
-        {
-          "name": "LIGHTMAP",
-          "param": "LightMap"
-        },
-        {
-          "name": "SEPARATE_TEXCOORD",
-          "param": "SeparateTexCoord"
-        },
-        {
-          "name": "DISCARD_ALPHA",
-          "param": "AlphaDiscardThreshold"
-        },
-        {
-          "name": "USE_REFLECTION",
-          "param": "EnvMap"
-        },
-        {
-          "name": "SPHERE_MAP",
-          "param": "EnvMapAsSphereMap"
-        },
-        {
-          "name": "NUM_BONES",
-          "param": "NumberOfBones"
-        },
-        {
-          "name": "INSTANCING",
-          "param": "UseInstancing"
-        },
-        {
-          "name": "NUM_MORPH_TARGETS",
-          "param": "NumberOfMorphTargets"
-        },
-        {
-          "name": "NUM_TARGETS_BUFFERS",
-          "param": "NumberOfTargetsBuffers"
-        },
-        {
-          "name": "NORMAL_TYPE",
-          "param": "NormalType"
-        },
-        {
-          "name": "USE_FOG",
-          "param": "UseFog"
-        },
-        {
-          "name": "FOG_LINEAR",
-          "param": "LinearFog"
-        },
-        {
-          "name": "FOG_EXP",
-          "param": "ExpFog"
-        },
-        {
-          "name": "FOG_EXPSQ",
-          "param": "ExpSqFog"
-        }
-      ]
-    }
-  ]
+   }
 }

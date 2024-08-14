@@ -1,37 +1,43 @@
 {
-  "name": "Debug Normals",
-  "MaterialParameters": [
-    {
-      "type": "Boolean",
-      "name": "UseInstancing"
-    },
-    {
-      "type": "Int",
-      "name": "BoundDrawBuffer"
-    }
-  ],
-  "Techniques": [
-    {
-      "name": "Default",
-      "FragmentShader": "Common/MatDefs/Misc/ShowNormals.frag",
-      "VertexShader": "Common/MatDefs/Misc/ShowNormals.vert",
-      "ShaderLanguages": ["GLSL300", "GLSL150", "GLSL100"],
-      "WorldParameters": [
-        "WorldViewProjectionMatrix",
-        "ViewProjectionMatrix",
-        "ViewMatrix",
-        "ProjectionMatrix"
+   "MaterialDef":{
+      "name":"Debug Normals",
+      "MaterialParameters":[
+         {
+            "type":"Boolean",
+            "name":"UseInstancing"
+         },
+         {
+            "type":"Int",
+            "name":"BoundDrawBuffer"
+         }
       ],
-      "Defines": [
-        {
-          "name": "BOUND_DRAW_BUFFER",
-          "param": "BoundDrawBuffer"
-        },
-        {
-          "name": "INSTANCING",
-          "param": "UseInstancing"
-        }
+      "Techniques":[
+         {
+            "name":"Default",
+            "FragmentShader":"Common/MatDefs/Misc/ShowNormals.frag",
+            "VertexShader":"Common/MatDefs/Misc/ShowNormals.vert",
+            "ShaderLanguages":[
+               "GLSL300",
+               "GLSL150",
+               "GLSL100"
+            ],
+            "WorldParameters":[
+               "WorldViewProjectionMatrix",
+               "ViewProjectionMatrix",
+               "ViewMatrix",
+               "ProjectionMatrix"
+            ],
+            "Defines":[
+               {
+                  "name":"BOUND_DRAW_BUFFER",
+                  "param":"BoundDrawBuffer"
+               },
+               {
+                  "name":"INSTANCING",
+                  "param":"UseInstancing"
+               }
+            ]
+         }
       ]
-    }
-  ]
+   }
 }
