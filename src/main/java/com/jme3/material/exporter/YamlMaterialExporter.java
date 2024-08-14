@@ -1,10 +1,13 @@
 package com.jme3.material.exporter;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -30,6 +33,8 @@ import com.jme3.texture.Texture.WrapMode;
  * @author capdevon
  */
 public class YamlMaterialExporter {
+    
+    private static final Logger logger = Logger.getLogger(YamlMaterialExporter.class.getName());
 
     /**
      * 
@@ -85,7 +90,12 @@ public class YamlMaterialExporter {
 
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         String yaml = mapper.writeValueAsString(mat);
-        System.out.println(yaml);
+        logger.log(Level.INFO, yaml);
+        
+        // Write YAML String to file
+        try (FileWriter writer = new FileWriter(f)) {
+            writer.write(yaml);
+        }
     }
 
     /**
