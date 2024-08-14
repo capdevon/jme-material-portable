@@ -527,8 +527,8 @@ public class YamlMaterialLoader implements AssetLoader {
         
         for (Map.Entry<String, Object> entry : map.entrySet()) {
 
-            String paramName = entry.getValue().toString();
             String defineName = entry.getKey();
+            String paramName = entry.getValue().toString();
             
             MatParam param = materialDef.getMaterialParam(paramName);
             if (param == null) {
