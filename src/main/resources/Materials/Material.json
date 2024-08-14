@@ -1,7 +1,8 @@
 {
    "Material":{
       "name":"MyMaterial",
-      "def":"Common/MatDefs/Light/Lighting.j3md",
+      "_def":"Common/MatDefs/Light/Lighting.j3md",
+      "def":"MatDefs/New/Lighting.json",
       "materialParameters":[
          {
             "name":"Diffuse",
