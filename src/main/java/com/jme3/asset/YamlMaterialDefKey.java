@@ -9,13 +9,13 @@ import com.jme3.material.MaterialDef;
  * @author capdevon
  */
 @Deprecated
-public class JsonMaterialDefKey extends AssetKey<MaterialDef> {
+public class YamlMaterialDefKey extends AssetKey<MaterialDef> {
 
-    public JsonMaterialDefKey() {
+    public YamlMaterialDefKey() {
         super();
     }
 
-    public JsonMaterialDefKey(String name) {
+    public YamlMaterialDefKey(String name) {
         super(name);
     }
 
