@@ -4,12 +4,32 @@
     "def": "Common/MatDefs/Light/PBRLighting.j3md",
     "materialParameters": [
       {
-        "name": "Glossiness",
-        "value": 1.0
+        "name": "EmissiveIntensity",
+        "value": 2.0
       },
       {
         "name": "EmissivePower",
         "value": 3.0
+      },
+      {
+        "name": "Glossiness",
+        "value": 1.0
+      },
+      {
+        "name": "Metallic",
+        "value": 0.4
+      },
+      {
+        "name": "NormalType",
+        "value": -1.0
+      },
+      {
+        "name": "ParallaxHeight",
+        "value": 0.05
+      },
+      {
+        "name": "Roughness",
+        "value": 0.70710677
       },
       {
         "name": "BaseColor",
@@ -21,26 +41,6 @@
         ]
       },
       {
-        "name": "ParallaxHeight",
-        "value": 0.05
-      },
-      {
-        "name": "Metallic",
-        "value": 0.4
-      },
-      {
-        "name": "BackfaceShadows",
-        "value": false
-      },
-      {
-        "name": "Roughness",
-        "value": 0.70710677
-      },
-      {
-        "name": "NormalType",
-        "value": -1.0
-      },
-      {
         "name": "Emissive",
         "value": [
           0.0,
@@ -50,10 +50,6 @@
         ]
       },
       {
-        "name": "EmissiveIntensity",
-        "value": 2.0
-      },
-      {
         "name": "Specular",
         "value": [
           1.0,
@@ -61,19 +57,12 @@
           1.0,
           1.0
         ]
+      },
+      {
+        "name": "BackfaceShadows",
+        "value": false
       }
     ],
-    "additionalRenderState": {
-      "depthWrite": true,
-      "colorWrite": true,
-      "depthTest": true,
-      "wireframe": false,
-      "faceCull": "Back",
-      "blend": "Off",
-      "polyOffset": [
-        0.0,
-        0.0
-      ]
-    }
+    "additionalRenderState": {}
   }
 }
