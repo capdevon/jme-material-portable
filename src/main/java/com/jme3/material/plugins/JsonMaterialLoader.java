@@ -212,51 +212,52 @@ public class JsonMaterialLoader implements AssetLoader {
 
     private void readRenderState(RenderState renderState, JsonObject joRenderState) throws IOException {
 
-        String[] statements = { "faceCull", "blend", "wireframe", "depthWrite", "depthTest", "colorWrite", "polyOffset",
-                "blendEquation", "blendEquationAlpha", "depthFunc", "lineWidth" };
-
-        for (String str : statements) {
-            if (!joRenderState.has(str)) {
-                continue;
-            }
-
-            if (str.equals("faceCull")) {
-                String value = joRenderState.get(str).getAsString();
-                renderState.setFaceCullMode(FaceCullMode.valueOf(value));
-            } else if (str.equals("blend")) {
-                String value = joRenderState.get(str).getAsString();
-                renderState.setBlendMode(BlendMode.valueOf(value));
-            } else if (str.equals("wireframe")) {
-                boolean value = joRenderState.get(str).getAsBoolean();
-                renderState.setWireframe(value);
-            } else if (str.equals("depthWrite")) {
-                boolean value = joRenderState.get(str).getAsBoolean();
-                renderState.setDepthWrite(value);
-            } else if (str.equals("depthTest")) {
-                boolean value = joRenderState.get(str).getAsBoolean();
-                renderState.setDepthTest(value);
-            } else if (str.equals("colorWrite")) {
-                boolean value = joRenderState.get(str).getAsBoolean();
-                renderState.setColorWrite(value);
-            } else if (str.equals("polyOffset")) {
-                float[] value = parseFloatArray(joRenderState.get(str), 2);
-                float factor = value[0];
-                float units = value[1];
-                renderState.setPolyOffset(factor, units);
-            }
-            else if (str.equals("blendEquation")) {
-                String value = joRenderState.get(str).getAsString();
-                renderState.setBlendEquation(BlendEquation.valueOf(value));
-            } else if (str.equals("blendEquationAlpha")) {
-                String value = joRenderState.get(str).getAsString();
-                renderState.setBlendEquationAlpha(BlendEquationAlpha.valueOf(value));
-            } else if (str.equals("depthFunc")) {
-                String value = joRenderState.get(str).getAsString();
-                renderState.setDepthFunc(TestFunction.valueOf(value));
-            } else if (str.equals("lineWidth")) {
-                float value = joRenderState.get(str).getAsFloat();
-                renderState.setLineWidth(value);
-            }
+        if (joRenderState.has("faceCull")) {
+            String value = joRenderState.get("faceCull").getAsString();
+            renderState.setFaceCullMode(FaceCullMode.valueOf(value));
+        }
+        if (joRenderState.has("blend")) {
+            String value = joRenderState.get("blend").getAsString();
+            renderState.setBlendMode(BlendMode.valueOf(value));
+        }
+        if (joRenderState.has("wireframe")) {
+            boolean value = joRenderState.get("wireframe").getAsBoolean();
+            renderState.setWireframe(value);
+        }
+        if (joRenderState.has("depthWrite")) {
+            boolean value = joRenderState.get("depthWrite").getAsBoolean();
+            renderState.setDepthWrite(value);
+        }
+        if (joRenderState.has("depthTest")) {
+            boolean value = joRenderState.get("depthTest").getAsBoolean();
+            renderState.setDepthTest(value);
+        }
+        if (joRenderState.has("colorWrite")) {
+            boolean value = joRenderState.get("colorWrite").getAsBoolean();
+            renderState.setColorWrite(value);
+        }
+        if (joRenderState.has("polyOffset")) {
+            float[] value = parseFloatArray(joRenderState.get("polyOffset"), 2);
+            float factor = value[0];
+            float units = value[1];
+            renderState.setPolyOffset(factor, units);
+        }
+        
+        if (joRenderState.has("blendEquation")) {
+            String value = joRenderState.get("blendEquation").getAsString();
+            renderState.setBlendEquation(BlendEquation.valueOf(value));
+        }
+        if (joRenderState.has("blendEquationAlpha")) {
+            String value = joRenderState.get("blendEquationAlpha").getAsString();
+            renderState.setBlendEquationAlpha(BlendEquationAlpha.valueOf(value));
+        }
+        if (joRenderState.has("depthFunc")) {
+            String value = joRenderState.get("depthFunc").getAsString();
+            renderState.setDepthFunc(TestFunction.valueOf(value));
+        }
+        if (joRenderState.has("lineWidth")) {
+            float value = joRenderState.get("lineWidth").getAsFloat();
+            renderState.setLineWidth(value);
         }
     }
 
