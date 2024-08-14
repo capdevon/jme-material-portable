@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,12 +23,15 @@ import com.jme3.math.Vector4f;
 import com.jme3.shader.VarType;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import com.test.MaterialUtils;
 
 /**
  * 
  * @author capdevon
  */
 public class JsonMaterialExporter2 {
+    
+    private static final Logger logger = Logger.getLogger(JsonMaterialExporter2.class.getName());
         
     /**
      * 
@@ -39,7 +44,7 @@ public class JsonMaterialExporter2 {
         data.addProperty("name", mat.getName());
         data.addProperty("def", mat.getMaterialDef().getAssetName());
 
-        JsonArray parameters = toJson(mat.getParams());
+        JsonArray parameters = toJson(MaterialUtils.sortMatParams(mat));
         data.add("materialParameters", parameters);
 
         JsonObject renderState = toJson(mat.getAdditionalRenderState());
@@ -51,7 +56,7 @@ public class JsonMaterialExporter2 {
         // Convert JsonObject to String
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(jsonMaterial);
-        System.out.println(jsonString);
+        logger.log(Level.INFO, jsonString);
 
         // Write JSON String to file
         try (FileWriter writer = new FileWriter(f)) {
