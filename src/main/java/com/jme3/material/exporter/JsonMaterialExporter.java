@@ -25,7 +25,11 @@ import com.jme3.shader.VarType;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 
-public class JsonMaterialExporter { //implements JmeExporter {
+/**
+ * 
+ * @author capdevon
+ */
+public class JsonMaterialExporter {
         
     /**
      * 
@@ -83,13 +87,43 @@ public class JsonMaterialExporter { //implements JmeExporter {
      */
     private JsonRenderState toJson(RenderState rs) {
         JsonRenderState json = new JsonRenderState();
-        json.faceCull = rs.getFaceCullMode();
-        json.blend = rs.getBlendMode();
-        json.wireframe = rs.isWireframe();
-        json.depthWrite = rs.isDepthWrite();
-        json.colorWrite = rs.isColorWrite();
-        json.depthTest = rs.isDepthTest();
-        json.polyOffset = new float[] { rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits() };
+        RenderState defRs = RenderState.DEFAULT;
+        
+        if (rs.getBlendMode() != defRs.getBlendMode()) {
+            json.blend = rs.getBlendMode();
+        }
+        if (rs.isWireframe() != defRs.isWireframe()) {
+            json.wireframe = rs.isWireframe();
+        }
+        if (rs.getFaceCullMode() != defRs.getFaceCullMode()) {
+            json.faceCull = rs.getFaceCullMode();
+        }
+        if (rs.isDepthWrite() != defRs.isDepthWrite()) {
+            json.depthWrite = rs.isDepthWrite();
+        }
+        if (rs.isDepthTest() != defRs.isDepthTest()) {
+            json.depthTest = rs.isDepthTest();
+        }
+//        if (rs.getBlendEquation() != defRs.getBlendEquation()) {
+//            json.addProperty("blendEquation", rs.getBlendEquation().name());
+//        }
+//        if (rs.getBlendEquationAlpha() != defRs.getBlendEquationAlpha()) {
+//            json.addProperty("blendEquationAlpha", rs.getBlendEquationAlpha().name());
+//        }
+        if (rs.isColorWrite() != defRs.isColorWrite()) {
+            json.colorWrite = rs.isColorWrite();
+        }
+//        if (rs.getDepthFunc() != defRs.getDepthFunc()) {
+//            json.addProperty("depthFunc", rs.getDepthFunc().name());
+//        }
+//        if (rs.getLineWidth() != defRs.getLineWidth()) {
+//            json.addProperty("lineWidth", Float.toString(rs.getLineWidth()));
+//        }
+        
+        if (rs.getPolyOffsetFactor() != defRs.getPolyOffsetFactor()
+                || rs.getPolyOffsetUnits() != defRs.getPolyOffsetUnits()) {
+            json.polyOffset = new float[] { rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits() };
+        }
         return json;
     }
     
@@ -173,32 +207,4 @@ public class JsonMaterialExporter { //implements JmeExporter {
         return "";
     }
 
-//    @Override
-//    public void save(Savable object, OutputStream f) throws IOException {
-//        if (!(object instanceof Material)) {
-//            throw new IllegalArgumentException("J3MExporter can only save com.jme3.material.Material class");
-//        }
-//
-//        try (OutputStreamWriter out = new OutputStreamWriter(f, StandardCharsets.UTF_8)) {
-//            object.write(this);
-//        }
-//    }
-//
-//    @Override
-//    public void save(Savable object, File f) throws IOException {
-//        File parentDir = f.getParentFile();
-//        if (parentDir != null && !parentDir.exists()) {
-//            parentDir.mkdirs();
-//        }
-//
-//        try (FileOutputStream fos = new FileOutputStream(f); BufferedOutputStream bos = new BufferedOutputStream(fos)) {
-//            save(object, bos);
-//        }
-//    }
-//
-//    @Override
-//    public OutputCapsule getCapsule(Savable object) {
-//        return null;
-//    }
-    
 }

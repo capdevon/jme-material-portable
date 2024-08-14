@@ -116,13 +116,44 @@ public class YamlMaterialExporter {
      */
     private JsonRenderState toJson(RenderState rs) {
         JsonRenderState json = new JsonRenderState();
-        json.faceCull = rs.getFaceCullMode();
-        json.blend = rs.getBlendMode();
-        json.wireframe = rs.isWireframe();
-        json.depthWrite = rs.isDepthWrite();
-        json.colorWrite = rs.isColorWrite();
-        json.depthTest = rs.isDepthTest();
-        json.polyOffset = new float[] { rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits() };
+        RenderState defRs = RenderState.DEFAULT;
+        
+        if (rs.getBlendMode() != defRs.getBlendMode()) {
+            json.blend = rs.getBlendMode();
+        }
+        if (rs.isWireframe() != defRs.isWireframe()) {
+            json.wireframe = rs.isWireframe();
+        }
+        if (rs.getFaceCullMode() != defRs.getFaceCullMode()) {
+            json.faceCull = rs.getFaceCullMode();
+        }
+        if (rs.isDepthWrite() != defRs.isDepthWrite()) {
+            json.depthWrite = rs.isDepthWrite();
+        }
+        if (rs.isDepthTest() != defRs.isDepthTest()) {
+            json.depthTest = rs.isDepthTest();
+        }
+//        if (rs.getBlendEquation() != defRs.getBlendEquation()) {
+//            json.addProperty("blendEquation", rs.getBlendEquation().name());
+//        }
+//        if (rs.getBlendEquationAlpha() != defRs.getBlendEquationAlpha()) {
+//            json.addProperty("blendEquationAlpha", rs.getBlendEquationAlpha().name());
+//        }
+        if (rs.isColorWrite() != defRs.isColorWrite()) {
+            json.colorWrite = rs.isColorWrite();
+        }
+//        if (rs.getDepthFunc() != defRs.getDepthFunc()) {
+//            json.addProperty("depthFunc", rs.getDepthFunc().name());
+//        }
+//        if (rs.getLineWidth() != defRs.getLineWidth()) {
+//            json.addProperty("lineWidth", Float.toString(rs.getLineWidth()));
+//        }
+        
+        if (rs.getPolyOffsetFactor() != defRs.getPolyOffsetFactor()
+                || rs.getPolyOffsetUnits() != defRs.getPolyOffsetUnits()) {
+            json.polyOffset = new float[] { rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits() };
+        }
+        
         return json;
     }
     

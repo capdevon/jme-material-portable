@@ -22,6 +22,10 @@ import com.jme3.shader.VarType;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 
+/**
+ * 
+ * @author capdevon
+ */
 public class JsonMaterialExporter2 {
         
     /**
@@ -82,15 +86,43 @@ public class JsonMaterialExporter2 {
      */
     private JsonObject toJson(RenderState rs) {
         JsonObject json = new JsonObject();
-        json.addProperty("depthWrite", rs.isDepthWrite());
-        json.addProperty("colorWrite", rs.isColorWrite());
-        json.addProperty("depthTest", rs.isDepthTest());
-        json.addProperty("wireframe", rs.isWireframe());
-        json.addProperty("faceCull", rs.getFaceCullMode().name());
-        json.addProperty("blend", rs.getBlendMode().name());
+        RenderState defRs = RenderState.DEFAULT;
         
-        JsonArray polyOffset = toJsonArray(rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits());
-        json.add("polyOffset", polyOffset);
+        if (rs.getBlendMode() != defRs.getBlendMode()) {
+            json.addProperty("blend", rs.getBlendMode().name());
+        }
+        if (rs.isWireframe() != defRs.isWireframe()) {
+            json.addProperty("wireframe", rs.isWireframe());
+        }
+        if (rs.getFaceCullMode() != defRs.getFaceCullMode()) {
+            json.addProperty("faceCull", rs.getFaceCullMode().name());
+        }
+        if (rs.isDepthWrite() != defRs.isDepthWrite()) {
+            json.addProperty("depthWrite", rs.isDepthWrite());
+        }
+        if (rs.isDepthTest() != defRs.isDepthTest()) {
+            json.addProperty("depthTest", rs.isDepthTest());
+        }
+        if (rs.getBlendEquation() != defRs.getBlendEquation()) {
+            json.addProperty("blendEquation", rs.getBlendEquation().name());
+        }
+        if (rs.getBlendEquationAlpha() != defRs.getBlendEquationAlpha()) {
+            json.addProperty("blendEquationAlpha", rs.getBlendEquationAlpha().name());
+        }
+        if (rs.isColorWrite() != defRs.isColorWrite()) {
+            json.addProperty("colorWrite", rs.isColorWrite());
+        }
+        if (rs.getDepthFunc() != defRs.getDepthFunc()) {
+            json.addProperty("depthFunc", rs.getDepthFunc().name());
+        }
+        if (rs.getLineWidth() != defRs.getLineWidth()) {
+            json.addProperty("lineWidth", Float.toString(rs.getLineWidth()));
+        }
+        
+        if (rs.getPolyOffsetFactor() != defRs.getPolyOffsetFactor()
+                || rs.getPolyOffsetUnits() != defRs.getPolyOffsetUnits()) {
+            json.add("polyOffset", toJsonArray(rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits()));
+        }
         
         return json;
     }
