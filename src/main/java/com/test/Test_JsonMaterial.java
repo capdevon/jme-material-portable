@@ -7,6 +7,10 @@ import com.jme3.material.Material;
 import com.jme3.material.exporter.JsonMaterialExporter;
 import com.jme3.system.JmeContext;
 
+/**
+ * 
+ * @author capdevon
+ */
 public class Test_JsonMaterial extends SimpleApplication {
 
     /**

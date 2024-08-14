@@ -2,6 +2,7 @@ package com.test;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetKey;
+import com.jme3.asset.JsonMaterialDefKey;
 import com.jme3.asset.JsonMaterialKey;
 import com.jme3.material.Material;
 import com.jme3.material.MaterialDef;
@@ -36,17 +37,19 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
 //        }
         
         assetManager.registerLoader(JsonMaterialLoader.class, "json");
-        //loadMaterial();
-        loadMaterialDef();
+        //loadMaterialDef();
+        loadMaterial();
         stop();
     }
 
     /**
      */
     private void loadMaterialDef() {
-        MaterialDef matDef = assetManager.loadAsset(new AssetKey<MaterialDef>("MatDefs/New/PBRLighting.json"));
-//      MaterialDef def = assetManager.loadAsset(new JsonMaterialDefKey("MatDefs/New/PBRLighting.json"));
-        MaterialDebug.print(matDef);
+//        JsonMaterialDefKey key = new JsonMaterialDefKey("MatDefs/New/PBRLighting.json");
+        AssetKey<MaterialDef> key2 = new AssetKey<>("MatDefs/New/PBRLighting.json");
+        MaterialDef matDef = assetManager.loadAsset(key2);
+        
+        MaterialUtils.print(matDef);
     }
 
     /**
@@ -54,7 +57,8 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
     private void loadMaterial() {
         JsonMaterialKey key = new JsonMaterialKey("Materials/Material.json");
         Material mat = assetManager.loadAsset(key);
-        MaterialDebug.print(mat);
+        
+        MaterialUtils.print(mat);
     }
     
 }

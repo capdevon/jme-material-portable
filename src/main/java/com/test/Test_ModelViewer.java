@@ -36,6 +36,7 @@ public class Test_ModelViewer extends SimpleApplication {
         rootNode.addLight(dl);
         
         flyCam.setMoveSpeed(25f);
+        flyCam.setDragToRotate(true);
         viewPort.setBackgroundColor(ColorRGBA.DarkGray);
     }
 
