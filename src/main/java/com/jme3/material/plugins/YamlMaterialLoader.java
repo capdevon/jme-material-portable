@@ -207,51 +207,52 @@ public class YamlMaterialLoader implements AssetLoader {
     
     private void readRenderState(RenderState renderState, Map<String, Object> map) throws IOException {
 
-        String[] statements = { "faceCull", "blend", "wireframe", "depthWrite", "depthTest", "colorWrite", "polyOffset",
-                "blendEquation", "blendEquationAlpha", "depthFunc", "lineWidth" };
-
-        for (String str : statements) {
-            if (!map.containsKey(str)) {
-                continue;
-            }
-
-            if (str.equals("faceCull")) {
-                String value = getString(map.get(str));
-                renderState.setFaceCullMode(FaceCullMode.valueOf(value));
-            } else if (str.equals("blend")) {
-                String value = getString(map.get(str));
-                renderState.setBlendMode(BlendMode.valueOf(value));
-            } else if (str.equals("wireframe")) {
-                boolean value = getBoolean(map.get(str));
-                renderState.setWireframe(value);
-            } else if (str.equals("depthWrite")) {
-                boolean value = getBoolean(map.get(str));
-                renderState.setDepthWrite(value);
-            } else if (str.equals("depthTest")) {
-                boolean value = getBoolean(map.get(str));
-                renderState.setDepthTest(value);
-            } else if (str.equals("colorWrite")) {
-                boolean value = getBoolean(map.get(str));
-                renderState.setColorWrite(value);
-            } else if (str.equals("polyOffset")) {
-                float[] value = parseFloatArray(map.get(str), 2);
-                float factor = value[0];
-                float units = value[1];
-                renderState.setPolyOffset(factor, units);
-            }
-            else if (str.equals("blendEquation")) {
-                String value = getString(map.get(str));
-                renderState.setBlendEquation(BlendEquation.valueOf(value));
-            } else if (str.equals("blendEquationAlpha")) {
-                String value = getString(map.get(str));
-                renderState.setBlendEquationAlpha(BlendEquationAlpha.valueOf(value));
-            } else if (str.equals("depthFunc")) {
-                String value = getString(map.get(str));
-                renderState.setDepthFunc(TestFunction.valueOf(value));
-            } else if (str.equals("lineWidth")) {
-                float value = getFloat(map.get(str));
-                renderState.setLineWidth(value);
-            }
+        if (map.containsKey("faceCull")) {
+            String value = getString(map.get("faceCull"));
+            renderState.setFaceCullMode(FaceCullMode.valueOf(value));
+        }
+        if (map.containsKey("blend")) {
+            String value = getString(map.get("blend"));
+            renderState.setBlendMode(BlendMode.valueOf(value));
+        }
+        if (map.containsKey("wireframe")) {
+            boolean value = getBoolean(map.get("wireframe"));
+            renderState.setWireframe(value);
+        }
+        if (map.containsKey("depthWrite")) {
+            boolean value = getBoolean(map.get("depthWrite"));
+            renderState.setDepthWrite(value);
+        }
+        if (map.containsKey("depthTest")) {
+            boolean value = getBoolean(map.get("depthTest"));
+            renderState.setDepthTest(value);
+        }
+        if (map.containsKey("colorWrite")) {
+            boolean value = getBoolean(map.get("colorWrite"));
+            renderState.setColorWrite(value);
+        }
+        if (map.containsKey("polyOffset")) {
+            float[] value = parseFloatArray(map.get("polyOffset"), 2);
+            float factor = value[0];
+            float units = value[1];
+            renderState.setPolyOffset(factor, units);
+        }
+        
+        if (map.containsKey("blendEquation")) {
+            String value = getString(map.get("blendEquation"));
+            renderState.setBlendEquation(BlendEquation.valueOf(value));
+        }
+        if (map.containsKey("blendEquationAlpha")) {
+            String value = getString(map.get("blendEquationAlpha"));
+            renderState.setBlendEquationAlpha(BlendEquationAlpha.valueOf(value));
+        }
+        if (map.containsKey("depthFunc")) {
+            String value = getString(map.get("depthFunc"));
+            renderState.setDepthFunc(TestFunction.valueOf(value));
+        }
+        if (map.containsKey("lineWidth")) {
+            float value = getFloat(map.get("lineWidth"));
+            renderState.setLineWidth(value);
         }
     }
     
@@ -526,8 +527,8 @@ public class YamlMaterialLoader implements AssetLoader {
         
         for (Map.Entry<String, Object> entry : map.entrySet()) {
 
-            String paramName = entry.getKey();
-            String defineName = entry.getValue().toString();
+            String paramName = entry.getValue().toString();
+            String defineName = entry.getKey();
             
             MatParam param = materialDef.getMaterialParam(paramName);
             if (param == null) {
