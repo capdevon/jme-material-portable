@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.material.exporter.JsonMaterialExporter;
+import com.jme3.material.exporter.JsonMaterialExporter2;
 import com.jme3.system.JmeContext;
 
 /**
