@@ -71,14 +71,11 @@ public class JsonMaterialExporter2 {
     private JsonArray toJson(Collection<MatParam> params) {
         JsonArray parameters = new JsonArray();
         for (MatParam param : params) {
-            JsonObject json = null;
             if (param instanceof MatParamTexture) {
-                //formatMatParamTexture((MatParamTexture) param);
+                JsonObject json = formatMatParamTexture((MatParamTexture) param);
+                parameters.add(json);
             } else {
-                json = formatMatParam(param);
-            }
-            
-            if (json != null) {
+                JsonObject json = formatMatParam(param);
                 parameters.add(json);
             }
         }
@@ -108,12 +105,12 @@ public class JsonMaterialExporter2 {
         if (rs.isDepthTest() != defRs.isDepthTest()) {
             json.addProperty("depthTest", rs.isDepthTest());
         }
-        if (rs.getBlendEquation() != defRs.getBlendEquation()) {
-            json.addProperty("blendEquation", rs.getBlendEquation().name());
-        }
-        if (rs.getBlendEquationAlpha() != defRs.getBlendEquationAlpha()) {
-            json.addProperty("blendEquationAlpha", rs.getBlendEquationAlpha().name());
-        }
+//        if (rs.getBlendEquation() != defRs.getBlendEquation()) {
+//            json.addProperty("blendEquation", rs.getBlendEquation().name());
+//        }
+//        if (rs.getBlendEquationAlpha() != defRs.getBlendEquationAlpha()) {
+//            json.addProperty("blendEquationAlpha", rs.getBlendEquationAlpha().name());
+//        }
         if (rs.isColorWrite() != defRs.isColorWrite()) {
             json.addProperty("colorWrite", rs.isColorWrite());
         }
@@ -177,7 +174,7 @@ public class JsonMaterialExporter2 {
                 break;
 
             default:
-                return null; // parameter type not supported in J3M
+                throw new UnsupportedOperationException("Parameter type not supported in J3M: " + type);
         }
         return json;
     }
@@ -201,6 +198,14 @@ public class JsonMaterialExporter2 {
 //            sb.append(formatWrapMode(tex, Texture.WrapAxis.S)); //TODO:
 //            sb.append(formatWrapMode(tex, Texture.WrapAxis.T)); //TODO:
 //            sb.append(formatWrapMode(tex, Texture.WrapAxis.R)); //TODO:
+            
+            Texture.WrapAxis[] axis = { Texture.WrapAxis.S, Texture.WrapAxis.T, Texture.WrapAxis.R };
+            for (int i = 0; i < axis.length; i++) {
+                String wrapMode = formatWrapMode(tex, axis[i]);
+                if (!wrapMode.isEmpty()) {
+                    json.addProperty("wrap" + axis[i].name(), wrapMode);
+                }
+            }
 
             //Min and Mag filter
             if (tex.getMinFilter() != Texture.MinFilter.Trilinear) {
@@ -223,7 +228,7 @@ public class JsonMaterialExporter2 {
             return "";
         }
         if (mode != WrapMode.EdgeClamp) {
-            return "Wrap" + mode.name() + "_" + axis.name() + " ";
+            return mode.name();
         }
         return "";
     }
