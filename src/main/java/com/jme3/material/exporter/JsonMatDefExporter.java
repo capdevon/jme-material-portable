@@ -1,6 +1,7 @@
 package com.jme3.material.exporter;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -35,10 +36,10 @@ public class JsonMatDefExporter {
      * @throws IOException
      */
     public void save(MaterialDef matDef, File f) throws IOException {
-        
+
         JsonObject data = new JsonObject();
         data.addProperty("name", matDef.getName());
-        
+
         Collection<MatParam> matParams = matDef.getMaterialParams();
         JsonArray parameters = new JsonArray();
         for (MatParam param : matParams) {
@@ -54,15 +55,15 @@ public class JsonMatDefExporter {
             }
         }
         data.add("Techniques", tenchiques);
-        
+
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(data);
         System.out.println(jsonString);
-        
+
         // Write JSON String to file
-//      try (FileWriter writer = new FileWriter(f)) {
-//          writer.write(jsonString);
-//      }
+        try (FileWriter writer = new FileWriter(f)) {
+            writer.write(jsonString);
+        }
     }
 
     private JsonObject write(MatParam param) {
@@ -269,7 +270,7 @@ public class JsonMatDefExporter {
         return null;
     }
     
-    private static JsonArray toJsonArray(float... values) {
+    private JsonArray toJsonArray(float... values) {
         JsonArray array = new JsonArray();
         for (int i = 0; i < values.length; i++) {
             array.add(values[i]);
