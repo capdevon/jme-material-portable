@@ -10,7 +10,9 @@ public class JsonTexture {
     
     public String path;
     public Boolean flipY;
-    public WrapMode wrapMode;
+    public WrapMode wrapS;
+    public WrapMode wrapT;
+    public WrapMode wrapR;
     public MinFilter minFilter;
     public MagFilter magFilter;
     
@@ -18,7 +20,9 @@ public class JsonTexture {
     public String toString() {
         return "JsonTexture [path=" + path 
                 + ", flipY=" + flipY 
-                + ", wrapMode=" + wrapMode 
+                + ", wrapS=" + wrapS 
+                + ", wrapT=" + wrapT 
+                + ", wrapR=" + wrapR 
                 + ", minFilter=" + minFilter 
                 + ", magFilter=" + magFilter 
                 + "]";
