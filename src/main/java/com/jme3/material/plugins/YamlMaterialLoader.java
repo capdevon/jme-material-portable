@@ -351,9 +351,19 @@ public class YamlMaterialLoader implements AssetLoader {
 
         // Apply texture options to the texture
         if (map.containsKey("wrapMode")) {
-            WrapMode wrap = getEnum(map.get("wrapMode"), WrapMode.class);
-            texture.setWrap(wrap);
+            WrapMode wrapMode = getEnum(map.get("wrapMode"), WrapMode.class);
+            texture.setWrap(wrapMode);
+        } else {
+            Texture.WrapAxis[] axis = { Texture.WrapAxis.S, Texture.WrapAxis.T, Texture.WrapAxis.R };
+            for (int i = 0; i < axis.length; i++) {
+                String axisName = "wrap" + axis[i].name();
+                if (map.containsKey(axisName)) {
+                    WrapMode wrapMode = getEnum(map.get(axisName), WrapMode.class);
+                    texture.setWrap(axis[i], wrapMode);
+                }
+            }
         }
+        
         if (map.containsKey("minFilter")) {
             MinFilter min = getEnum(map.get("minFilter"), MinFilter.class);
             texture.setMinFilter(min);
@@ -426,9 +436,10 @@ public class YamlMaterialLoader implements AssetLoader {
 
         List<TechniqueDef> techniqueDefs = new ArrayList<>();
 
-        if (shaderNames.containsKey(ShaderType.Vertex) && shaderNames.containsKey(ShaderType.Fragment)) {
+        if (shaderNames.containsKey(ShaderType.Vertex) 
+                && shaderNames.containsKey(ShaderType.Fragment)) {
+            
             if (shaderLanguages.size() > 1) {
-                
                 Cloner cloner = new Cloner();
                 for (int i = 1; i < shaderLanguages.size(); i++) {
                     cloner.clearIndex();
@@ -437,6 +448,7 @@ public class YamlMaterialLoader implements AssetLoader {
                     techniqueDefs.add(td);
                 }
             }
+            
             technique.setShaderFile(shaderNames, shaderLanguages.get(0));
             techniqueDefs.add(technique);
 
@@ -536,7 +548,7 @@ public class YamlMaterialLoader implements AssetLoader {
                         + "Define ''{1}'' mapped to non-existent material parameter ''{2}'', ignoring.", 
                         new Object[] { technique.getName(), defineName, paramName });
             } else {
-                presetDefines.add(defineName);
+                //presetDefines.add(defineName);
 
                 VarType paramType = param.getVarType();
                 technique.addShaderParamDefine(paramName, paramType, defineName);
