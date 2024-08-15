@@ -373,9 +373,19 @@ public class JsonMaterialLoader implements AssetLoader {
 
         // Apply texture options to the texture
         if (jsonObject.has("wrapMode")) {
-            String wrap = jsonObject.get("wrapMode").getAsString();
-            texture.setWrap(WrapMode.valueOf(wrap));
+            String wrapMode = jsonObject.get("wrapMode").getAsString();
+            texture.setWrap(WrapMode.valueOf(wrapMode));
+        } else {
+            Texture.WrapAxis[] axis = { Texture.WrapAxis.S, Texture.WrapAxis.T, Texture.WrapAxis.R };
+            for (int i = 0; i < axis.length; i++) {
+                String axisName = "wrap" + axis[i].name();
+                if (jsonObject.has(axisName)) {
+                    String wrapMode = jsonObject.get(axisName).getAsString();
+                    texture.setWrap(axis[i], WrapMode.valueOf(wrapMode));
+                }
+            }
         }
+        
         if (jsonObject.has("minFilter")) {
             String min = jsonObject.get("minFilter").getAsString();
             texture.setMinFilter(MinFilter.valueOf(min));
@@ -448,9 +458,10 @@ public class JsonMaterialLoader implements AssetLoader {
 
         List<TechniqueDef> techniqueDefs = new ArrayList<>();
 
-        if (shaderNames.containsKey(ShaderType.Vertex) && shaderNames.containsKey(ShaderType.Fragment)) {
+        if (shaderNames.containsKey(ShaderType.Vertex) 
+                && shaderNames.containsKey(ShaderType.Fragment)) {
+            
             if (shaderLanguages.size() > 1) {
-                
                 Cloner cloner = new Cloner();
                 for (int i = 1; i < shaderLanguages.size(); i++) {
                     cloner.clearIndex();
@@ -459,6 +470,7 @@ public class JsonMaterialLoader implements AssetLoader {
                     techniqueDefs.add(td);
                 }
             }
+            
             technique.setShaderFile(shaderNames, shaderLanguages.get(0));
             techniqueDefs.add(technique);
 
@@ -541,10 +553,10 @@ public class JsonMaterialLoader implements AssetLoader {
     
     // <DEFINENAME> [ ":" <PARAMNAME> ]
     private void readDefine(JsonObject jsonObject) {
+        
         String defineName = jsonObject.get("name").getAsString();
-        presetDefines.add(defineName);
-
         String paramName = jsonObject.get("param").getAsString();
+        
         MatParam param = materialDef.getMaterialParam(paramName);
         if (param == null) {
             logger.log(Level.WARNING, "In technique ''{0}'':\n" 
@@ -552,6 +564,7 @@ public class JsonMaterialLoader implements AssetLoader {
                     new Object[] { technique.getName(), defineName, paramName });
             return;
         }
+        //presetDefines.add(defineName);
 
         VarType paramType = param.getVarType();
         technique.addShaderParamDefine(paramName, paramType, defineName);
