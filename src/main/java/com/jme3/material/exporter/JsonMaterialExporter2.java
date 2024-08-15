@@ -130,43 +130,43 @@ public class JsonMaterialExporter2 {
     }
     
     private JsonObject formatMatParam(MatParam param) {
-        JsonObject json = new JsonObject();
-        json.addProperty("name", param.getName());
+        JsonObject jsonParam = new JsonObject();
+        jsonParam.addProperty("name", param.getName());
         
         VarType type = param.getVarType();
         Object val = param.getValue();
         
         switch (type) {
             case Int:
-                json.addProperty("value", (Integer) val);
+                jsonParam.addProperty("value", (Integer) val);
                 break;
                 
             case Float:
-                json.addProperty("value", (Float) val);
+                jsonParam.addProperty("value", (Float) val);
                 break;
                 
             case Boolean:
-                json.addProperty("value", (Boolean) val);
+                jsonParam.addProperty("value", (Boolean) val);
                 break;
                 
             case Vector2:
                 Vector2f v2 = (Vector2f) val;
-                json.add("value", toJsonArray(v2.toArray(null)));
+                jsonParam.add("value", toJsonArray(v2.toArray(null)));
                 break;
                 
             case Vector3:
                 Vector3f v3 = (Vector3f) val;
-                json.add("value", toJsonArray(v3.toArray(null)));
+                jsonParam.add("value", toJsonArray(v3.toArray(null)));
                 break;
                 
             case Vector4:
                 if (val instanceof Vector4f) {
                     Vector4f v4 = (Vector4f) val;
-                    json.add("value", toJsonArray(v4.toArray(null)));
+                    jsonParam.add("value", toJsonArray(v4.toArray(null)));
                     
                 } else if (val instanceof ColorRGBA) {
                     ColorRGBA color = (ColorRGBA) val;
-                    json.add("value", toJsonArray(color.toArray(null)));
+                    jsonParam.add("value", toJsonArray(color.toArray(null)));
 
                 } else {
                     throw new UnsupportedOperationException("Unexpected Vector4 type: " + val);
@@ -176,61 +176,64 @@ public class JsonMaterialExporter2 {
             default:
                 throw new UnsupportedOperationException("Parameter type not supported in J3M: " + type);
         }
-        return json;
+        return jsonParam;
     }
     
     private JsonObject formatMatParamTexture(MatParamTexture param) {
-        JsonObject json = new JsonObject();
-        json.addProperty("name", param.getName());
+        JsonObject jsonParam = new JsonObject();
+        jsonParam.addProperty("name", param.getName());
         
         Texture tex = (Texture) param.getValue();
         if (tex != null) {
             
+            JsonObject jsonTexture = new JsonObject();
+            jsonParam.add("texture", jsonTexture);
+            
             TextureKey key = (TextureKey) tex.getKey();
             if (key != null) {
-                json.addProperty("path", key.getName());
+                jsonTexture.addProperty("path", key.getName());
                 
                 if (key.isFlipY()) {
-                    json.addProperty("flipY", true);
+                    jsonTexture.addProperty("flipY", true);
                 }
             }
 
-//            sb.append(formatWrapMode(tex, Texture.WrapAxis.S)); //TODO:
-//            sb.append(formatWrapMode(tex, Texture.WrapAxis.T)); //TODO:
-//            sb.append(formatWrapMode(tex, Texture.WrapAxis.R)); //TODO:
+//            sb.append(formatWrapMode(tex, Texture.WrapAxis.S));
+//            sb.append(formatWrapMode(tex, Texture.WrapAxis.T));
+//            sb.append(formatWrapMode(tex, Texture.WrapAxis.R));
             
             Texture.WrapAxis[] axis = { Texture.WrapAxis.S, Texture.WrapAxis.T, Texture.WrapAxis.R };
             for (int i = 0; i < axis.length; i++) {
-                String wrapMode = formatWrapMode(tex, axis[i]);
-                if (!wrapMode.isEmpty()) {
-                    json.addProperty("wrap" + axis[i].name(), wrapMode);
+                WrapMode wrapMode = formatWrapMode(tex, axis[i]);
+                if (wrapMode != null) {
+                    jsonTexture.addProperty("wrap" + axis[i].name(), wrapMode.name());
                 }
             }
 
             //Min and Mag filter
             if (tex.getMinFilter() != Texture.MinFilter.Trilinear) {
-                json.addProperty("minFilter", tex.getMinFilter().name());
+                jsonTexture.addProperty("minFilter", tex.getMinFilter().name());
             }
             if (tex.getMagFilter() != Texture.MagFilter.Bilinear) {
-                json.addProperty("magFilter", tex.getMagFilter().name());
+                jsonTexture.addProperty("magFilter", tex.getMagFilter().name());
             }
         }
 
-        return json;
+        return jsonParam;
     }
 
-    private String formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
+    private WrapMode formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
         WrapMode mode;
         try {
             mode = texVal.getWrap(axis);
         } catch (IllegalArgumentException e) {
             // this axis doesn't exist on the texture
-            return "";
+            return null;
         }
         if (mode != WrapMode.EdgeClamp) {
-            return mode.name();
+            return mode;
         }
-        return "";
+        return null;
     }
     
     private JsonArray toJsonArray(float... values) {
