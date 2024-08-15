@@ -164,7 +164,7 @@ public class JsonMaterialExporter {
                 }
 
             default:
-                throw new UnsupportedOperationException("Parameter type not supported in J3M: " + type);
+                return null; // parameter type not supported in J3M
         }
     }
 
