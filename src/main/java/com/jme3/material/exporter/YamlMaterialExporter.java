@@ -152,12 +152,12 @@ public class YamlMaterialExporter {
         if (rs.isColorWrite() != defRs.isColorWrite()) {
             json.colorWrite = rs.isColorWrite();
         }
-//        if (rs.getDepthFunc() != defRs.getDepthFunc()) {
-//            json.addProperty("depthFunc", rs.getDepthFunc().name());
-//        }
-//        if (rs.getLineWidth() != defRs.getLineWidth()) {
-//            json.addProperty("lineWidth", Float.toString(rs.getLineWidth()));
-//        }
+        if (rs.getDepthFunc() != defRs.getDepthFunc()) {
+            json.depthFunc = rs.getDepthFunc();
+        }
+        if (rs.getLineWidth() != defRs.getLineWidth()) {
+            json.lineWidth = rs.getLineWidth();
+        }
         
         if (rs.getPolyOffsetFactor() != defRs.getPolyOffsetFactor()
                 || rs.getPolyOffsetUnits() != defRs.getPolyOffsetUnits()) {
@@ -220,6 +220,24 @@ public class YamlMaterialExporter {
 //            sb.append(formatWrapMode(tex, Texture.WrapAxis.S));
 //            sb.append(formatWrapMode(tex, Texture.WrapAxis.T));
 //            sb.append(formatWrapMode(tex, Texture.WrapAxis.R));
+            
+            Texture.WrapAxis[] axis = { Texture.WrapAxis.S, Texture.WrapAxis.T, Texture.WrapAxis.R };
+            for (int i = 0; i < axis.length; i++) {
+                WrapMode wrapMode = formatWrapMode(tex, axis[i]);
+                if (wrapMode != null) {
+                    switch (axis[i]) {
+                        case S:
+                            json.wrapS = wrapMode;
+                            break;
+                        case T:
+                            json.wrapT = wrapMode;
+                            break;
+                        case R:
+                            json.wrapR = wrapMode;
+                            break;
+                    }
+                }
+            }
 
             //Min and Mag filter
             if (tex.getMinFilter() != Texture.MinFilter.Trilinear) {
@@ -233,18 +251,18 @@ public class YamlMaterialExporter {
         return json;
     }
 
-    private String formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
+    private WrapMode formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
         WrapMode mode;
         try {
             mode = texVal.getWrap(axis);
         } catch (IllegalArgumentException e) {
             // this axis doesn't exist on the texture
-            return "";
+            return null;
         }
         if (mode != WrapMode.EdgeClamp) {
-            return "Wrap" + mode.name() + "_" + axis.name() + " ";
+            return mode;
         }
-        return "";
+        return null;
     }
     
 }
