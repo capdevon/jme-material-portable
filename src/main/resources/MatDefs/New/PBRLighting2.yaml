@@ -1,0 +1,351 @@
+---
+MaterialDef: 
+  name: "PBR Lighting"
+  MatParams: 
+  - Float: {name: Roughness, value: 1}
+  - Texture2D: {name: MetallicRoughnessMap, colorSpace: Linear}
+  - Color: {name: BaseColor, value: [1, 1, 1, 1]}
+  - Vector2: {name: FadeInfo}
+  Uniforms: 
+    - Color:
+      - BaseColor: [1, 1, 1, 1]
+      - Specular: [1, 1, 1, 1]
+    - Vector2:
+      - FadeInfo: 
+    - Vector3:
+      - LightPos: 
+      - LightDir: 
+    - Float:
+      - Roughness: 1
+      - Metallic: 1
+      - Glossiness: 1
+      - NormalType: -1
+      - EmissivePower: 3
+      - EmissiveIntensity: 2
+      - AlphaDiscardThreshold: 
+      - ShadowIntensity: 
+      - NormalScale: 
+      - SpecularAAKappa: 
+      - SpecularAASigma: 
+      - PCFEdge: 
+      - ParallaxHeight: 0.05
+      - AoStrength: 
+      - ShadowMapSize: 
+    - Texture2D:
+      - MetallicRoughnessMap: Linear
+      - MetallicMap: Linear
+      - NormalMap: Linear
+      - ParallaxMap: Linear
+      - BaseColorMap: 
+      - EmissiveMap: 
+      - SpecularMap: 
+      - GlossinessMap: 
+      - SpecularGlossinessMap: 
+      - RoughnessMap: 
+      - LightMap: 
+      - ShadowMap0: 
+      - ShadowMap1: 
+      - ShadowMap2: 
+      - ShadowMap3: 
+      - ShadowMap4: 
+      - ShadowMap5: 
+    - Boolean:
+      - UseSpecularAA: true
+      - BackfaceShadows: false
+      - UseSpecGloss: 
+      - SteepParallax: 
+      - HardwareShadows: 
+      - HorizonFade: 
+      - UseInstancing: 
+      - AoPackedInMRMap: 
+      - PackedNormalParallax: 
+      - UseVertexColor: 
+      - LightMapAsAOMap: 
+      - SeparateTexCoord: 
+    - Matrix4:
+      - LightViewProjectionMatrix0: 
+      - LightViewProjectionMatrix1: 
+      - LightViewProjectionMatrix2: 
+      - LightViewProjectionMatrix3: 
+      - LightViewProjectionMatrix4: 
+      - LightViewProjectionMatrix5: 
+  MaterialParameters: 
+  - type: "Boolean"
+    name: "SeparateTexCoord"
+  - type: "Vector3"
+    name: "LightPos"
+  - type: "Boolean"
+    name: "UseSpecularAA"
+    value: "true"
+  - type: "Float"
+    name: "Roughness"
+    value: "1"
+  - type: "Texture2D"
+    name: "EmissiveMap"
+  - type: "Texture2D"
+    name: "SpecularMap"
+  - type: "Float"
+    name: "Glossiness"
+    value: "1"
+  - type: "Texture2D"
+    name: "SpecularGlossinessMap"
+  - type: "Vector4"
+    name: "Emissive"
+  - type: "Float"
+    name: "NormalType"
+    value: "-1"
+  - type: "Float"
+    name: "ShadowIntensity"
+  - type: "Texture2D"
+    name: "MetallicRoughnessMap"
+    colorSpace: "Linear"
+  - type: "Float"
+    name: "EmissivePower"
+    value: "3"
+  - type: "Float"
+    name: "NormalScale"
+  - type: "Boolean"
+    name: "BackfaceShadows"
+    value: "false"
+  - type: "Float"
+    name: "EmissiveIntensity"
+    value: "2"
+  - type: "Boolean"
+    name: "UseSpecGloss"
+  - type: "Boolean"
+    name: "SteepParallax"
+  - type: "Float"
+    name: "Metallic"
+    value: "1"
+  - type: "Matrix4"
+    name: "LightViewProjectionMatrix1"
+  - type: "FloatArray"
+    name: "MorphWeights"
+  - type: "Float"
+    name: "AlphaDiscardThreshold"
+  - type: "Matrix4"
+    name: "LightViewProjectionMatrix2"
+  - type: "Texture2D"
+    name: "ParallaxMap"
+    colorSpace: "Linear"
+  - type: "Matrix4"
+    name: "LightViewProjectionMatrix0"
+  - type: "Boolean"
+    name: "HardwareShadows"
+  - type: "Matrix4"
+    name: "LightViewProjectionMatrix5"
+  - type: "Texture2D"
+    name: "RoughnessMap"
+    colorSpace: "Linear"
+  - type: "Matrix4"
+    name: "LightViewProjectionMatrix3"
+  - type: "Matrix4"
+    name: "LightViewProjectionMatrix4"
+  - type: "Matrix4Array"
+    name: "BoneMatrices"
+  - type: "Texture2D"
+    name: "GlossinessMap"
+  - type: "Float"
+    name: "SpecularAAKappa"
+  - type: "Int"
+    name: "NumberOfBones"
+  - type: "Texture2D"
+    name: "ShadowMap5"
+  - type: "Texture2D"
+    name: "ShadowMap4"
+  - type: "Vector4"
+    name: "Splits"
+  - type: "Boolean"
+    name: "HorizonFade"
+  - type: "Boolean"
+    name: "UseInstancing"
+  - type: "Float"
+    name: "SpecularAASigma"
+  - type: "Texture2D"
+    name: "ShadowMap1"
+  - type: "Texture2D"
+    name: "ShadowMap0"
+  - type: "Vector3"
+    name: "LightDir"
+  - type: "Texture2D"
+    name: "ShadowMap3"
+  - type: "Texture2D"
+    name: "ShadowMap2"
+  - type: "Vector2"
+    name: "FadeInfo"
+  - type: "Vector4"
+    name: "BaseColor"
+    value: 
+    - "1"
+    - "1"
+    - "1"
+    - "1"
+  - type: "Float"
+    name: "PCFEdge"
+  - type: "Float"
+    name: "ParallaxHeight"
+    value: "0.05"
+  - type: "Boolean"
+    name: "AoPackedInMRMap"
+  - type: "Texture2D"
+    name: "NormalMap"
+    colorSpace: "Linear"
+  - type: "Texture2D"
+    name: "BaseColorMap"
+  - type: "Boolean"
+    name: "PackedNormalParallax"
+  - type: "Boolean"
+    name: "UseVertexColor"
+  - type: "Vector4"
+    name: "Specular"
+    value: 
+    - "1"
+    - "1"
+    - "1"
+    - "1"
+  - type: "Float"
+    name: "AoStrength"
+  - type: "Int"
+    name: "NumberOfMorphTargets"
+  - type: "Texture2D"
+    name: "MetallicMap"
+    colorSpace: "Linear"
+  - type: "Boolean"
+    name: "LightMapAsAOMap"
+  - type: "Int"
+    name: "FilterMode"
+  - type: "Float"
+    name: "ShadowMapSize"
+  - type: "Int"
+    name: "NumberOfTargetsBuffers"
+  - type: "Texture2D"
+    name: "LightMap"
+  - type: "Int"
+    name: "BoundDrawBuffer"
+  Techniques: 
+  - name: "PostShadow"
+    FragmentShader: "Common/MatDefs/Shadow/PostShadowPBR.frag"
+    VertexShader: "Common/MatDefs/Shadow/PostShadow.vert"
+    ShaderLanguages: ["GLSL310", "GLSL300", "GLSL150", "GLSL100"]
+    WorldParameters: 
+    - "WorldViewProjectionMatrix"
+    - "WorldMatrix"
+    - "ViewProjectionMatrix"
+    - "ViewMatrix"
+    Defines: 
+      BOUND_DRAW_BUFFER: "BoundDrawBuffer"
+      HARDWARE_SHADOWS: "HardwareShadows"
+      FILTER_MODE: "FilterMode"
+      PCFEDGE: "PCFEdge"
+      DISCARD_ALPHA: "AlphaDiscardThreshold"
+      SHADOWMAP_SIZE: "ShadowMapSize"
+      FADE: "FadeInfo"
+      PSSM: "Splits"
+      POINTLIGHT: "LightViewProjectionMatrix5"
+      NUM_BONES: "NumberOfBones"
+      INSTANCING: "UseInstancing"
+      BACKFACE_SHADOWS: "BackfaceShadows"
+      NUM_MORPH_TARGETS: "NumberOfMorphTargets"
+      NUM_TARGETS_BUFFERS: "NumberOfTargetsBuffers"
+    ForcedRenderState: 
+      Blend: "Modulate"
+      DepthWrite: "false"
+      PolyOffset: [-0.1, 0]
+  - name: "PreShadow"
+    FragmentShader: "Common/MatDefs/Shadow/PreShadowPBR.frag"
+    VertexShader: "Common/MatDefs/Shadow/PreShadow.vert"
+    ShaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
+    WorldParameters: 
+    - "WorldViewProjectionMatrix"
+    - "WorldViewMatrix"
+    - "ViewProjectionMatrix"
+    - "ViewMatrix"
+    Defines: 
+      BOUND_DRAW_BUFFER: "BoundDrawBuffer"
+      DISCARD_ALPHA: "AlphaDiscardThreshold"
+      NUM_BONES: "NumberOfBones"
+      INSTANCING: "UseInstancing"
+      NUM_MORPH_TARGETS: "NumberOfMorphTargets"
+      NUM_TARGETS_BUFFERS: "NumberOfTargetsBuffers"
+    ForcedRenderState: 
+      FaceCull: "Off"
+      ColorWrite: "false"
+      PolyOffset: [5, 3]
+  - name: "PreNormalPass"
+    FragmentShader: "Common/MatDefs/SSAO/normal.frag"
+    VertexShader: "Common/MatDefs/SSAO/normal.vert"
+    ShaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
+    WorldParameters: 
+    - "WorldViewProjectionMatrix"
+    - "WorldViewMatrix"
+    - "NormalMatrix"
+    - "ViewProjectionMatrix"
+    - "ViewMatrix"
+    Defines: 
+      BOUND_DRAW_BUFFER: "BoundDrawBuffer"
+      BASECOLORMAP_ALPHA: "BaseColorMap"
+      NUM_BONES: "NumberOfBones"
+      INSTANCING: "UseInstancing"
+      NUM_MORPH_TARGETS: "NumberOfMorphTargets"
+      NUM_TARGETS_BUFFERS: "NumberOfTargetsBuffers"
+  - name: "Glow"
+    FragmentShader: "Common/MatDefs/Light/PBRGlow.frag"
+    VertexShader: "Common/MatDefs/Misc/Unshaded.vert"
+    ShaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
+    WorldParameters: 
+    - "WorldViewProjectionMatrix"
+    - "ViewProjectionMatrix"
+    - "ViewMatrix"
+    Defines: 
+      HAS_EMISSIVEMAP: "EmissiveMap"
+      HAS_EMISSIVECOLOR: "Emissive"
+      BOUND_DRAW_BUFFER: "BoundDrawBuffer"
+      NUM_BONES: "NumberOfBones"
+      INSTANCING: "UseInstancing"
+      NUM_MORPH_TARGETS: "NumberOfMorphTargets"
+      NUM_TARGETS_BUFFERS: "NumberOfTargetsBuffers"
+  - name: "Default"
+    FragmentShader: "Common/MatDefs/Light/PBRLighting.frag"
+    VertexShader: "Common/MatDefs/Light/PBRLighting.vert"
+    ShaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
+    LightMode: "SinglePassAndImageBased"
+    WorldParameters: 
+    - "WorldViewProjectionMatrix"
+    - "CameraPosition"
+    - "WorldMatrix"
+    - "WorldNormalMatrix"
+    - "ViewProjectionMatrix"
+    - "ViewMatrix"
+    Defines: 
+      BOUND_DRAW_BUFFER: "BoundDrawBuffer"
+      BASECOLORMAP: "BaseColorMap"
+      NORMALMAP: "NormalMap"
+      NORMALSCALE: "NormalScale"
+      METALLICMAP: "MetallicMap"
+      ROUGHNESSMAP: "RoughnessMap"
+      EMISSIVEMAP: "EmissiveMap"
+      EMISSIVE: "Emissive"
+      SPECGLOSSPIPELINE: "UseSpecGloss"
+      PARALLAXMAP: "ParallaxMap"
+      NORMALMAP_PARALLAX: "PackedNormalParallax"
+      STEEP_PARALLAX: "SteepParallax"
+      LIGHTMAP: "LightMap"
+      SEPARATE_TEXCOORD: "SeparateTexCoord"
+      DISCARD_ALPHA: "AlphaDiscardThreshold"
+      NUM_BONES: "NumberOfBones"
+      INSTANCING: "UseInstancing"
+      USE_PACKED_MR: "MetallicRoughnessMap"
+      USE_PACKED_SG: "SpecularGlossinessMap"
+      SPECULARMAP: "SpecularMap"
+      SPECULAR_AA: "UseSpecularAA"
+      SPECULAR_AA_SCREEN_SPACE_VARIANCE: "SpecularAASigma"
+      SPECULAR_AA_THRESHOLD: "SpecularAAKappa"
+      GLOSSINESSMAP: "GlossinessMap"
+      NORMAL_TYPE: "NormalType"
+      VERTEX_COLOR: "UseVertexColor"
+      AO_MAP: "LightMapAsAOMap"
+      AO_PACKED_IN_MR_MAP: "AoPackedInMRMap"
+      AO_STRENGTH: "AoStrength"
+      NUM_MORPH_TARGETS: "NumberOfMorphTargets"
+      NUM_TARGETS_BUFFERS: "NumberOfTargetsBuffers"
+      HORIZON_FADE: "HorizonFade"
