@@ -106,11 +106,11 @@ public class YamlMaterialLoader2 implements AssetLoader {
         materialDef = null;
     }
     
-    public Material loadMaterial(AssetManager assetManager, String fileName) {
+    public Material loadMaterial(AssetManager assetManager, AssetKey key) {
         this.assetManager = assetManager;
-        this.key = null;
+        this.key = key;
 
-        try (InputStream in = getResourceAsStream(fileName)) {
+        try (InputStream in = getResourceAsStream(key.getName())) {
             Yaml yaml = new Yaml();
             Map<String, Object> doc = yaml.load(new UnicodeReader(in));
             logger.log(Level.INFO, doc.toString());

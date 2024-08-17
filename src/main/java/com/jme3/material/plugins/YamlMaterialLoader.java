@@ -86,7 +86,7 @@ public class YamlMaterialLoader implements AssetLoader {
             
             Yaml yaml = new Yaml();
             Map<String, Object> doc = yaml.load(new UnicodeReader(in));
-            System.out.println(doc);
+            logger.log(Level.INFO, doc.toString());
             loadFromRoot(doc);
         }
         
@@ -106,14 +106,14 @@ public class YamlMaterialLoader implements AssetLoader {
         materialDef = null;
     }
     
-    public Material loadMaterial(AssetManager assetManager, String fileName) {
+    public Material loadMaterial(AssetManager assetManager, AssetKey key) {
         this.assetManager = assetManager;
-        this.key = null;
+        this.key = key;
 
-        try (InputStream in = getResourceAsStream(fileName)) {
+        try (InputStream in = getResourceAsStream(key.getName())) {
             Yaml yaml = new Yaml();
             Map<String, Object> doc = yaml.load(new UnicodeReader(in));
-            System.out.println(doc);
+            logger.log(Level.INFO, doc.toString());
             loadFromRoot(doc);
 
         } catch (IOException e) {

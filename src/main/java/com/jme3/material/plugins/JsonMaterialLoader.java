@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -116,33 +117,35 @@ public class JsonMaterialLoader implements AssetLoader {
     /**
      * 
      * @param assetManager
-     * @param fileName
+     * @param key
      * @return
-     * @throws IOException
      */
-    public Material loadMaterial(AssetManager assetManager, String fileName) throws IOException {
-        
+    public Material loadMaterial(AssetManager assetManager, AssetKey key) {
         this.assetManager = assetManager;
-        this.key = null;
+        this.key = key;
 
-        try (FileReader reader = new FileReader(fileName)) {
-
+        try (FileReader reader = new FileReader(getResource(key.getName()))) {
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
             loadFromRoot(jsonObject);
 
-            // return the Material object
-            return material;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+        // return the Material object
+        return material;
     }
     
-//    public MaterialDef loadMaterialDef(AssetManager manager, AssetKey key) throws IOException {
-//        this.key = key;
-//        this.assetManager = manager;
-//        loadFromRoot(roots);
-//        return materialDef;
-//    }
-
+    private String getResource(String name) throws IOException {
+        ClassLoader loader = getClass().getClassLoader();
+        URL url = loader.getResource(name);
+        if (url == null) {
+            throw new IOException("Resource not found: " + name);
+        }
+        return url.getFile();
+    }
+    
     private void loadFromRoot(JsonObject jsonObject) throws IOException {
         
         // Get the top-level "Material" object
