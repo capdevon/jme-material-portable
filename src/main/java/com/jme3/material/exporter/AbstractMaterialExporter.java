@@ -49,7 +49,7 @@ public abstract class AbstractMaterialExporter {
      * @param params
      * @return
      */
-    protected List<JsonMatParam> toJson(Collection<MatParam> params) {
+    private List<JsonMatParam> toJson(Collection<MatParam> params) {
         List<JsonMatParam> parameters = new ArrayList<>();
         for (MatParam param : params) {
             
@@ -71,7 +71,7 @@ public abstract class AbstractMaterialExporter {
      * @param rs
      * @return
      */
-    protected JsonRenderState toJson(RenderState rs) {
+    private JsonRenderState toJson(RenderState rs) {
         JsonRenderState json = new JsonRenderState();
         RenderState defRs = RenderState.DEFAULT;
         
@@ -114,7 +114,7 @@ public abstract class AbstractMaterialExporter {
         return json;
     }
     
-    protected Object formatMatParam(MatParam param) {
+    private Object formatMatParam(MatParam param) {
         VarType type = param.getVarType();
         Object val = param.getValue();
         
@@ -150,7 +150,7 @@ public abstract class AbstractMaterialExporter {
         }
     }
 
-    protected JsonTexture formatMatParamTexture(MatParamTexture param) {
+    private JsonTexture formatMatParamTexture(MatParamTexture param) {
         JsonTexture json = new JsonTexture();
         Texture tex = (Texture) param.getValue();
         if (tex != null) {
@@ -194,7 +194,7 @@ public abstract class AbstractMaterialExporter {
         return json;
     }
 
-    protected WrapMode formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
+    private WrapMode formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
         WrapMode mode;
         try {
             mode = texVal.getWrap(axis);
