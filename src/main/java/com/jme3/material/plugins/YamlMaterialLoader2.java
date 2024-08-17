@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -87,7 +86,7 @@ public class YamlMaterialLoader2 implements AssetLoader {
             
             Yaml yaml = new Yaml();
             Map<String, Object> doc = yaml.load(new UnicodeReader(in));
-            System.out.println(doc); //TODO: remove it or replace by a logger
+            logger.log(Level.INFO, doc.toString());
             loadFromRoot(doc);
         }
         
@@ -114,7 +113,7 @@ public class YamlMaterialLoader2 implements AssetLoader {
         try (InputStream in = getResourceAsStream(fileName)) {
             Yaml yaml = new Yaml();
             Map<String, Object> doc = yaml.load(new UnicodeReader(in));
-            System.out.println(doc); //TODO: remove it or replace by a logger
+            logger.log(Level.INFO, doc.toString());
             loadFromRoot(doc);
 
         } catch (IOException e) {
@@ -215,45 +214,46 @@ public class YamlMaterialLoader2 implements AssetLoader {
     }
 
     /**
-     * @param obj
+     * 
+     * @param e
      * @throws IOException
      */
     private void readUniform(Map.Entry<String, Object> e) throws IOException {
-            
-            String stringType = e.getKey();
-            List<Object> mValue = (List) e.getValue();
-            
-            VarType type;
-            if (stringType.equals("Color")) {
-                type = VarType.Vector4;
-            } else {
-                type = VarType.valueOf(stringType);
-            }
-        
-            for (Object el : mValue) {
-                Map<String, Object> m2 = (Map) el;
-                
-                for (Map.Entry<String, Object> entry : m2.entrySet()) {
-                    String name = entry.getKey();
-                    Object value = entry.getValue();
-                    
-                    Object defaultVal = null;
-                    
-                    if (type.isTextureType()) {
-                        ColorSpace colorSpace = null;
-                        if (value != null) {
-                            colorSpace = getEnum(value, ColorSpace.class);
-                        }
-                        materialDef.addMaterialParamTexture(type, name, colorSpace, (Texture) defaultVal);
-                        
-                    } else {
-                        if (value != null) {
-                            defaultVal = readUniformValue(type, value);
-                        }
-                        materialDef.addMaterialParam(type, name, defaultVal);
+
+        String stringType = e.getKey();
+        List<Object> lstParams = (List) e.getValue();
+
+        VarType type;
+        if (stringType.equals("Color")) {
+            type = VarType.Vector4;
+        } else {
+            type = VarType.valueOf(stringType);
+        }
+
+        for (Object el : lstParams) {
+            Map<String, Object> map = (Map) el;
+
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                String name = entry.getKey();    // param name
+                Object value = entry.getValue(); // param value (optional)
+
+                Object defaultVal = null;
+
+                if (type.isTextureType()) {
+                    ColorSpace colorSpace = null;
+                    if (value != null) {
+                        colorSpace = getEnum(value, ColorSpace.class);
                     }
+                    materialDef.addMaterialParamTexture(type, name, colorSpace, (Texture) defaultVal);
+
+                } else {
+                    if (value != null) {
+                        defaultVal = readUniformValue(type, value);
+                    }
+                    materialDef.addMaterialParam(type, name, defaultVal);
                 }
             }
+        }
     }
 
     /**
@@ -263,8 +263,7 @@ public class YamlMaterialLoader2 implements AssetLoader {
      * @return
      * @throws IOException
      */
-    private Object readUniformValue(VarType type, Object value)
-            throws IOException {
+    private Object readUniformValue(VarType type, Object value) throws IOException {
 
         List<Object> lstValues = null;
         if (value instanceof List) {
@@ -297,7 +296,7 @@ public class YamlMaterialLoader2 implements AssetLoader {
                 return new ColorRGBA(v4[0], v4[1], v4[2], v4[3]);
     
             default:
-                throw new UnsupportedOperationException("Unknown type: " + type);
+                throw new UnsupportedOperationException("VarType not supported: " + type);
         }
     }
     
@@ -393,7 +392,7 @@ public class YamlMaterialLoader2 implements AssetLoader {
                     float[] vec4 = parseFloatArray(value, 4);
                     return new ColorRGBA(vec4[0], vec4[1], vec4[2], vec4[3]); //TODO: Vector4f ?
                 default:
-                    throw new UnsupportedOperationException("Unknown type: " + type);
+                    throw new UnsupportedOperationException("VarType not supported: " + type);
             }
         }
     }
