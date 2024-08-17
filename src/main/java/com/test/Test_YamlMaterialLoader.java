@@ -2,11 +2,11 @@ package com.test;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetKey;
-import com.jme3.asset.YamlMaterialDefKey;
 import com.jme3.asset.YamlMaterialKey;
 import com.jme3.material.Material;
 import com.jme3.material.MaterialDef;
 import com.jme3.material.plugins.YamlMaterialLoader;
+import com.jme3.material.plugins.YamlMaterialLoader2;
 import com.jme3.system.JmeContext;
 
 /**
@@ -35,11 +35,7 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
     /**
      */
     private void loadMaterialDef() {
-//        YamlMaterialLoader loader = new YamlMaterialLoader();
-//        MaterialDef matDef = loader.loadMaterialDef(assetManager, "MatDefs/New/PBRLighting2.yaml");
-        
-//        YamlMaterialDefKey key = new YamlMaterialDefKey("MatDefs/New/PBRLighting.yaml");
-        AssetKey<MaterialDef> key2 = new AssetKey<>("MatDefs/New/PBRLighting.yaml");
+        AssetKey<MaterialDef> key2 = new AssetKey<>("MatDefs/New/PBRLighting2.yaml");
         MaterialDef matDef = assetManager.loadAsset(key2);
         
         MaterialUtils.print(matDef);
@@ -48,11 +44,12 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
     /**
      */
     private void loadMaterial() {
-//        YamlMaterialLoader loader = new YamlMaterialLoader();
-//        Material mat = loader.loadMaterial(assetManager, "Materials/Material.yaml");
+        String fileName = "Materials/Material.yaml";
+        YamlMaterialLoader loader = new YamlMaterialLoader();
+        Material mat = loader.loadMaterial(assetManager, new YamlMaterialKey(fileName));
         
-        YamlMaterialKey key = new YamlMaterialKey("Materials/Material.yaml");
-        Material mat = assetManager.loadAsset(key);
+//        Material mat = assetManager.loadAsset(new YamlMaterialKey(fileName));
+//        Material mat = assetManager.loadMaterial(fileName);
         
         MaterialUtils.print(mat);
     }

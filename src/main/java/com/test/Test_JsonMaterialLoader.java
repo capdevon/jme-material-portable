@@ -2,7 +2,6 @@ package com.test;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetKey;
-import com.jme3.asset.JsonMaterialDefKey;
 import com.jme3.asset.JsonMaterialKey;
 import com.jme3.material.Material;
 import com.jme3.material.MaterialDef;
@@ -45,7 +44,6 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
     /**
      */
     private void loadMaterialDef() {
-//        JsonMaterialDefKey key = new JsonMaterialDefKey("MatDefs/New/PBRLighting.json");
         AssetKey<MaterialDef> key2 = new AssetKey<>("MatDefs/New/PBRLighting.json");
         MaterialDef matDef = assetManager.loadAsset(key2);
         
@@ -55,8 +53,12 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
     /**
      */
     private void loadMaterial() {
-        JsonMaterialKey key = new JsonMaterialKey("Materials/Material.json");
-        Material mat = assetManager.loadAsset(key);
+        String fileName = "Materials/Material.json";
+        JsonMaterialLoader loader = new JsonMaterialLoader();
+        Material mat = loader.loadMaterial(assetManager, new JsonMaterialKey(fileName));
+        
+//        Material mat = assetManager.loadAsset(new JsonMaterialKey(fileName));
+//        Material mat = assetManager.loadMaterial(fileName);
         
         MaterialUtils.print(mat);
     }
