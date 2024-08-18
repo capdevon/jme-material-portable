@@ -1,57 +1,58 @@
 {
-   "Material":{
-      "name":"MyMaterial",
-      "_def":"Common/MatDefs/Light/Lighting.j3md",
-      "def":"MatDefs/New/Lighting.json",
-      "materialParameters":[
-         {
-            "name":"Diffuse",
-            "value": [0.5, 0.5, 0.5, 1]
-         },
-         {
-            "name":"UseMaterialColors",
-            "value":true
-         },
-         {
-            "name":"ParallaxHeight",
-            "value":0.05
-         },
-         {
-            "name":"Ambient",
-            "value": [0.2, 0.2, 0.2, 1]
-         },
-         {
-            "name":"BackfaceShadows",
-            "value":false
-         },
-         {
-            "name":"DiffuseMap",
-            "texture":{
-               "path":"Models/Ferrari/Car.jpg",
-               "wrapMode":"Repeat",
-               "minFilter":"BilinearNoMipMaps",
-               "magFilter":"Bilinear",
-               "flipY":true,
-               "anisotropy": 4 //2, 4, 8
-            }
-         },
-         {
-            "name":"Specular",
-            "value": [0.5, 0.5, 0.5, 1]
-         },
-         {
-            "name":"Shininess",
-            "value":12.5
-         }
-      ],
-      "additionalRenderState":{
-         "faceCull":"Back",
-         "blend":"Off",
-         "depthWrite":true,
-         "colorWrite":true,
-         "depthTest":true,
-         "wireframe":false,
-         "polyOffset": [1.0, 1.0]
+  "Material": {
+    "name": "MyMaterial",
+    "_def": "Common/MatDefs/Light/Lighting.j3md",
+    "def": "MatDefs/New/Lighting.json",
+    "materialParameters": [
+      {
+        "name": "ParallaxHeight",
+        "value": 0.05
+      },
+      {
+        "name": "Shininess",
+        "value": 12.5
+      },
+      {
+        "name": "Diffuse",
+        "value": [0.5, 0.5, 0.5, 1]
+      },
+      {
+        "name": "Ambient",
+        "value": [0.2, 0.2, 0.2, 1]
+      },
+      {
+        "name": "Specular",
+        "value": [0.5, 0.5, 0.5, 1]
+      },
+      {
+        "name": "UseMaterialColors",
+        "value": true
+      },
+      {
+        "name": "BackfaceShadows",
+        "value": false
+      },
+      {
+        "name": "DiffuseMap",
+        "texture": {
+          "path": "Models/Ferrari/Car.jpg",
+          "wrapS": "Repeat",
+          "wrapT": "Repeat",
+          "minFilter": "BilinearNoMipMaps",
+          "magFilter": "Bilinear",
+          "flipY": true,
+          "anisotropy": 4 //2, 4, 8
+        }
       }
-   }
+    ],
+    "additionalRenderState": {
+      "faceCull": "Back",
+      "blend": "Off",
+      "depthWrite": true,
+      "colorWrite": true,
+      "depthTest": true,
+      "wireframe": false,
+      "polyOffset": [1, 1]
+    }
+  }
 }
