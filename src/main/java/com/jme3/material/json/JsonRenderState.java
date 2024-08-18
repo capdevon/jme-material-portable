@@ -11,24 +11,24 @@ import com.jme3.material.RenderState.TestFunction;
 public class JsonRenderState {
     
     public FaceCullMode faceCull;
+    public BlendMode blend;
+    public Boolean depthTest;
     public Boolean depthWrite;
     public Boolean colorWrite;
-    public float[] polyOffset;
-    public Boolean depthTest;
-    public BlendMode blend;
     public Boolean wireframe;
+    public float[] polyOffset;
     public TestFunction depthFunc;
     public Float lineWidth;
 
     @Override
     public String toString() {
         return "AdditionalRenderState [faceCull=" + faceCull 
+                + ", blend=" + blend
+                + ", depthTest=" + depthTest 
                 + ", depthWrite=" + depthWrite 
                 + ", colorWrite=" + colorWrite 
-                + ", polyOffset=" + Arrays.toString(polyOffset) 
-                + ", depthTest=" + depthTest 
-                + ", blend=" + blend
                 + ", wireframe=" + wireframe 
+                + ", polyOffset=" + Arrays.toString(polyOffset) 
                 + ", depthFunc=" + depthFunc 
                 + ", lineWidth=" + lineWidth 
                 + "]";
