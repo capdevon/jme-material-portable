@@ -3,6 +3,8 @@ package com.jme3.material.exporter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,43 +30,11 @@ public class YamlMaterialExporter extends AbstractMaterialExporter {
     public void save(Material material, File f) throws IOException {
         JsonMaterial mat = toJson(material);
 
-//        DumperOptions options = new DumperOptions();
-//        options.setIndent(2);
-//        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-//        options.setPrettyFlow(true);
-//        
-//        Representer representer = new Representer() {
-//            @Override
-//            protected NodeTuple representJavaBeanProperty(Object javaBean, Property property, Object propertyValue, Tag customTag) {
-//                // if value of property is null, ignore it.
-//                if (propertyValue == null) {
-//                    return null;
-//                }
-//                return super.representJavaBeanProperty(javaBean, property, propertyValue, customTag);
-//            }
-//        };
-//        representer.addClassTag(JsonMaterial.class, Tag.MAP);
-
-//        Yaml yaml = new Yaml(representer, options);
-//        String yamlString = yaml.dumpAsMap(mat);
-//        System.out.println(yamlString);
-
-//        try (FileWriter writer = new FileWriter("TestMaterial.yaml")){
-//            yaml.dump(mat, writer);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        
-        // Convert POJO to JSON using Jackson
-//      ObjectMapper mapper = new ObjectMapper();
-//      String json = mapper.writeValueAsString(mat);
-//
-//      Yaml yaml = new Yaml();
-//      Object yamlObject = yaml.load(json);
-//      System.out.println(yaml.dump(yamlObject));
+        Map<String, Object> data = new HashMap<>();
+        data.put("Material", mat);
 
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        String yaml = mapper.writeValueAsString(mat);
+        String yaml = mapper.writeValueAsString(data);
         logger.log(Level.INFO, yaml);
         
         // Write YAML String to file
