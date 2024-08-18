@@ -40,6 +40,24 @@ public class JsonMaterialExporter2 {
      * @throws IOException
      */
     public void save(Material mat, File f) throws IOException {
+        JsonObject jsonMaterial = toJson(mat);
+        
+        // Convert JsonObject to String
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonString = gson.toJson(jsonMaterial);
+        logger.log(Level.INFO, jsonString);
+
+        // Write JSON String to file
+        try (FileWriter writer = new FileWriter(f)) {
+            writer.write(jsonString);
+        }
+    }
+
+    /**
+     * @param mat
+     * @return
+     */
+    private JsonObject toJson(Material mat) {
         JsonObject data = new JsonObject();
         data.addProperty("name", mat.getName());
         data.addProperty("def", mat.getMaterialDef().getAssetName());
@@ -52,16 +70,7 @@ public class JsonMaterialExporter2 {
 
         JsonObject jsonMaterial = new JsonObject();
         jsonMaterial.add("Material", data);
-        
-        // Convert JsonObject to String
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonString = gson.toJson(jsonMaterial);
-        logger.log(Level.INFO, jsonString);
-
-        // Write JSON String to file
-        try (FileWriter writer = new FileWriter(f)) {
-            writer.write(jsonString);
-        }
+        return jsonMaterial;
     }
 
     /**
@@ -198,10 +207,6 @@ public class JsonMaterialExporter2 {
                 }
             }
 
-//            sb.append(formatWrapMode(tex, Texture.WrapAxis.S));
-//            sb.append(formatWrapMode(tex, Texture.WrapAxis.T));
-//            sb.append(formatWrapMode(tex, Texture.WrapAxis.R));
-            
             Texture.WrapAxis[] axis = { Texture.WrapAxis.S, Texture.WrapAxis.T, Texture.WrapAxis.R };
             for (int i = 0; i < axis.length; i++) {
                 WrapMode wrapMode = formatWrapMode(tex, axis[i]);
