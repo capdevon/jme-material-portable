@@ -4,6 +4,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.plugins.JsonMaterialLoader;
+import com.jme3.material.plugins.YamlMaterialLoader;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Spatial;
 
@@ -25,6 +26,7 @@ public class Test_ModelViewer extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         assetManager.registerLoader(JsonMaterialLoader.class, "json");
+        assetManager.registerLoader(YamlMaterialLoader.class, "yaml");
         
         Spatial sp = assetManager.loadModel("Models/YBot/YBot.j3o");
         rootNode.attachChild(sp);
