@@ -40,7 +40,7 @@
           "wrapT": "Repeat",
           "minFilter": "BilinearNoMipMaps",
           "magFilter": "Bilinear",
-          "flipY": true,
+          "flipY": false,
           "anisotropy": 4 //2, 4, 8
         }
       }
@@ -52,7 +52,7 @@
       "colorWrite": true,
       "depthTest": true,
       "wireframe": false,
-      "polyOffset": [1, 1]
+      "polyOffset": [0.0, 0.0]
     }
   }
 }
