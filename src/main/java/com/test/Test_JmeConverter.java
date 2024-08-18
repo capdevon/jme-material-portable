@@ -7,7 +7,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.asset.MaterialKey;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.material.Material;
-import com.jme3.material.exporter.JsonMaterialExporter2;
+import com.jme3.material.exporter.JsonMaterialExporter;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.SceneGraphVisitorAdapter;
@@ -105,7 +105,7 @@ public class Test_JmeConverter extends SimpleApplication {
      */
     private void writeJ3m(Material mat, File file) {
         try {
-            JsonMaterialExporter2 exporter = new JsonMaterialExporter2();
+            JsonMaterialExporter exporter = new JsonMaterialExporter();
             exporter.save(mat, file);
 
         } catch (IOException e) {
