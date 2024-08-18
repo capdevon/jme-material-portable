@@ -3,6 +3,8 @@ package com.jme3.material.exporter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,10 +29,13 @@ public class JsonMaterialExporter extends AbstractMaterialExporter {
      */
     public void save(Material material, File f) throws IOException {
         JsonMaterial mat = toJson(material);
+        
+        Map<String, Object> data = new HashMap<>();
+        data.put("Material", mat);
 
         // Convert JsonObject to String
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonString = gson.toJson(mat);
+        String jsonString = gson.toJson(data);
         logger.log(Level.INFO, jsonString);
 
         // Write JSON String to file
