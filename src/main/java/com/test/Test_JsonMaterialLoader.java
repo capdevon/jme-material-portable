@@ -53,12 +53,13 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
     /**
      */
     private void loadMaterial() {
-        String fileName = "Materials/Material.json";
-        JsonMaterialLoader loader = new JsonMaterialLoader();
-        Material mat = loader.loadMaterial(assetManager, new JsonMaterialKey(fileName));
+//        String fileName = "Materials/Material.json";
+//        JsonMaterialLoader loader = new JsonMaterialLoader();
+//        Material mat = loader.loadMaterial(assetManager, new JsonMaterialKey(fileName));
         
 //        Material mat = assetManager.loadAsset(new JsonMaterialKey(fileName));
 //        Material mat = assetManager.loadMaterial(fileName);
+        Material mat = new Material(assetManager, "MatDefs/New/PBRLighting.json");
         
         MaterialUtils.print(mat);
     }

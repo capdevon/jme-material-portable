@@ -26,7 +26,7 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        assetManager.registerLoader(YamlMaterialLoader.class, "yaml");
+        assetManager.registerLoader(YamlMaterialLoader2.class, "yaml");
         //loadMaterialDef();
         loadMaterial();
         stop();
@@ -44,12 +44,13 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
     /**
      */
     private void loadMaterial() {
-        String fileName = "Materials/Material.yaml";
-        YamlMaterialLoader loader = new YamlMaterialLoader();
-        Material mat = loader.loadMaterial(assetManager, new YamlMaterialKey(fileName));
+//        String fileName = "Materials/Material.yaml";
+//        YamlMaterialLoader loader = new YamlMaterialLoader();
+//        Material mat = loader.loadMaterial(assetManager, new YamlMaterialKey(fileName));
         
 //        Material mat = assetManager.loadAsset(new YamlMaterialKey(fileName));
 //        Material mat = assetManager.loadMaterial(fileName);
+        Material mat = new Material(assetManager, "MatDefs/New/PBRLighting2.yaml");
         
         MaterialUtils.print(mat);
     }
