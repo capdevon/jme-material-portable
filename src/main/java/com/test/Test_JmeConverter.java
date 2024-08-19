@@ -2,6 +2,9 @@ package com.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.UnaryOperator;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.MaterialKey;
@@ -106,11 +109,40 @@ public class Test_JmeConverter extends SimpleApplication {
     private void writeJ3m(Material mat, File file) {
         try {
             JsonMaterialExporter exporter = new JsonMaterialExporter();
+            exporter.setMatDefNameProcessor(new MatDefNameProcessor(Format.JSON));
             exporter.save(mat, file);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static enum Format { JSON, YAML }
+    
+    /**
+     * This class processes material definition asset names by potentially replacing
+     * them with new names based on a pre-defined mapping.
+     */
+    class MatDefNameProcessor implements UnaryOperator<String> {
+
+        private Map<String, String> map = new HashMap<>();
+
+        /**
+         * Creates a new MatDefNameProcessor instance using the provided format.
+         * 
+         * @param format The format to be used for generating the suffix.
+         */
+        public MatDefNameProcessor(Format format) {
+            String ext = "." + format.name().toLowerCase();
+            map.put("Common/MatDefs/Light/Lighting.j3md", "MatDefs/New/Lighting" + ext);
+            map.put("Common/MatDefs/Light/PBRLighting.j3md", "MatDefs/New/PBRLighting" + ext);
+        }
+
+        @Override
+        public String apply(String assetName) {
+            return map.getOrDefault(assetName, assetName);
+        }
+
     }
 
 }

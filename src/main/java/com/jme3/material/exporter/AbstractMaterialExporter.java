@@ -3,6 +3,7 @@ package com.jme3.material.exporter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.UnaryOperator;
 
 import com.jme3.asset.TextureKey;
 import com.jme3.material.MatParam;
@@ -20,7 +21,6 @@ import com.jme3.math.Vector4f;
 import com.jme3.shader.VarType;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
-import com.test.MaterialUtils;
 
 /**
  * 
@@ -28,6 +28,12 @@ import com.test.MaterialUtils;
  */
 public abstract class AbstractMaterialExporter {
     
+    private UnaryOperator<String> matDefNameProcessor = UnaryOperator.identity();
+
+    public void setMatDefNameProcessor(UnaryOperator<String> matDefNameProcessor) {
+        this.matDefNameProcessor = matDefNameProcessor;
+    }
+
     /**
      * @param material
      * @return
@@ -35,9 +41,11 @@ public abstract class AbstractMaterialExporter {
     protected JsonMaterial toJson(Material material) {
         JsonMaterial mat = new JsonMaterial();
         mat.setName(material.getName());
-        mat.setDef(material.getMaterialDef().getAssetName());
+        
+        String defName = material.getMaterialDef().getAssetName();
+        mat.setDef(matDefNameProcessor.apply(defName));
 
-        List<JsonMatParam> parameters = toJson(MaterialUtils.sortMatParams(material));
+        List<JsonMatParam> parameters = toJson(sortMatParams(material));
         mat.setMaterialParameters(parameters);
 
         JsonRenderState renderState = toJson(material.getAdditionalRenderState());
@@ -208,4 +216,27 @@ public abstract class AbstractMaterialExporter {
         return null;
     }
     
+    private List<MatParam> sortMatParams(Material mat) {
+        List<MatParam> allParams = new ArrayList<>();
+
+        // get all material parameters declared in this material.
+        for (MatParam param : mat.getParams()) {
+            allParams.add(param);
+        }
+
+        // sort by type then name
+        allParams.sort((a, b) -> {
+            int type = a.getVarType().compareTo(b.getVarType());
+            if (type == 0) {
+                int name = a.getName().compareTo(b.getName());
+                if (name == 0) {
+                    return type;
+                } else {
+                    return name;
+                }
+            }
+            return type;
+        });
+        return allParams;
+    }
 }
