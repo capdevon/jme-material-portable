@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,6 +30,8 @@ import com.jme3.texture.image.ColorSpace;
  * @author capdevon
  */
 public class JsonMatDefExporter {
+    
+    private static final Logger logger = Logger.getLogger(JsonMatDefExporter.class.getName());
 
     /**
      * 
@@ -37,15 +41,32 @@ public class JsonMatDefExporter {
      */
     public void save(MaterialDef matDef, File f) throws IOException {
 
+        JsonObject data = writeMaterialDef(matDef);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonString = gson.toJson(data);
+        logger.log(Level.INFO, jsonString);
+
+        // Write JSON String to file
+        try (FileWriter writer = new FileWriter(f)) {
+            writer.write(jsonString);
+        }
+    }
+
+    /**
+     * @param matDef
+     * @return
+     */
+    private JsonObject writeMaterialDef(MaterialDef matDef) {
         JsonObject data = new JsonObject();
         data.addProperty("name", matDef.getName());
 
         Collection<MatParam> matParams = matDef.getMaterialParams();
         JsonArray parameters = new JsonArray();
         for (MatParam param : matParams) {
-            parameters.add(write(param));
+            parameters.add(writeMatParam(param));
         }
-        data.add("MaterialParameters", parameters);
+        data.add("materialParameters", parameters);
 
         JsonArray tenchiques = new JsonArray();
         for (String defName : matDef.getTechniqueDefsNames()) {
@@ -54,19 +75,11 @@ public class JsonMatDefExporter {
                 tenchiques.add(writeTechnique(techniqueDef, matParams));
             }
         }
-        data.add("Techniques", tenchiques);
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonString = gson.toJson(data);
-        System.out.println(jsonString);
-
-        // Write JSON String to file
-        try (FileWriter writer = new FileWriter(f)) {
-            writer.write(jsonString);
-        }
+        data.add("techniques", tenchiques);
+        return data;
     }
 
-    private JsonObject write(MatParam param) {
+    private JsonObject writeMatParam(MatParam param) {
         JsonObject json = new JsonObject();
         json.addProperty("type", param.getVarType().name());
         json.addProperty("name", param.getName());
@@ -78,38 +91,38 @@ public class JsonMatDefExporter {
             }
         }
         
-        Object val = param.getValue();
-        if (val != null) {
+        Object paramValue = param.getValue();
+        if (paramValue != null) {
             switch (param.getVarType()) {
                 case Int:
-                    json.addProperty("value", (Integer) val);
+                    json.addProperty("value", (Integer) paramValue);
                     break;
                     
                 case Float:
-                    json.addProperty("value", (Float) val);
+                    json.addProperty("value", (Float) paramValue);
                     break;
                     
                 case Boolean:
-                    json.addProperty("value", (Boolean) val);
+                    json.addProperty("value", (Boolean) paramValue);
                     break;
     
                 case Vector2:
-                    Vector2f v2 = (Vector2f) val;
+                    Vector2f v2 = (Vector2f) paramValue;
                     json.add("value", toJsonArray(v2.toArray(null)));
                     break;
     
                 case Vector3:
-                    Vector3f v3 = (Vector3f) val;
+                    Vector3f v3 = (Vector3f) paramValue;
                     json.add("value", toJsonArray(v3.toArray(null)));
                     break;
     
                 case Vector4:
-                    if (val instanceof Vector4f) {
-                        Vector4f v4 = (Vector4f) val;
+                    if (paramValue instanceof Vector4f) {
+                        Vector4f v4 = (Vector4f) paramValue;
                         json.add("value", toJsonArray(v4.toArray(null)));
     
-                    } else if (val instanceof ColorRGBA) {
-                        ColorRGBA color = (ColorRGBA) val;
+                    } else if (paramValue instanceof ColorRGBA) {
+                        ColorRGBA color = (ColorRGBA) paramValue;
                         json.add("value", toJsonArray(color.toArray(null)));
                     }
                     break;
@@ -134,38 +147,38 @@ public class JsonMatDefExporter {
 
         // Light mode
         if (techniqueDef.getLightMode() != TechniqueDef.LightMode.Disable) {
-            json.addProperty("LightMode", techniqueDef.getLightMode().name());
+            json.addProperty("lightMode", techniqueDef.getLightMode().name());
         }
         // Shadow mode
         if (techniqueDef.getShadowMode() != TechniqueDef.ShadowMode.Disable) {
-            json.addProperty("ShadowMode", techniqueDef.getShadowMode().name());
+            json.addProperty("shadowMode", techniqueDef.getShadowMode().name());
         }
         // World params
         if (!techniqueDef.getWorldBindings().isEmpty()) {
             JsonArray parameters = writeWorldParams(techniqueDef);
-            json.add("WorldParameters", parameters);
+            json.add("worldParameters", parameters);
         }
         // Defines
         if (techniqueDef.getDefineNames().length != 0) {
             JsonArray defines = writeDefines(techniqueDef, matParams);
-            json.add("Defines", defines);
+            json.add("defines", defines);
         }
 
         // render state
         RenderState rs = techniqueDef.getRenderState();
         if (rs != null) {
-            json.add("RenderState", writeRenderState(rs));
+            json.add("renderState", writeRenderState(rs));
         }
 
         // forced render state
         rs = techniqueDef.getForcedRenderState();
         if (rs != null) {
-            json.add("ForcedRenderState", writeRenderState(rs));
+            json.add("forcedRenderState", writeRenderState(rs));
         }
 
         // no render
         if (techniqueDef.isNoRender()) {
-            json.addProperty("NoRender", true);
+            json.addProperty("noRender", true);
         }
         
         return json;
@@ -175,7 +188,7 @@ public class JsonMatDefExporter {
         if (techniqueDef.getShaderProgramNames().size() > 0) {
             for (Shader.ShaderType shaderType : techniqueDef.getShaderProgramNames().keySet()) {
                 out.addProperty(shaderType.name() + "Shader", techniqueDef.getShaderProgramNames().get(shaderType));
-                out.addProperty("ShaderLanguages", techniqueDef.getShaderProgramLanguage(shaderType));
+                out.addProperty("shaderLanguages", techniqueDef.getShaderProgramLanguage(shaderType));
             }
         }
     }
@@ -222,39 +235,39 @@ public class JsonMatDefExporter {
         RenderState defRs = RenderState.DEFAULT;
         
         if (rs.getBlendMode() != defRs.getBlendMode()) {
-            json.addProperty("Blend", rs.getBlendMode().name());
+            json.addProperty("blend", rs.getBlendMode().name());
         }
         if (rs.isWireframe() != defRs.isWireframe()) {
-            json.addProperty("Wireframe", rs.isWireframe());
+            json.addProperty("wireframe", rs.isWireframe());
         }
         if (rs.getFaceCullMode() != defRs.getFaceCullMode()) {
-            json.addProperty("FaceCull", rs.getFaceCullMode().name());
+            json.addProperty("faceCull", rs.getFaceCullMode().name());
         }
         if (rs.isDepthWrite() != defRs.isDepthWrite()) {
-            json.addProperty("DepthWrite", rs.isDepthWrite());
+            json.addProperty("depthWrite", rs.isDepthWrite());
         }
         if (rs.isDepthTest() != defRs.isDepthTest()) {
-            json.addProperty("DepthTest", rs.isDepthTest());
+            json.addProperty("depthTest", rs.isDepthTest());
         }
         if (rs.getBlendEquation() != defRs.getBlendEquation()) {
-            json.addProperty("BlendEquation", rs.getBlendEquation().name());
+            json.addProperty("blendEquation", rs.getBlendEquation().name());
         }
         if (rs.getBlendEquationAlpha() != defRs.getBlendEquationAlpha()) {
-            json.addProperty("BlendEquationAlpha", rs.getBlendEquationAlpha().name());
+            json.addProperty("blendEquationAlpha", rs.getBlendEquationAlpha().name());
         }
         if (rs.isColorWrite() != defRs.isColorWrite()) {
-            json.addProperty("ColorWrite", rs.isColorWrite());
+            json.addProperty("colorWrite", rs.isColorWrite());
         }
         if (rs.getDepthFunc() != defRs.getDepthFunc()) {
-            json.addProperty("DepthFunc", rs.getDepthFunc().name());
+            json.addProperty("depthFunc", rs.getDepthFunc().name());
         }
         if (rs.getLineWidth() != defRs.getLineWidth()) {
-            json.addProperty("LineWidth", Float.toString(rs.getLineWidth()));
+            json.addProperty("lineWidth", Float.toString(rs.getLineWidth()));
         }
         
         if (rs.getPolyOffsetFactor() != defRs.getPolyOffsetFactor()
                 || rs.getPolyOffsetUnits() != defRs.getPolyOffsetUnits()) {
-            json.add("PolyOffset", toJsonArray(rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits()));
+            json.add("polyOffset", toJsonArray(rs.getPolyOffsetFactor(), rs.getPolyOffsetUnits()));
         }
         
         return json;
