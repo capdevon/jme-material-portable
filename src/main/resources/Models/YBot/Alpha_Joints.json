@@ -1,7 +1,7 @@
 {
   "Material": {
     "name": "Alpha_Joints",
-    "def": "Common/MatDefs/Light/PBRLighting.j3md",
+    "def": "MatDefs/New/PBRLighting.json",
     "materialParameters": [
       {
         "name": "EmissiveIntensity",

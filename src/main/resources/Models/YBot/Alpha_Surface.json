@@ -1,7 +1,7 @@
 {
   "Material": {
     "name": "Alpha_Surface",
-    "def": "Common/MatDefs/Light/PBRLighting.j3md",
+    "def": "MatDefs/New/PBRLighting.json",
     "materialParameters": [
       {
         "name": "EmissiveIntensity",
