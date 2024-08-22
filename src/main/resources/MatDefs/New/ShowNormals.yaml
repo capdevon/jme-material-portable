@@ -2,10 +2,10 @@
 MaterialDef: 
   name: "Debug Normals"
   MaterialParameters: 
-  - type: "Boolean"
-    name: "UseInstancing"
-  - type: "Int"
-    name: "BoundDrawBuffer"
+  - Boolean:
+    - UseInstancing:
+  - Int:
+    - BoundDrawBuffer: 
   Techniques: 
   - name: "Default"
     FragmentShader: "Common/MatDefs/Misc/ShowNormals.frag"

@@ -6,22 +6,32 @@ MaterialDef:
   - Texture2D: {name: MetallicRoughnessMap, colorSpace: Linear}
   - Color: {name: BaseColor, value: [1, 1, 1, 1]}
   - Vector2: {name: FadeInfo}
-  Uniforms: 
+  MaterialParameters: 
     - Color:
-      - BaseColor: [1, 1, 1, 1]
-      - Specular: [1, 1, 1, 1]
+      - BaseColor: [1.0, 1.0, 1.0, 1.0]
+      - Specular: [1.0, 1.0, 1.0, 1.0]
+      - Emissive:
     - Vector2:
       - FadeInfo: 
     - Vector3:
       - LightPos: 
       - LightDir: 
+    - Vector4:
+      - Splits:
+    - Int:
+      - NumberOfBones: 
+      - NumberOfMorphTargets: 
+      - NumberOfTargetsBuffers:
+      - FilterMode:
+      - BoundDrawBuffer:
     - Float:
-      - Roughness: 1
-      - Metallic: 1
-      - Glossiness: 1
+      - Roughness: 1.0
+      - Metallic: 1.0
+      - Glossiness: 1.0
+      # The type of normal map: -1.0 (DirectX), 1.0 (OpenGl)
       - NormalType: -1
-      - EmissivePower: 3
-      - EmissiveIntensity: 2
+      - EmissivePower: 3.0
+      - EmissiveIntensity: 2.0
       - AlphaDiscardThreshold: 
       - ShadowIntensity: 
       - NormalScale: 
@@ -69,159 +79,6 @@ MaterialDef:
       - LightViewProjectionMatrix3: 
       - LightViewProjectionMatrix4: 
       - LightViewProjectionMatrix5: 
-  MaterialParameters: 
-  - type: "Boolean"
-    name: "SeparateTexCoord"
-  - type: "Vector3"
-    name: "LightPos"
-  - type: "Boolean"
-    name: "UseSpecularAA"
-    value: "true"
-  - type: "Float"
-    name: "Roughness"
-    value: "1"
-  - type: "Texture2D"
-    name: "EmissiveMap"
-  - type: "Texture2D"
-    name: "SpecularMap"
-  - type: "Float"
-    name: "Glossiness"
-    value: "1"
-  - type: "Texture2D"
-    name: "SpecularGlossinessMap"
-  - type: "Vector4"
-    name: "Emissive"
-  - type: "Float"
-    name: "NormalType"
-    value: "-1"
-  - type: "Float"
-    name: "ShadowIntensity"
-  - type: "Texture2D"
-    name: "MetallicRoughnessMap"
-    colorSpace: "Linear"
-  - type: "Float"
-    name: "EmissivePower"
-    value: "3"
-  - type: "Float"
-    name: "NormalScale"
-  - type: "Boolean"
-    name: "BackfaceShadows"
-    value: "false"
-  - type: "Float"
-    name: "EmissiveIntensity"
-    value: "2"
-  - type: "Boolean"
-    name: "UseSpecGloss"
-  - type: "Boolean"
-    name: "SteepParallax"
-  - type: "Float"
-    name: "Metallic"
-    value: "1"
-  - type: "Matrix4"
-    name: "LightViewProjectionMatrix1"
-  - type: "FloatArray"
-    name: "MorphWeights"
-  - type: "Float"
-    name: "AlphaDiscardThreshold"
-  - type: "Matrix4"
-    name: "LightViewProjectionMatrix2"
-  - type: "Texture2D"
-    name: "ParallaxMap"
-    colorSpace: "Linear"
-  - type: "Matrix4"
-    name: "LightViewProjectionMatrix0"
-  - type: "Boolean"
-    name: "HardwareShadows"
-  - type: "Matrix4"
-    name: "LightViewProjectionMatrix5"
-  - type: "Texture2D"
-    name: "RoughnessMap"
-    colorSpace: "Linear"
-  - type: "Matrix4"
-    name: "LightViewProjectionMatrix3"
-  - type: "Matrix4"
-    name: "LightViewProjectionMatrix4"
-  - type: "Matrix4Array"
-    name: "BoneMatrices"
-  - type: "Texture2D"
-    name: "GlossinessMap"
-  - type: "Float"
-    name: "SpecularAAKappa"
-  - type: "Int"
-    name: "NumberOfBones"
-  - type: "Texture2D"
-    name: "ShadowMap5"
-  - type: "Texture2D"
-    name: "ShadowMap4"
-  - type: "Vector4"
-    name: "Splits"
-  - type: "Boolean"
-    name: "HorizonFade"
-  - type: "Boolean"
-    name: "UseInstancing"
-  - type: "Float"
-    name: "SpecularAASigma"
-  - type: "Texture2D"
-    name: "ShadowMap1"
-  - type: "Texture2D"
-    name: "ShadowMap0"
-  - type: "Vector3"
-    name: "LightDir"
-  - type: "Texture2D"
-    name: "ShadowMap3"
-  - type: "Texture2D"
-    name: "ShadowMap2"
-  - type: "Vector2"
-    name: "FadeInfo"
-  - type: "Vector4"
-    name: "BaseColor"
-    value: 
-    - "1"
-    - "1"
-    - "1"
-    - "1"
-  - type: "Float"
-    name: "PCFEdge"
-  - type: "Float"
-    name: "ParallaxHeight"
-    value: "0.05"
-  - type: "Boolean"
-    name: "AoPackedInMRMap"
-  - type: "Texture2D"
-    name: "NormalMap"
-    colorSpace: "Linear"
-  - type: "Texture2D"
-    name: "BaseColorMap"
-  - type: "Boolean"
-    name: "PackedNormalParallax"
-  - type: "Boolean"
-    name: "UseVertexColor"
-  - type: "Vector4"
-    name: "Specular"
-    value: 
-    - "1"
-    - "1"
-    - "1"
-    - "1"
-  - type: "Float"
-    name: "AoStrength"
-  - type: "Int"
-    name: "NumberOfMorphTargets"
-  - type: "Texture2D"
-    name: "MetallicMap"
-    colorSpace: "Linear"
-  - type: "Boolean"
-    name: "LightMapAsAOMap"
-  - type: "Int"
-    name: "FilterMode"
-  - type: "Float"
-    name: "ShadowMapSize"
-  - type: "Int"
-    name: "NumberOfTargetsBuffers"
-  - type: "Texture2D"
-    name: "LightMap"
-  - type: "Int"
-    name: "BoundDrawBuffer"
   Techniques: 
   - name: "PostShadow"
     FragmentShader: "Common/MatDefs/Shadow/PostShadowPBR.frag"
