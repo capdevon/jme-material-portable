@@ -108,14 +108,14 @@ public class YamlMaterialLoader2 implements AssetLoader {
     }
     
     /**
-     * Loads a material from a resource file identified by an
-     * AssetKey<YamlMaterialKey>. It parses the YAML content of the file and uses
-     * the parsed data to create a material object.
+     * Loads a {@link Material} from a YAML resource file identified by an
+     * {@link AssetKey}. It parses the YAML content of the file and uses the parsed
+     * data to create a material object.
      * 
-     * @param assetManager An AssetManager instance used to access resources.
-     * @param key          An AssetKey<YamlMaterialKey> representing the unique
-     *                     identifier of the material resource.
-     * @return A Material object representing the loaded material.
+     * @param assetManager the asset manager used to load the material
+     * @param key          the key representing the unique identifier of the material resource.
+     * @return the loaded {@link Material}
+     * @throws RuntimeException if an I/O error occurs during reading the JSON file
      */
     public Material loadMaterial(AssetManager assetManager, AssetKey<YamlMaterialKey> key) {
         this.assetManager = assetManager;

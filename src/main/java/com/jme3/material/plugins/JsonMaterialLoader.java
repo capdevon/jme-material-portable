@@ -117,14 +117,14 @@ public class JsonMaterialLoader implements AssetLoader {
     }
     
     /**
-     * Loads a material from a JSON resource file identified by an
-     * AssetKey<JsonMaterialKey>. It parses the JSON content of the file and uses
-     * the parsed data to create a material object.
+     * Loads a {@link Material} from a JSON resource file identified by an
+     * {@link AssetKey}. It parses the JSON content of the file and uses the parsed
+     * data to create a material object.
      * 
-     * @param assetManager An AssetManager instance used to access resources.
-     * @param key          An AssetKey<JsonMaterialKey> representing the unique
-     *                     identifier of the material resource.
-     * @return A Material object representing the loaded material.
+     * @param assetManager the asset manager used to load the material
+     * @param key          the key representing the unique identifier of the material resource.
+     * @return the loaded {@link Material}
+     * @throws RuntimeException if an I/O error occurs during reading the JSON file
      */
     public Material loadMaterial(AssetManager assetManager, AssetKey<JsonMaterialKey> key) {
         this.assetManager = assetManager;
@@ -438,6 +438,9 @@ public class JsonMaterialLoader implements AssetLoader {
     private void readTechnique(JsonObject jsonObject) throws IOException {
 
         String name = jsonObject.get("name").getAsString();
+        if (name.isBlank()) {
+            throw new IOException("Technique name cannot be empty: " + name);
+        }
 
         String techniqueUniqueName = materialDef.getAssetName() + "@" + name;
         technique = new TechniqueDef(name, techniqueUniqueName.hashCode());

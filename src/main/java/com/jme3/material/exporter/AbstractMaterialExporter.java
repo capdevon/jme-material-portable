@@ -1,5 +1,7 @@
 package com.jme3.material.exporter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +36,8 @@ public abstract class AbstractMaterialExporter {
     public void setMatDefNameProcessor(UnaryOperator<String> matDefNameProcessor) {
         this.matDefNameProcessor = matDefNameProcessor;
     }
+    
+    public abstract void save(Material material, File file) throws IOException;
 
     protected JsonMaterial toJson(Material material) {
         JsonMaterial mat = new JsonMaterial();

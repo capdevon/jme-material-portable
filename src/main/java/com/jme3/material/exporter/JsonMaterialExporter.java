@@ -34,6 +34,7 @@ public class JsonMaterialExporter extends AbstractMaterialExporter {
      *                 object will be written
      * @throws IOException if an I/O error occurs during writing
      */
+    @Override
     public void save(Material material, File file) throws IOException {
         JsonMaterial mat = toJson(material);
         

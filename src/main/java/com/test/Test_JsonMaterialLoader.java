@@ -41,8 +41,6 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
         stop();
     }
 
-    /**
-     */
     private void loadMaterialDef() {
         AssetKey<MaterialDef> key2 = new AssetKey<>("MatDefs/New/PBRLighting.json");
         MaterialDef matDef = assetManager.loadAsset(key2);
@@ -50,8 +48,6 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
         MaterialSerializer.print(matDef);
     }
 
-    /**
-     */
     private void loadMaterial() {
 //        String fileName = "Materials/Material.json";
 //        JsonMaterialLoader loader = new JsonMaterialLoader();

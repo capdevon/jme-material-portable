@@ -32,8 +32,6 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
         stop();
     }
     
-    /**
-     */
     private void loadMaterialDef() {
         AssetKey<MaterialDef> key2 = new AssetKey<>("MatDefs/New/PBRLighting2.yaml");
         MaterialDef matDef = assetManager.loadAsset(key2);
@@ -41,8 +39,6 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
         MaterialSerializer.print(matDef);
     }
 
-    /**
-     */
     private void loadMaterial() {
 //        String fileName = "Materials/Material.yaml";
 //        YamlMaterialLoader loader = new YamlMaterialLoader();

@@ -19,11 +19,6 @@ import com.jme3.shader.UniformBinding;
  */
 public class MaterialSerializer {
     
-    private MaterialSerializer() {}
-    
-    /**
-     * @param mat
-     */
     public static void print(Material mat) {
         System.out.println(mat);
         System.out.println("MaterialParameters:");
@@ -63,9 +58,6 @@ public class MaterialSerializer {
         }
     }
     
-    /**
-     * @param matDef
-     */
     public static void print(MaterialDef matDef) {
         System.out.println(matDef);
 
