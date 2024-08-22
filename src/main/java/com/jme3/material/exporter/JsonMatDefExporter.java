@@ -17,6 +17,7 @@ import com.jme3.material.MatParamTexture;
 import com.jme3.material.MaterialDef;
 import com.jme3.material.RenderState;
 import com.jme3.material.TechniqueDef;
+import com.jme3.material.utils.StringUtils;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -187,7 +188,8 @@ public class JsonMatDefExporter {
     private void writeShaders(TechniqueDef techniqueDef, JsonObject out) {
         if (techniqueDef.getShaderProgramNames().size() > 0) {
             for (Shader.ShaderType shaderType : techniqueDef.getShaderProgramNames().keySet()) {
-                out.addProperty(shaderType.name() + "Shader", techniqueDef.getShaderProgramNames().get(shaderType));
+                String shaderName = StringUtils.uncapitalize(shaderType.name());
+                out.addProperty(shaderName + "Shader", techniqueDef.getShaderProgramNames().get(shaderType));
                 out.addProperty("shaderLanguages", techniqueDef.getShaderProgramLanguage(shaderType));
             }
         }
