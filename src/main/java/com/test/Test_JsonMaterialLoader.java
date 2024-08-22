@@ -47,7 +47,7 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
         AssetKey<MaterialDef> key2 = new AssetKey<>("MatDefs/New/PBRLighting.json");
         MaterialDef matDef = assetManager.loadAsset(key2);
         
-        MaterialUtils.print(matDef);
+        MaterialSerializer.print(matDef);
     }
 
     /**
@@ -59,9 +59,18 @@ public class Test_JsonMaterialLoader extends SimpleApplication {
         
 //        Material mat = assetManager.loadAsset(new JsonMaterialKey(fileName));
 //        Material mat = assetManager.loadMaterial(fileName);
-        Material mat = new Material(assetManager, "MatDefs/New/PBRLighting.json");
         
-        MaterialUtils.print(mat);
+        String[] defs = {
+                "MatDefs/New/Lighting.json",
+                "MatDefs/New/PBRLighting.json",
+                "MatDefs/New/Unshaded.json",
+                "MatDefs/New/ShowNormals.json"
+        };
+        for (String defName : defs) {
+            Material mat = new Material(assetManager, defName);
+            MaterialSerializer.print(mat);
+        }
+        
     }
     
 }

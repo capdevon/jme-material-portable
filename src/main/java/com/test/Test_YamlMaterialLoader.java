@@ -38,7 +38,7 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
         AssetKey<MaterialDef> key2 = new AssetKey<>("MatDefs/New/PBRLighting2.yaml");
         MaterialDef matDef = assetManager.loadAsset(key2);
         
-        MaterialUtils.print(matDef);
+        MaterialSerializer.print(matDef);
     }
 
     /**
@@ -50,9 +50,17 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
         
 //        Material mat = assetManager.loadAsset(new YamlMaterialKey(fileName));
 //        Material mat = assetManager.loadMaterial(fileName);
-        Material mat = new Material(assetManager, "MatDefs/New/PBRLighting2.yaml");
         
-        MaterialUtils.print(mat);
+        String[] defs = {
+//                "MatDefs/New/Lighting.yaml",
+                "MatDefs/New/PBRLighting2.yaml",
+//                "MatDefs/New/Unshaded.yaml",
+                "MatDefs/New/ShowNormals.yaml"
+        };
+        for (String defName : defs) {
+            Material mat = new Material(assetManager, defName);
+            MaterialSerializer.print(mat);
+        }
     }
 
 }
