@@ -108,7 +108,7 @@ public class YamlMaterialLoader2 implements AssetLoader {
     }
     
     /**
-     * This method loads a material from a resource file identified by an
+     * Loads a material from a resource file identified by an
      * AssetKey<YamlMaterialKey>. It parses the YAML content of the file and uses
      * the parsed data to create a material object.
      * 
@@ -181,10 +181,10 @@ public class YamlMaterialLoader2 implements AssetLoader {
             materialDef.setAssetName(key.getName());
 
             // Parse MaterialParameters
-            List<Object> uniforms = getList(map.get("MaterialParameters"));
-            for (Object el : uniforms) {
-                Map<String, Object> m1 = (Map) el;
-                for (Map.Entry<String, Object> entry : m1.entrySet()) {
+            List<Object> materialParameters = getList(map.get("MaterialParameters"));
+            for (Object el : materialParameters) {
+                Map<String, Object> m = (Map) el;
+                for (Map.Entry<String, Object> entry : m.entrySet()) {
                     readParam(entry);
                 }
             }
@@ -267,14 +267,6 @@ public class YamlMaterialLoader2 implements AssetLoader {
      */
     private Object readUniformValue(VarType type, Object value) throws IOException {
 
-        List<Object> lstValues = null;
-        if (value instanceof List) {
-            lstValues = (List<Object>) value;
-            if (lstValues.isEmpty()) {
-                return null;
-            }
-        }
-
         switch (type) {
             case Int:
                 return getInt(value);
@@ -286,15 +278,15 @@ public class YamlMaterialLoader2 implements AssetLoader {
                 return getBoolean(value);
     
             case Vector2:
-                float[] v2 = parseFloatArray(lstValues, 2);
+                float[] v2 = parseFloatArray(value, 2);
                 return new Vector2f(v2[0], v2[1]);
     
             case Vector3:
-                float[] v3 = parseFloatArray(lstValues, 3);
+                float[] v3 = parseFloatArray(value, 3);
                 return new Vector3f(v3[0], v3[1], v3[2]);
     
             case Vector4:
-                float[] v4 = parseFloatArray(lstValues, 4);
+                float[] v4 = parseFloatArray(value, 4);
                 return new ColorRGBA(v4[0], v4[1], v4[2], v4[3]);
     
             default:
