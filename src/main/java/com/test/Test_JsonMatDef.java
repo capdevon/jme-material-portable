@@ -23,7 +23,7 @@ public class Test_JsonMatDef extends SimpleApplication {
         MaterialDef mat = assetManager.loadAsset(new AssetKey<MaterialDef>("MatDefs/ShowNormals.j3md"));
         JsonMatDefExporter exporter = new JsonMatDefExporter();
         try {
-            exporter.save(mat, null);
+            exporter.save(mat, System.out);
         } catch (IOException e) {
             e.printStackTrace();
         }
