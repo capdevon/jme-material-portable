@@ -35,10 +35,6 @@ public abstract class AbstractMaterialExporter {
         this.matDefNameProcessor = matDefNameProcessor;
     }
 
-    /**
-     * @param material
-     * @return
-     */
     protected JsonMaterial toJson(Material material) {
         JsonMaterial mat = new JsonMaterial();
         mat.setName(material.getName());
@@ -54,10 +50,6 @@ public abstract class AbstractMaterialExporter {
         return mat;
     }
 
-    /**
-     * @param params
-     * @return
-     */
     protected List<JsonMatParam> toJson(Collection<MatParam> params) {
         List<JsonMatParam> parameters = new ArrayList<>();
         for (MatParam param : params) {
@@ -76,10 +68,6 @@ public abstract class AbstractMaterialExporter {
         return parameters;
     }
 
-    /**
-     * @param rs
-     * @return
-     */
     protected JsonRenderState toJson(RenderState rs) {
         JsonRenderState json = new JsonRenderState();
         RenderState defRs = RenderState.DEFAULT;

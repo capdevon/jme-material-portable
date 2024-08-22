@@ -27,12 +27,14 @@ public class YamlMaterialExporter extends AbstractMaterialExporter {
     }
     
     /**
-     * 
-     * @param material
-     * @param f
-     * @throws IOException
+     * Saves the given Material object to the specified File in YAML format.
+     *
+     * @param material the Material object to be saved
+     * @param file     the File to which the YAML representation of the Material
+     *                 object will be written
+     * @throws IOException if an I/O error occurs during writing
      */
-    public void save(Material material, File f) throws IOException {
+    public void save(Material material, File file) throws IOException {
         JsonMaterial mat = toJson(material);
 
         Map<String, Object> data = new HashMap<>();
@@ -43,7 +45,7 @@ public class YamlMaterialExporter extends AbstractMaterialExporter {
         logger.log(Level.INFO, yaml);
         
         // Write YAML String to file
-        try (FileWriter writer = new FileWriter(f)) {
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write(yaml);
         }
     }
