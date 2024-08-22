@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jme3.material.Material;
+import com.jme3.material.exporter.MatDefNameProcessor.Format;
 import com.jme3.material.json.JsonMaterial;
 
 /**
@@ -21,6 +22,10 @@ public class JsonMaterialExporter extends AbstractMaterialExporter {
     
     private static final Logger logger = Logger.getLogger(JsonMaterialExporter.class.getName());
         
+    public JsonMaterialExporter() {
+        matDefNameProcessor = new MatDefNameProcessor(Format.JSON);
+    }
+    
     /**
      * 
      * @param material

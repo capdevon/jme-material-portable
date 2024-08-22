@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.jme3.material.Material;
+import com.jme3.material.exporter.MatDefNameProcessor.Format;
 import com.jme3.material.json.JsonMaterial;
 
 /**
@@ -21,6 +22,10 @@ public class YamlMaterialExporter extends AbstractMaterialExporter {
     
     private static final Logger logger = Logger.getLogger(YamlMaterialExporter.class.getName());
 
+    public YamlMaterialExporter() {
+        matDefNameProcessor = new MatDefNameProcessor(Format.YAML);
+    }
+    
     /**
      * 
      * @param material

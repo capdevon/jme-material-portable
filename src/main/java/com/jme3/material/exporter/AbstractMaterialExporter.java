@@ -14,6 +14,7 @@ import com.jme3.material.json.JsonMatParam;
 import com.jme3.material.json.JsonMaterial;
 import com.jme3.material.json.JsonRenderState;
 import com.jme3.material.json.JsonTexture;
+import com.jme3.material.utils.MaterialUtils;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -28,7 +29,7 @@ import com.jme3.texture.Texture.WrapMode;
  */
 public abstract class AbstractMaterialExporter {
     
-    private UnaryOperator<String> matDefNameProcessor = UnaryOperator.identity();
+    protected UnaryOperator<String> matDefNameProcessor = UnaryOperator.identity();
 
     public void setMatDefNameProcessor(UnaryOperator<String> matDefNameProcessor) {
         this.matDefNameProcessor = matDefNameProcessor;
@@ -45,7 +46,7 @@ public abstract class AbstractMaterialExporter {
         String defName = material.getMaterialDef().getAssetName();
         mat.setDef(matDefNameProcessor.apply(defName));
 
-        List<JsonMatParam> parameters = toJson(sortMatParams(material));
+        List<JsonMatParam> parameters = toJson(MaterialUtils.sortMatParams(material));
         mat.setMaterialParameters(parameters);
 
         JsonRenderState renderState = toJson(material.getAdditionalRenderState());
@@ -57,7 +58,7 @@ public abstract class AbstractMaterialExporter {
      * @param params
      * @return
      */
-    private List<JsonMatParam> toJson(Collection<MatParam> params) {
+    protected List<JsonMatParam> toJson(Collection<MatParam> params) {
         List<JsonMatParam> parameters = new ArrayList<>();
         for (MatParam param : params) {
             
@@ -79,7 +80,7 @@ public abstract class AbstractMaterialExporter {
      * @param rs
      * @return
      */
-    private JsonRenderState toJson(RenderState rs) {
+    protected JsonRenderState toJson(RenderState rs) {
         JsonRenderState json = new JsonRenderState();
         RenderState defRs = RenderState.DEFAULT;
         
@@ -122,7 +123,7 @@ public abstract class AbstractMaterialExporter {
         return json;
     }
     
-    private Object formatMatParam(MatParam param) {
+    protected Object formatMatParam(MatParam param) {
         VarType type = param.getVarType();
         Object val = param.getValue();
         
@@ -158,7 +159,7 @@ public abstract class AbstractMaterialExporter {
         }
     }
 
-    private JsonTexture formatMatParamTexture(MatParamTexture param) {
+    protected JsonTexture formatMatParamTexture(MatParamTexture param) {
         JsonTexture json = new JsonTexture();
         Texture tex = (Texture) param.getValue();
         if (tex != null) {
@@ -202,7 +203,7 @@ public abstract class AbstractMaterialExporter {
         return json;
     }
 
-    private WrapMode formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
+    protected WrapMode formatWrapMode(Texture texVal, Texture.WrapAxis axis) {
         WrapMode mode;
         try {
             mode = texVal.getWrap(axis);
@@ -216,27 +217,4 @@ public abstract class AbstractMaterialExporter {
         return null;
     }
     
-    private List<MatParam> sortMatParams(Material mat) {
-        List<MatParam> allParams = new ArrayList<>();
-
-        // get all material parameters declared in this material.
-        for (MatParam param : mat.getParams()) {
-            allParams.add(param);
-        }
-
-        // sort by type then name
-        allParams.sort((a, b) -> {
-            int type = a.getVarType().compareTo(b.getVarType());
-            if (type == 0) {
-                int name = a.getName().compareTo(b.getName());
-                if (name == 0) {
-                    return type;
-                } else {
-                    return name;
-                }
-            }
-            return type;
-        });
-        return allParams;
-    }
 }
