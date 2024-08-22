@@ -22,6 +22,7 @@ import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetLoader;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.AssetNotFoundException;
+import com.jme3.asset.JsonMaterialKey;
 import com.jme3.asset.TextureKey;
 import com.jme3.material.MatParam;
 import com.jme3.material.Material;
@@ -41,6 +42,7 @@ import com.jme3.material.logic.MultiPassLightingLogic;
 import com.jme3.material.logic.SinglePassAndImageBasedLightingLogic;
 import com.jme3.material.logic.SinglePassLightingLogic;
 import com.jme3.material.logic.StaticPassLightingLogic;
+import com.jme3.material.utils.StringUtils;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -115,12 +117,16 @@ public class JsonMaterialLoader implements AssetLoader {
     }
     
     /**
+     * Loads a material from a JSON resource file identified by an
+     * AssetKey<JsonMaterialKey>. It parses the JSON content of the file and uses
+     * the parsed data to create a material object.
      * 
-     * @param assetManager
-     * @param key
-     * @return
+     * @param assetManager An AssetManager instance used to access resources.
+     * @param key          An AssetKey<JsonMaterialKey> representing the unique
+     *                     identifier of the material resource.
+     * @return A Material object representing the loaded material.
      */
-    public Material loadMaterial(AssetManager assetManager, AssetKey key) {
+    public Material loadMaterial(AssetManager assetManager, AssetKey<JsonMaterialKey> key) {
         this.assetManager = assetManager;
         this.key = key;
 
@@ -152,12 +158,12 @@ public class JsonMaterialLoader implements AssetLoader {
         JsonObject joMaterial = null;
         boolean extending = false;
         
-        if (jsonObject.has("MaterialDef")) {
-            joMaterial = jsonObject.getAsJsonObject("MaterialDef");
+        if (jsonObject.has("materialDef")) {
+            joMaterial = jsonObject.getAsJsonObject("materialDef");
             extending = false;
             
-        } else if (jsonObject.has("Material")) {
-            joMaterial = jsonObject.getAsJsonObject("Material");
+        } else if (jsonObject.has("material")) {
+            joMaterial = jsonObject.getAsJsonObject("material");
             extending = true;
             
         } else {
@@ -175,12 +181,12 @@ public class JsonMaterialLoader implements AssetLoader {
             materialDef.setAssetName(key.getName());
             
             // Parse MaterialParameters
-            for (JsonElement el : joMaterial.getAsJsonArray("MaterialParameters")) {
+            for (JsonElement el : joMaterial.getAsJsonArray("materialParameters")) {
                 readParam(el.getAsJsonObject());
             }
 
             // Parse Techniques
-            for (JsonElement el : joMaterial.getAsJsonArray("Techniques")) {
+            for (JsonElement el : joMaterial.getAsJsonArray("techniques")) {
                 readTechnique(el.getAsJsonObject());
             }
         } else {
@@ -517,40 +523,40 @@ public class JsonMaterialLoader implements AssetLoader {
          */
         readShaderStatement(jsonObject);
 
-        if (jsonObject.has("LightMode")) {
-            String lightMode = jsonObject.get("LightMode").getAsString();
+        if (jsonObject.has("lightMode")) {
+            String lightMode = jsonObject.get("lightMode").getAsString();
             technique.setLightMode(LightMode.valueOf(lightMode));
         }
-        if (jsonObject.has("LightSpace")) {
-            String lightSpace = jsonObject.get("LightSpace").getAsString();
+        if (jsonObject.has("lightSpace")) {
+            String lightSpace = jsonObject.get("lightSpace").getAsString();
             technique.setLightSpace(LightSpace.valueOf(lightSpace));
         }
-        if (jsonObject.has("ShadowMode")) {
-            String shadowMode = jsonObject.get("ShadowMode").getAsString();
+        if (jsonObject.has("shadowMode")) {
+            String shadowMode = jsonObject.get("shadowMode").getAsString();
             technique.setShadowMode(ShadowMode.valueOf(shadowMode));
         }
 
-        for (JsonElement el : jsonObject.getAsJsonArray("WorldParameters")) {
+        for (JsonElement el : jsonObject.getAsJsonArray("worldParameters")) {
             technique.addWorldParam(el.getAsString());
         }
 
-        if (jsonObject.has("RenderState")) {
+        if (jsonObject.has("renderState")) {
             RenderState renderState = new RenderState();
-            readRenderState(renderState, jsonObject.getAsJsonObject("RenderState"));
+            readRenderState(renderState, jsonObject.getAsJsonObject("renderState"));
             technique.setRenderState(renderState);
         }
-        if (jsonObject.has("ForcedRenderState")) {
+        if (jsonObject.has("forcedRenderState")) {
             RenderState renderState = new RenderState();
-            readRenderState(renderState, jsonObject.getAsJsonObject("ForcedRenderState"));
+            readRenderState(renderState, jsonObject.getAsJsonObject("forcedRenderState"));
             technique.setForcedRenderState(renderState);
         }
-        if (jsonObject.has("Defines")) {
-            for (JsonElement el : jsonObject.getAsJsonArray("Defines")) {
+        if (jsonObject.has("defines")) {
+            for (JsonElement el : jsonObject.getAsJsonArray("defines")) {
                 readDefine(el.getAsJsonObject());
             }
         }
-        if (jsonObject.has("NoRender")) {
-            technique.setNoRender(jsonObject.get("NoRender").getAsBoolean());
+        if (jsonObject.has("noRender")) {
+            technique.setNoRender(jsonObject.get("noRender").getAsBoolean());
         }
     }
     
@@ -576,10 +582,10 @@ public class JsonMaterialLoader implements AssetLoader {
     // <TYPE> <LANG> : <SOURCE>
     private void readShaderStatement(JsonObject jsonObject) throws IOException {
         for (ShaderType shaderType : ShaderType.values()) {
-            String shaderName = shaderType.name() + "Shader";
+            String shaderName = StringUtils.uncapitalize(shaderType.name()) + "Shader";
             if (jsonObject.has(shaderName)) {
                 String path = jsonObject.get(shaderName).getAsString();
-                String[] languages = parseStringArray(jsonObject.get("ShaderLanguages"));
+                String[] languages = parseStringArray(jsonObject.get("shaderLanguages"));
                 readShaderDefinition(shaderType, path, languages);
             }
         }
