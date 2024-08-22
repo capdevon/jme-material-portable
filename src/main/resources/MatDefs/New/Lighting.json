@@ -1,7 +1,7 @@
 {
-   "MaterialDef":{
+   "materialDef":{
       "name":"Phong Lighting",
-      "MaterialParameters":[
+      "materialParameters":[
          {
             "type":"Boolean",
             "name":"SeparateTexCoord"
@@ -245,25 +245,25 @@
             "name":"GlowColor"
          }
       ],
-      "Techniques":[
+      "techniques":[
          {
             "name":"PostShadow",
-            "FragmentShader":"Common/MatDefs/Shadow/PostShadow.frag",
-            "VertexShader":"Common/MatDefs/Shadow/PostShadow.vert",
-            "ShaderLanguages":[
+            "fragmentShader":"Common/MatDefs/Shadow/PostShadow.frag",
+            "vertexShader":"Common/MatDefs/Shadow/PostShadow.vert",
+            "shaderLanguages":[
                "GLSL310",
                "GLSL300",
                "GLSL150",
                "GLSL100"
             ],
-            "WorldParameters":[
+            "worldParameters":[
                "WorldViewProjectionMatrix",
                "WorldMatrix",
                "ViewProjectionMatrix",
                "ViewMatrix",
                "NormalMatrix"
             ],
-            "Defines":[
+            "defines":[
                {
                   "name":"BOUND_DRAW_BUFFER",
                   "param":"BoundDrawBuffer"
@@ -321,10 +321,10 @@
                   "param":"NumberOfTargetsBuffers"
                }
             ],
-            "ForcedRenderState":{
-               "Blend":"Modulate",
-               "DepthWrite":false,
-               "PolyOffset":[
+            "forcedRenderState":{
+               "blend":"Modulate",
+               "depthWrite":false,
+               "polyOffset":[
                   -0.1,
                   0.0
                ]
@@ -332,21 +332,21 @@
          },
          {
             "name":"PreShadow",
-            "FragmentShader":"Common/MatDefs/Shadow/PreShadow.frag",
-            "VertexShader":"Common/MatDefs/Shadow/PreShadow.vert",
-            "ShaderLanguages":[
+            "fragmentShader":"Common/MatDefs/Shadow/PreShadow.frag",
+            "vertexShader":"Common/MatDefs/Shadow/PreShadow.vert",
+            "shaderLanguages":[
                "GLSL310",
                "GLSL300",
                "GLSL150",
                "GLSL100"
             ],
-            "WorldParameters":[
+            "worldParameters":[
                "WorldViewProjectionMatrix",
                "WorldViewMatrix",
                "ViewProjectionMatrix",
                "ViewMatrix"
             ],
-            "Defines":[
+            "defines":[
                {
                   "name":"BOUND_DRAW_BUFFER",
                   "param":"BoundDrawBuffer"
@@ -372,10 +372,10 @@
                   "param":"NumberOfTargetsBuffers"
                }
             ],
-            "ForcedRenderState":{
-               "FaceCull":"Off",
-               "ColorWrite":false,
-               "PolyOffset":[
+            "forcedRenderState":{
+               "faceCull":"Off",
+               "colorWrite":false,
+               "polyOffset":[
                   5.0,
                   3.0
                ]
@@ -383,22 +383,22 @@
          },
          {
             "name":"PreNormalPass",
-            "FragmentShader":"Common/MatDefs/SSAO/normal.frag",
-            "VertexShader":"Common/MatDefs/SSAO/normal.vert",
-            "ShaderLanguages":[
+            "fragmentShader":"Common/MatDefs/SSAO/normal.frag",
+            "vertexShader":"Common/MatDefs/SSAO/normal.vert",
+            "shaderLanguages":[
                "GLSL310",
                "GLSL300",
                "GLSL150",
                "GLSL100"
             ],
-            "WorldParameters":[
+            "worldParameters":[
                "WorldViewProjectionMatrix",
                "WorldViewMatrix",
                "NormalMatrix",
                "ViewProjectionMatrix",
                "ViewMatrix"
             ],
-            "Defines":[
+            "defines":[
                {
                   "name":"BOUND_DRAW_BUFFER",
                   "param":"BoundDrawBuffer"
@@ -427,20 +427,20 @@
          },
          {
             "name":"Glow",
-            "FragmentShader":"Common/MatDefs/Light/Glow.frag",
-            "VertexShader":"Common/MatDefs/Misc/Unshaded.vert",
-            "ShaderLanguages":[
+            "fragmentShader":"Common/MatDefs/Light/Glow.frag",
+            "vertexShader":"Common/MatDefs/Misc/Unshaded.vert",
+            "shaderLanguages":[
                "GLSL310",
                "GLSL300",
                "GLSL150",
                "GLSL100"
             ],
-            "WorldParameters":[
+            "worldParameters":[
                "WorldViewProjectionMatrix",
                "ViewProjectionMatrix",
                "ViewMatrix"
             ],
-            "Defines":[
+            "defines":[
                {
                   "name":"BOUND_DRAW_BUFFER",
                   "param":"BoundDrawBuffer"
@@ -473,16 +473,16 @@
          },
          {
             "name":"Default",
-            "FragmentShader":"Common/MatDefs/Light/SPLighting.frag",
-            "VertexShader":"Common/MatDefs/Light/SPLighting.vert",
-            "ShaderLanguages":[
+            "fragmentShader":"Common/MatDefs/Light/SPLighting.frag",
+            "vertexShader":"Common/MatDefs/Light/SPLighting.vert",
+            "shaderLanguages":[
                "GLSL310",
                "GLSL300",
                "GLSL150",
                "GLSL100"
             ],
-            "LightMode":"SinglePass",
-            "WorldParameters":[
+            "lightMode":"SinglePass",
+            "worldParameters":[
                "WorldViewProjectionMatrix",
                "NormalMatrix",
                "WorldViewMatrix",
@@ -491,7 +491,7 @@
                "WorldMatrix",
                "ViewProjectionMatrix"
             ],
-            "Defines":[
+            "defines":[
                {
                   "name":"BOUND_DRAW_BUFFER",
                   "param":"BoundDrawBuffer"
@@ -600,16 +600,16 @@
          },
          {
             "name":"Default",
-            "FragmentShader":"Common/MatDefs/Light/Lighting.frag",
-            "VertexShader":"Common/MatDefs/Light/Lighting.vert",
-            "ShaderLanguages":[
+            "fragmentShader":"Common/MatDefs/Light/Lighting.frag",
+            "vertexShader":"Common/MatDefs/Light/Lighting.vert",
+            "shaderLanguages":[
                "GLSL310",
                "GLSL300",
                "GLSL150",
                "GLSL100"
             ],
-            "LightMode":"MultiPass",
-            "WorldParameters":[
+            "lightMode":"MultiPass",
+            "worldParameters":[
                "WorldViewProjectionMatrix",
                "NormalMatrix",
                "WorldViewMatrix",
@@ -618,7 +618,7 @@
                "WorldMatrix",
                "ViewProjectionMatrix"
             ],
-            "Defines":[
+            "defines":[
                {
                   "name":"BOUND_DRAW_BUFFER",
                   "param":"BoundDrawBuffer"

@@ -1,7 +1,7 @@
 {
-   "MaterialDef":{
+   "materialDef":{
       "name":"Debug Normals",
-      "MaterialParameters":[
+      "materialParameters":[
          {
             "type":"Boolean",
             "name":"UseInstancing"
@@ -11,23 +11,23 @@
             "name":"BoundDrawBuffer"
          }
       ],
-      "Techniques":[
+      "techniques":[
          {
             "name":"Default",
-            "FragmentShader":"Common/MatDefs/Misc/ShowNormals.frag",
-            "VertexShader":"Common/MatDefs/Misc/ShowNormals.vert",
-            "ShaderLanguages":[
+            "fragmentShader":"Common/MatDefs/Misc/ShowNormals.frag",
+            "vertexShader":"Common/MatDefs/Misc/ShowNormals.vert",
+            "shaderLanguages":[
                "GLSL300",
                "GLSL150",
                "GLSL100"
             ],
-            "WorldParameters":[
+            "worldParameters":[
                "WorldViewProjectionMatrix",
                "ViewProjectionMatrix",
                "ViewMatrix",
                "ProjectionMatrix"
             ],
-            "Defines":[
+            "defines":[
                {
                   "name":"BOUND_DRAW_BUFFER",
                   "param":"BoundDrawBuffer"
