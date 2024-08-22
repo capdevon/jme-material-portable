@@ -33,12 +33,6 @@ public class JsonMaterialExporter2 {
     
     private static final Logger logger = Logger.getLogger(JsonMaterialExporter2.class.getName());
         
-    /**
-     * 
-     * @param mat
-     * @param f
-     * @throws IOException
-     */
     public void save(Material mat, File f) throws IOException {
         JsonObject jsonMaterial = toJson(mat);
         
@@ -53,10 +47,6 @@ public class JsonMaterialExporter2 {
         }
     }
 
-    /**
-     * @param mat
-     * @return
-     */
     private JsonObject toJson(Material mat) {
         JsonObject data = new JsonObject();
         data.addProperty("name", mat.getName());
@@ -73,10 +63,6 @@ public class JsonMaterialExporter2 {
         return jsonMaterial;
     }
 
-    /**
-     * @param params
-     * @return
-     */
     private JsonArray toJson(Collection<MatParam> params) {
         JsonArray parameters = new JsonArray();
         for (MatParam param : params) {
@@ -91,10 +77,6 @@ public class JsonMaterialExporter2 {
         return parameters;
     }
 
-    /**
-     * @param rs
-     * @return
-     */
     private JsonObject toJson(RenderState rs) {
         JsonObject json = new JsonObject();
         RenderState defRs = RenderState.DEFAULT;
