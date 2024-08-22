@@ -1,5 +1,5 @@
 {
-  "Material": {
+  "material": {
     "name": "MyMaterial",
     "_def": "Common/MatDefs/Light/Lighting.j3md",
     "def": "MatDefs/New/Lighting.json",
@@ -14,7 +14,7 @@
       },
       {
         "name": "Diffuse",
-        "value": [0.5, 0.5, 0.5, 1]
+        "value": [0.505882, 0.505882, 0.505882, 1]
       },
       {
         "name": "Ambient",
