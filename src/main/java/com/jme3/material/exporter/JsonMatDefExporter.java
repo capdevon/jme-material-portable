@@ -99,7 +99,11 @@ public class JsonMatDefExporter {
             }
         }
         data.add("techniques", tenchiques);
-        return data;
+        
+        JsonObject jsonObj = new JsonObject();
+        jsonObj.add("materialDef", data);
+        
+        return jsonObj;
     }
 
     private JsonObject writeMatParam(MatParam param) {
