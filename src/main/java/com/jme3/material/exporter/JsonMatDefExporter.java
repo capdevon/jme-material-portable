@@ -3,6 +3,9 @@ package com.jme3.material.exporter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,12 +38,14 @@ public class JsonMatDefExporter {
     private static final Logger logger = Logger.getLogger(JsonMatDefExporter.class.getName());
 
     /**
-     * 
-     * @param matDef
-     * @param f
-     * @throws IOException
+     * Saves the given MaterialDef object to a specified file in JSON format.
+     *
+     * @param matDef the MaterialDef object to be saved
+     * @param file   the file to which the JSON representation of the MaterialDef
+     *               object will be written
+     * @throws IOException if an I/O error occurs during writing to the file
      */
-    public void save(MaterialDef matDef, File f) throws IOException {
+    public void save(MaterialDef matDef, File file) throws IOException {
 
         JsonObject data = writeMaterialDef(matDef);
 
@@ -49,15 +54,32 @@ public class JsonMatDefExporter {
         logger.log(Level.INFO, jsonString);
 
         // Write JSON String to file
-        try (FileWriter writer = new FileWriter(f)) {
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(jsonString);
+        }
+    }
+    
+    /**
+     * Saves the given MaterialDef object to the specified OutputStream in JSON
+     * format.
+     *
+     * @param matDef the MaterialDef object to be saved
+     * @param out    the OutputStream to which the JSON representation of the
+     *               MaterialDef object will be written
+     * @throws IOException if an I/O error occurs during writing
+     */
+    public void save(MaterialDef matDef, OutputStream out) throws IOException {
+
+        JsonObject data = writeMaterialDef(matDef);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String jsonString = gson.toJson(data);
+
+        try (OutputStreamWriter writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
             writer.write(jsonString);
         }
     }
 
-    /**
-     * @param matDef
-     * @return
-     */
     private JsonObject writeMaterialDef(MaterialDef matDef) {
         JsonObject data = new JsonObject();
         data.addProperty("name", matDef.getName());
@@ -136,10 +158,6 @@ public class JsonMatDefExporter {
         return json;
     }
 
-    /**
-     * @param techniqueDef
-     * @param matParams
-     */
     private JsonObject writeTechnique(TechniqueDef techniqueDef, Collection<MatParam> matParams) {
         JsonObject json = new JsonObject();
         json.addProperty("name", techniqueDef.getName());
@@ -195,10 +213,6 @@ public class JsonMatDefExporter {
         }
     }
     
-    /**
-     * @param techniqueDef
-     * @return
-     */
     private JsonArray writeWorldParams(TechniqueDef techniqueDef) {
         JsonArray array = new JsonArray();
         for (UniformBinding uniformBinding : techniqueDef.getWorldBindings()) {
@@ -207,11 +221,6 @@ public class JsonMatDefExporter {
         return array;
     }
     
-    /**
-     * @param technique
-     * @param matParams
-     * @return
-     */
     private JsonArray writeDefines(TechniqueDef technique, Collection<MatParam> matParams) {
         JsonArray array = new JsonArray();
         for (int i = 0; i < technique.getDefineNames().length; i++) {
@@ -227,10 +236,6 @@ public class JsonMatDefExporter {
         return array;
     }
     
-    /**
-     * @param rs
-     * @return
-     */
     private JsonObject writeRenderState(RenderState rs) {
         
         JsonObject json = new JsonObject();
