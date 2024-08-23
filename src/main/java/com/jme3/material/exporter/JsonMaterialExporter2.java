@@ -52,14 +52,14 @@ public class JsonMaterialExporter2 {
         data.addProperty("name", mat.getName());
         data.addProperty("def", mat.getMaterialDef().getAssetName());
 
-        JsonArray parameters = toJson(MaterialUtils.sortMatParams(mat));
+        JsonArray parameters = toJson(MaterialUtils.sortMatParams(mat.getParams()));
         data.add("materialParameters", parameters);
 
         JsonObject renderState = toJson(mat.getAdditionalRenderState());
         data.add("additionalRenderState", renderState);
 
         JsonObject jsonMaterial = new JsonObject();
-        jsonMaterial.add("Material", data);
+        jsonMaterial.add("material", data);
         return jsonMaterial;
     }
 

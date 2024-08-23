@@ -46,7 +46,7 @@ public abstract class AbstractMaterialExporter {
         String defName = material.getMaterialDef().getAssetName();
         mat.setDef(matDefNameProcessor.apply(defName));
 
-        List<JsonMatParam> parameters = toJson(MaterialUtils.sortMatParams(material));
+        List<JsonMatParam> parameters = toJson(MaterialUtils.sortMatParams(material.getParams()));
         mat.setMaterialParameters(parameters);
 
         JsonRenderState renderState = toJson(material.getAdditionalRenderState());

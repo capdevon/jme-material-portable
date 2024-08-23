@@ -23,9 +23,13 @@ public class MatDefNameProcessor implements UnaryOperator<String> {
      */
     public MatDefNameProcessor(Format format) {
         String ext = "." + format.name().toLowerCase();
-        map.put("Common/MatDefs/Light/Lighting.j3md", "MatDefs/New/Lighting" + ext);
-        map.put("Common/MatDefs/Light/PBRLighting.j3md", "MatDefs/New/PBRLighting" + ext);
-        map.put("Common/MatDefs/Misc/Unshaded.j3md", "MatDefs/New/Unshaded" + ext);
+        map.put(Materials.LIGHTING, "MatDefs/New/Lighting" + ext);
+        map.put(Materials.PBR, "MatDefs/New/PBRLighting" + ext);
+        map.put(Materials.UNSHADED, "MatDefs/New/Unshaded" + ext);
+    }
+    
+    public void setMappingName(String key, String value) {
+        map.put(key, value);
     }
 
     @Override

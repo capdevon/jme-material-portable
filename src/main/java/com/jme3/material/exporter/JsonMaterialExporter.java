@@ -39,7 +39,7 @@ public class JsonMaterialExporter extends AbstractMaterialExporter {
         JsonMaterial mat = toJson(material);
         
         Map<String, Object> data = new HashMap<>();
-        data.put("Material", mat);
+        data.put("material", mat);
 
         // Convert JsonObject to String
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

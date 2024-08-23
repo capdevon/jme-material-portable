@@ -1,10 +1,10 @@
 package com.jme3.material.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.jme3.material.MatParam;
-import com.jme3.material.Material;
 
 /**
  * 
@@ -12,13 +12,17 @@ import com.jme3.material.Material;
  */
 public class MaterialUtils {
     
-    public static List<MatParam> sortMatParams(Material mat) {
-        List<MatParam> allParams = new ArrayList<>();
-
-        // get all material parameters declared in this material.
-        for (MatParam param : mat.getParams()) {
-            allParams.add(param);
-        }
+    /**
+     * Sorts a collection of material parameters.
+     *
+     * <p>This method takes a collection of material parameters, sorts them first by their type
+     * and then by their name, and returns the sorted list.</p>
+     *
+     * @param params the collection of material parameters to be sorted
+     * @return a list of sorted material parameters
+     */
+    public static List<MatParam> sortMatParams(Collection<MatParam> params) {
+        List<MatParam> allParams = new ArrayList<>(params);
 
         // sort by type then name
         allParams.sort((a, b) -> {

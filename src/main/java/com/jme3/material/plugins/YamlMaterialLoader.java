@@ -125,8 +125,6 @@ public class YamlMaterialLoader implements AssetLoader {
 
     /**
      * Loads a resource file as an InputStream.
-     * 
-     * @throws IOException
      */
     private InputStream getResourceAsStream(String name) throws IOException {
         ClassLoader loader = getClass().getClassLoader();

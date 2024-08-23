@@ -8,8 +8,6 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,6 +18,7 @@ import com.jme3.material.MatParamTexture;
 import com.jme3.material.MaterialDef;
 import com.jme3.material.RenderState;
 import com.jme3.material.TechniqueDef;
+import com.jme3.material.utils.MaterialUtils;
 import com.jme3.material.utils.StringUtils;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
@@ -35,8 +34,6 @@ import com.jme3.texture.image.ColorSpace;
  */
 public class JsonMatDefExporter {
     
-    private static final Logger logger = Logger.getLogger(JsonMatDefExporter.class.getName());
-
     /**
      * Saves the given MaterialDef object to a specified file in JSON format.
      *
@@ -51,7 +48,6 @@ public class JsonMatDefExporter {
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(data);
-        logger.log(Level.INFO, jsonString);
 
         // Write JSON String to file
         try (FileWriter writer = new FileWriter(file)) {
@@ -84,7 +80,7 @@ public class JsonMatDefExporter {
         JsonObject data = new JsonObject();
         data.addProperty("name", matDef.getName());
 
-        Collection<MatParam> matParams = matDef.getMaterialParams();
+        Collection<MatParam> matParams = MaterialUtils.sortMatParams(matDef.getMaterialParams());
         JsonArray parameters = new JsonArray();
         for (MatParam param : matParams) {
             parameters.add(writeMatParam(param));

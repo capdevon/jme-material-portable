@@ -20,7 +20,7 @@ public class Test_JsonMatDef extends SimpleApplication {
     
     @Override
     public void simpleInitApp() {
-        MaterialDef mat = assetManager.loadAsset(new AssetKey<MaterialDef>("MatDefs/ShowNormals.j3md"));
+        MaterialDef mat = assetManager.loadAsset(new AssetKey<MaterialDef>("MatDefs/Lighting.j3md"));
         JsonMatDefExporter exporter = new JsonMatDefExporter();
         try {
             exporter.save(mat, System.out);
