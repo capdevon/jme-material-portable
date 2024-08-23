@@ -225,23 +225,23 @@
             "name":"Splits"
          },
          {
-            "type":"Vector4",
+            "type":"Color",
             "name":"Specular"
          },
          {
-            "type":"Vector4",
+            "type":"Color",
             "name":"Diffuse"
          },
          {
-            "type":"Vector4",
+            "type":"Color",
             "name":"FogColor"
          },
          {
-            "type":"Vector4",
+            "type":"Color",
             "name":"Ambient"
          },
          {
-            "type":"Vector4",
+            "type":"Color",
             "name":"GlowColor"
          }
       ],

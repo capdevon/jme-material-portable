@@ -29,7 +29,7 @@ MaterialDef:
       - Metallic: 1.0
       - Glossiness: 1.0
       # The type of normal map: -1.0 (DirectX), 1.0 (OpenGl)
-      - NormalType: -1
+      - NormalType: -1.0
       - EmissivePower: 3.0
       - EmissiveIntensity: 2.0
       - AlphaDiscardThreshold: 
