@@ -6,7 +6,6 @@ import com.jme3.asset.YamlMaterialKey;
 import com.jme3.material.Material;
 import com.jme3.material.MaterialDef;
 import com.jme3.material.plugins.YamlMaterialLoader;
-import com.jme3.material.plugins.YamlMaterialLoader2;
 import com.jme3.system.JmeContext;
 
 /**
@@ -26,7 +25,7 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        assetManager.registerLoader(YamlMaterialLoader2.class, "yaml");
+        assetManager.registerLoader(YamlMaterialLoader.class, "yaml");
         //loadMaterialDef();
         loadMaterial();
         stop();
@@ -40,22 +39,22 @@ public class Test_YamlMaterialLoader extends SimpleApplication {
     }
 
     private void loadMaterial() {
-//        String fileName = "Materials/Material.yaml";
-//        YamlMaterialLoader loader = new YamlMaterialLoader();
-//        Material mat = loader.loadMaterial(assetManager, new YamlMaterialKey(fileName));
+        String fileName = "Materials/Material.yaml";
+        YamlMaterialLoader loader = new YamlMaterialLoader();
+        Material mat = loader.loadMaterial(assetManager, new YamlMaterialKey(fileName));
         
 //        Material mat = assetManager.loadAsset(new YamlMaterialKey(fileName));
 //        Material mat = assetManager.loadMaterial(fileName);
         
         String[] defs = {
-//                "MatDefs/New/Lighting.yaml",
+                "MatDefs/New/Lighting.yaml",
                 "MatDefs/New/PBRLighting2.yaml",
-//                "MatDefs/New/Unshaded.yaml",
+                "MatDefs/New/Unshaded.yaml",
                 "MatDefs/New/ShowNormals.yaml"
         };
         for (String defName : defs) {
-            Material mat = new Material(assetManager, defName);
-            MaterialSerializer.print(mat);
+            Material material = new Material(assetManager, defName);
+            MaterialSerializer.print(material);
         }
     }
 
