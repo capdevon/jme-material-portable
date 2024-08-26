@@ -1,5 +1,5 @@
 ---
-Material: 
+material: 
   name: "MyMaterial"
   #def: "Common/MatDefs/Light/Lighting.j3md"
   def: "MatDefs/New/Lighting.yaml"
@@ -34,4 +34,4 @@ Material:
     colorWrite: "true"
     depthTest: "true"
     wireframe: "false"
-    polyOffset: [0, 0]
+    polyOffset: [0.0, 0.0]
