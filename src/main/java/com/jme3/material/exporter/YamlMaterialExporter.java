@@ -39,7 +39,7 @@ public class YamlMaterialExporter extends AbstractMaterialExporter {
         JsonMaterial mat = toJson(material);
 
         Map<String, Object> data = new HashMap<>();
-        data.put("Material", mat);
+        data.put("material", mat);
 
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         String yaml = mapper.writeValueAsString(data);
