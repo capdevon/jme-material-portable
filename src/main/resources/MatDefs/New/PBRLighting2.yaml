@@ -1,23 +1,11 @@
 ---
-MaterialDef: 
+materialDef: 
   name: "PBR Lighting"
-  MatParams: 
-  - Float: {name: Roughness, value: 1}
-  - Texture2D: {name: MetallicRoughnessMap, colorSpace: Linear}
-  - Color: {name: BaseColor, value: [1, 1, 1, 1]}
-  - Vector2: {name: FadeInfo}
-  MaterialParameters: 
+  materialParameters: 
     - Color:
       - BaseColor: [1.0, 1.0, 1.0, 1.0]
       - Specular: [1.0, 1.0, 1.0, 1.0]
       - Emissive:
-    - Vector2:
-      - FadeInfo: 
-    - Vector3:
-      - LightPos: 
-      - LightDir: 
-    - Vector4:
-      - Splits:
     - Int:
       - NumberOfBones: 
       - NumberOfMorphTargets: 
@@ -41,6 +29,26 @@ MaterialDef:
       - ParallaxHeight: 0.05
       - AoStrength: 
       - ShadowMapSize: 
+    - Boolean:
+      - UseSpecularAA: true
+      - BackfaceShadows: false
+      - UseSpecGloss: 
+      - SteepParallax: 
+      - HardwareShadows: 
+      - HorizonFade: 
+      - UseInstancing: 
+      - AoPackedInMRMap: 
+      - PackedNormalParallax: 
+      - UseVertexColor: 
+      - LightMapAsAOMap: 
+      - SeparateTexCoord:
+    - Vector2:
+      - FadeInfo: 
+    - Vector3:
+      - LightPos: 
+      - LightDir: 
+    - Vector4:
+      - Splits:
     - Texture2D:
       - MetallicRoughnessMap: Linear
       - MetallicMap: Linear
@@ -58,20 +66,7 @@ MaterialDef:
       - ShadowMap2: 
       - ShadowMap3: 
       - ShadowMap4: 
-      - ShadowMap5: 
-    - Boolean:
-      - UseSpecularAA: true
-      - BackfaceShadows: false
-      - UseSpecGloss: 
-      - SteepParallax: 
-      - HardwareShadows: 
-      - HorizonFade: 
-      - UseInstancing: 
-      - AoPackedInMRMap: 
-      - PackedNormalParallax: 
-      - UseVertexColor: 
-      - LightMapAsAOMap: 
-      - SeparateTexCoord: 
+      - ShadowMap5:  
     - Matrix4:
       - LightViewProjectionMatrix0: 
       - LightViewProjectionMatrix1: 
@@ -79,17 +74,17 @@ MaterialDef:
       - LightViewProjectionMatrix3: 
       - LightViewProjectionMatrix4: 
       - LightViewProjectionMatrix5: 
-  Techniques: 
+  techniques: 
   - name: "PostShadow"
-    FragmentShader: "Common/MatDefs/Shadow/PostShadowPBR.frag"
-    VertexShader: "Common/MatDefs/Shadow/PostShadow.vert"
-    ShaderLanguages: ["GLSL310", "GLSL300", "GLSL150", "GLSL100"]
-    WorldParameters: 
+    fragmentShader: "Common/MatDefs/Shadow/PostShadowPBR.frag"
+    vertexShader: "Common/MatDefs/Shadow/PostShadow.vert"
+    shaderLanguages: ["GLSL310", "GLSL300", "GLSL150", "GLSL100"]
+    worldParameters: 
     - "WorldViewProjectionMatrix"
     - "WorldMatrix"
     - "ViewProjectionMatrix"
     - "ViewMatrix"
-    Defines: 
+    defines: 
       BOUND_DRAW_BUFFER: "BoundDrawBuffer"
       HARDWARE_SHADOWS: "HardwareShadows"
       FILTER_MODE: "FilterMode"
@@ -104,41 +99,41 @@ MaterialDef:
       BACKFACE_SHADOWS: "BackfaceShadows"
       NUM_MORPH_TARGETS: "NumberOfMorphTargets"
       NUM_TARGETS_BUFFERS: "NumberOfTargetsBuffers"
-    ForcedRenderState: 
-      Blend: "Modulate"
-      DepthWrite: "false"
-      PolyOffset: [-0.1, 0]
+    forcedRenderState: 
+      blend: "Modulate"
+      depthWrite: "false"
+      polyOffset: [-0.1, 0]
   - name: "PreShadow"
-    FragmentShader: "Common/MatDefs/Shadow/PreShadowPBR.frag"
-    VertexShader: "Common/MatDefs/Shadow/PreShadow.vert"
-    ShaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
-    WorldParameters: 
+    fragmentShader: "Common/MatDefs/Shadow/PreShadowPBR.frag"
+    vertexShader: "Common/MatDefs/Shadow/PreShadow.vert"
+    shaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
+    worldParameters: 
     - "WorldViewProjectionMatrix"
     - "WorldViewMatrix"
     - "ViewProjectionMatrix"
     - "ViewMatrix"
-    Defines: 
+    defines: 
       BOUND_DRAW_BUFFER: "BoundDrawBuffer"
       DISCARD_ALPHA: "AlphaDiscardThreshold"
       NUM_BONES: "NumberOfBones"
       INSTANCING: "UseInstancing"
       NUM_MORPH_TARGETS: "NumberOfMorphTargets"
       NUM_TARGETS_BUFFERS: "NumberOfTargetsBuffers"
-    ForcedRenderState: 
-      FaceCull: "Off"
-      ColorWrite: "false"
-      PolyOffset: [5, 3]
+    forcedRenderState: 
+      faceCull: "Off"
+      colorWrite: "false"
+      polyOffset: [5, 3]
   - name: "PreNormalPass"
-    FragmentShader: "Common/MatDefs/SSAO/normal.frag"
-    VertexShader: "Common/MatDefs/SSAO/normal.vert"
-    ShaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
-    WorldParameters: 
+    fragmentShader: "Common/MatDefs/SSAO/normal.frag"
+    vertexShader: "Common/MatDefs/SSAO/normal.vert"
+    shaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
+    worldParameters: 
     - "WorldViewProjectionMatrix"
     - "WorldViewMatrix"
     - "NormalMatrix"
     - "ViewProjectionMatrix"
     - "ViewMatrix"
-    Defines: 
+    defines: 
       BOUND_DRAW_BUFFER: "BoundDrawBuffer"
       BASECOLORMAP_ALPHA: "BaseColorMap"
       NUM_BONES: "NumberOfBones"
@@ -146,14 +141,14 @@ MaterialDef:
       NUM_MORPH_TARGETS: "NumberOfMorphTargets"
       NUM_TARGETS_BUFFERS: "NumberOfTargetsBuffers"
   - name: "Glow"
-    FragmentShader: "Common/MatDefs/Light/PBRGlow.frag"
-    VertexShader: "Common/MatDefs/Misc/Unshaded.vert"
-    ShaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
-    WorldParameters: 
+    fragmentShader: "Common/MatDefs/Light/PBRGlow.frag"
+    vertexShader: "Common/MatDefs/Misc/Unshaded.vert"
+    shaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
+    worldParameters: 
     - "WorldViewProjectionMatrix"
     - "ViewProjectionMatrix"
     - "ViewMatrix"
-    Defines: 
+    defines: 
       HAS_EMISSIVEMAP: "EmissiveMap"
       HAS_EMISSIVECOLOR: "Emissive"
       BOUND_DRAW_BUFFER: "BoundDrawBuffer"
@@ -162,18 +157,18 @@ MaterialDef:
       NUM_MORPH_TARGETS: "NumberOfMorphTargets"
       NUM_TARGETS_BUFFERS: "NumberOfTargetsBuffers"
   - name: "Default"
-    FragmentShader: "Common/MatDefs/Light/PBRLighting.frag"
-    VertexShader: "Common/MatDefs/Light/PBRLighting.vert"
-    ShaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
-    LightMode: "SinglePassAndImageBased"
-    WorldParameters: 
+    fragmentShader: "Common/MatDefs/Light/PBRLighting.frag"
+    vertexShader: "Common/MatDefs/Light/PBRLighting.vert"
+    shaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
+    lightMode: "SinglePassAndImageBased"
+    worldParameters: 
     - "WorldViewProjectionMatrix"
     - "CameraPosition"
     - "WorldMatrix"
     - "WorldNormalMatrix"
     - "ViewProjectionMatrix"
     - "ViewMatrix"
-    Defines: 
+    defines: 
       BOUND_DRAW_BUFFER: "BoundDrawBuffer"
       BASECOLORMAP: "BaseColorMap"
       NORMALMAP: "NormalMap"

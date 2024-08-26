@@ -1,21 +1,21 @@
 ---
-MaterialDef: 
+materialDef: 
   name: "Debug Normals"
-  MaterialParameters: 
+  materialParameters: 
   - Boolean:
     - UseInstancing:
   - Int:
     - BoundDrawBuffer: 
-  Techniques: 
+  techniques: 
   - name: "Default"
-    FragmentShader: "Common/MatDefs/Misc/ShowNormals.frag"
-    VertexShader: "Common/MatDefs/Misc/ShowNormals.vert"
-    ShaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
-    WorldParameters: 
+    fragmentShader: "Common/MatDefs/Misc/ShowNormals.frag"
+    vertexShader: "Common/MatDefs/Misc/ShowNormals.vert"
+    shaderLanguages: ["GLSL300", "GLSL150", "GLSL100"]
+    worldParameters: 
     - "WorldViewProjectionMatrix"
     - "ViewProjectionMatrix"
     - "ViewMatrix"
     - "ProjectionMatrix"
-    Defines: 
+    defines: 
       BOUND_DRAW_BUFFER: "BoundDrawBuffer"
       INSTANCING: "UseInstancing"
