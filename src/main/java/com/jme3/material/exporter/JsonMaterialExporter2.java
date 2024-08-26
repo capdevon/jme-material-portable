@@ -29,6 +29,7 @@ import com.jme3.texture.Texture.WrapMode;
  * 
  * @author capdevon
  */
+@Deprecated
 public class JsonMaterialExporter2 {
     
     private static final Logger logger = Logger.getLogger(JsonMaterialExporter2.class.getName());
