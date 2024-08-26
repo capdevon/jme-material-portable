@@ -22,7 +22,6 @@ import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetLoader;
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.AssetNotFoundException;
-import com.jme3.asset.JsonMaterialKey;
 import com.jme3.asset.TextureKey;
 import com.jme3.material.MatParam;
 import com.jme3.material.Material;
@@ -126,7 +125,7 @@ public class JsonMaterialLoader implements AssetLoader {
      * @return the loaded {@link Material}
      * @throws RuntimeException if an I/O error occurs during reading the JSON file
      */
-    public Material loadMaterial(AssetManager assetManager, AssetKey<JsonMaterialKey> key) {
+    public Material loadMaterial(AssetManager assetManager, AssetKey<Material> key) {
         this.assetManager = assetManager;
         this.key = key;
 
