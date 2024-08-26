@@ -37,6 +37,7 @@ import com.jme3.material.logic.MultiPassLightingLogic;
 import com.jme3.material.logic.SinglePassAndImageBasedLightingLogic;
 import com.jme3.material.logic.SinglePassLightingLogic;
 import com.jme3.material.logic.StaticPassLightingLogic;
+import com.jme3.material.utils.StringUtils;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
@@ -106,7 +107,17 @@ public class YamlMaterialLoader implements AssetLoader {
         materialDef = null;
     }
     
-    public Material loadMaterial(AssetManager assetManager, AssetKey key) {
+    /**
+     * Loads a {@link Material} from a YAML resource file identified by an
+     * {@link AssetKey}. It parses the YAML content of the file and uses the parsed
+     * data to create a material object.
+     * 
+     * @param assetManager the asset manager used to load the material
+     * @param key          the key representing the unique identifier of the material resource.
+     * @return the loaded {@link Material}
+     * @throws RuntimeException if an I/O error occurs during reading the YAML file
+     */
+    public Material loadMaterial(AssetManager assetManager, AssetKey<Material> key) {
         this.assetManager = assetManager;
         this.key = key;
 
@@ -145,12 +156,12 @@ public class YamlMaterialLoader implements AssetLoader {
         Map<String, Object> map = null;
         boolean extending = false;
 
-        if (doc.containsKey("MaterialDef")) {
-            map = (Map) doc.get("MaterialDef");
+        if (doc.containsKey("materialDef")) {
+            map = getMap(doc.get("materialDef"));
             extending = false;
 
-        } else if (doc.containsKey("Material")) {
-            map = (Map) doc.get("Material");
+        } else if (doc.containsKey("material")) {
+            map = getMap(doc.get("material"));
             extending = true;
 
         } else {
@@ -168,13 +179,16 @@ public class YamlMaterialLoader implements AssetLoader {
             materialDef.setAssetName(key.getName());
 
             // Parse MaterialParameters
-            List<Object> materialParameters = (List<Object>) map.get("MaterialParameters");
+            List<Object> materialParameters = getList(map.get("materialParameters"));
             for (Object el : materialParameters) {
-                readParam((Map) el);
+                Map<String, Object> m = (Map) el;
+                for (Map.Entry<String, Object> entry : m.entrySet()) {
+                    readParam(entry);
+                }
             }
 
             // Parse Techniques
-            List<Object> techniques = (List<Object>) map.get("Techniques");
+            List<Object> techniques = getList(map.get("techniques"));
             for (Object el : techniques) {
                 readTechnique((Map) el);
             }
@@ -192,14 +206,82 @@ public class YamlMaterialLoader implements AssetLoader {
             material.setName(materialName);
     
             // Parse MaterialParameters
-            List<Object> materialParameters = (List) map.get("materialParameters");
+            List<Object> materialParameters = getList(map.get("materialParameters"));
             for (Object el : materialParameters) {
                 readValueParam((Map) el);
             }
     
             // Parse AdditionalRenderState
-            Map<String, Object> additionalRenderState = (Map) map.get("additionalRenderState");
+            Map<String, Object> additionalRenderState = getMap(map.get("additionalRenderState"));
             readRenderState(material.getAdditionalRenderState(), additionalRenderState);
+        }
+    }
+
+    // <TYPE> <NAME> [-LINEAR] [ ":" <DEFAULTVAL> ]
+    private void readParam(Map.Entry<String, Object> e) throws IOException {
+
+        String stringType = e.getKey();
+        List<Object> lstParams = (List) e.getValue();
+
+        VarType type;
+        if (stringType.equals("Color")) {
+            type = VarType.Vector4;
+        } else {
+            type = VarType.valueOf(stringType);
+        }
+
+        for (Object el : lstParams) {
+            Map<String, Object> map = (Map) el;
+
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                String name = entry.getKey();    // param name
+                Object value = entry.getValue(); // param value (optional)
+
+                Object defaultVal = null;
+
+                if (type.isTextureType()) {
+                    ColorSpace colorSpace = null;
+                    if (value != null) {
+                        colorSpace = getEnum(value, ColorSpace.class);
+                    }
+                    materialDef.addMaterialParamTexture(type, name, colorSpace, (Texture) defaultVal);
+
+                } else {
+                    if (value != null) {
+                        defaultVal = readUniformValue(type, value);
+                    }
+                    materialDef.addMaterialParam(type, name, defaultVal);
+                }
+            }
+        }
+    }
+
+    private Object readUniformValue(VarType type, Object value) throws IOException {
+
+        switch (type) {
+            case Int:
+                return getInt(value);
+    
+            case Float:
+                return getFloat(value);
+    
+            case Boolean:
+                return getBoolean(value);
+    
+            case Vector2:
+                float[] v2 = parseFloatArray(value, 2);
+                return new Vector2f(v2[0], v2[1]);
+    
+            case Vector3:
+                float[] v3 = parseFloatArray(value, 3);
+                return new Vector3f(v3[0], v3[1], v3[2]);
+    
+            case Vector4:
+                float[] v4 = parseFloatArray(value, 4);
+                return new ColorRGBA(v4[0], v4[1], v4[2], v4[3]);
+    
+            default:
+                throw new UnsupportedOperationException("VarType not supported: " + type);
         }
     }
     
@@ -275,7 +357,7 @@ public class YamlMaterialLoader implements AssetLoader {
 
     private Object readValue(VarType type, Map<String, Object> map) throws IOException {
         if (type.isTextureType()) {
-            return parseTextureType(type, (Map) map.get("texture"));
+            return parseTextureType(type, getMap(map.get("texture")));
         } else {
             Object value = map.get("value");
             switch (type) {
@@ -295,7 +377,7 @@ public class YamlMaterialLoader implements AssetLoader {
                     float[] vec4 = parseFloatArray(value, 4);
                     return new ColorRGBA(vec4[0], vec4[1], vec4[2], vec4[3]); //TODO: Vector4f ?
                 default:
-                    throw new UnsupportedOperationException("Unknown type: " + type);
+                    throw new UnsupportedOperationException("VarType not supported: " + type);
             }
         }
     }
@@ -374,37 +456,12 @@ public class YamlMaterialLoader implements AssetLoader {
         return texture;
     }
     
-    // <TYPE> <NAME> [-LINEAR] [ ":" <DEFAULTVAL> ]
-    private void readParam(Map<String, Object> map) throws IOException {
-        String name = getString(map.get("name"));
-        String stringType = getString(map.get("type"));
-
-        ColorSpace colorSpace = null;
-        if (map.containsKey("colorSpace")) {
-            colorSpace = getEnum(map.get("colorSpace"), ColorSpace.class);
-        }
-
-        VarType type;
-        if (stringType.equals("Color")) {
-            type = VarType.Vector4;
-        } else {
-            type = VarType.valueOf(stringType);
-        }
-
-        Object defaultVal = null;
-        if (map.containsKey("value")) {
-            defaultVal = readValue(type, map);
-        }
-        if (type.isTextureType()) {
-            materialDef.addMaterialParamTexture(type, name, colorSpace, (Texture) defaultVal);
-        } else {
-            materialDef.addMaterialParam(type, name, defaultVal);
-        }
-    }
-    
     private void readTechnique(Map<String, Object> map) throws IOException {
 
         String name = getString(map.get("name"));
+        if (name.isBlank()) {
+            throw new IOException("Technique name cannot be empty: " + name);
+        }
 
         String techniqueUniqueName = materialDef.getAssetName() + "@" + name;
         technique = new TechniqueDef(name, techniqueUniqueName.hashCode());
@@ -490,44 +547,39 @@ public class YamlMaterialLoader implements AssetLoader {
          */
         readShaderStatement(map);
 
-        if (map.containsKey("LightMode")) {
-            String lightMode = getString(map.get("LightMode"));
+        if (map.containsKey("lightMode")) {
+            String lightMode = getString(map.get("lightMode"));
             technique.setLightMode(LightMode.valueOf(lightMode));
         }
-        if (map.containsKey("LightSpace")) {
-            String lightSpace = getString(map.get("LightSpace"));
+        if (map.containsKey("lightSpace")) {
+            String lightSpace = getString(map.get("lightSpace"));
             technique.setLightSpace(LightSpace.valueOf(lightSpace));
         }
-        if (map.containsKey("ShadowMode")) {
-            String shadowMode = getString(map.get("ShadowMode"));
+        if (map.containsKey("shadowMode")) {
+            String shadowMode = getString(map.get("shadowMode"));
             technique.setShadowMode(ShadowMode.valueOf(shadowMode));
         }
 
-        List<Object> worldParameters = (List<Object>) map.get("WorldParameters");
+        List<Object> worldParameters = getList(map.get("worldParameters"));
         for (Object el : worldParameters) {
             technique.addWorldParam(el.toString());
         }
 
-        if (map.containsKey("RenderState")) {
+        if (map.containsKey("renderState")) {
             RenderState renderState = new RenderState();
-            readRenderState(renderState, (Map) map.get("RenderState"));
+            readRenderState(renderState, getMap(map.get("renderState")));
             technique.setRenderState(renderState);
         }
-        if (map.containsKey("ForcedRenderState")) {
+        if (map.containsKey("forcedRenderState")) {
             RenderState renderState = new RenderState();
-            readRenderState(renderState, (Map) map.get("ForcedRenderState"));
+            readRenderState(renderState, getMap(map.get("forcedRenderState")));
             technique.setForcedRenderState(renderState);
         }
-        if (map.containsKey("Defines")) {
-//            List<Object> defines = (List<Object>) map.get("Defines");
-//            for (Object el : defines) {
-//                readDefine((Map) el);
-//            }
-            
-            readDefine((Map) map.get("Defines"));
+        if (map.containsKey("defines")) {
+            readDefine(getMap(map.get("defines")));
         }
-        if (map.containsKey("NoRender")) {
-            boolean noRender = getBoolean(map.get("NoRender"));
+        if (map.containsKey("noRender")) {
+            boolean noRender = getBoolean(map.get("noRender"));
             technique.setNoRender(noRender);
         }
     }
@@ -552,30 +604,15 @@ public class YamlMaterialLoader implements AssetLoader {
                 technique.addShaderParamDefine(paramName, paramType, defineName);
             }
         }
-        
-//        String defineName = getString(map.get("name"));
-//        presetDefines.add(defineName);
-//
-//        String paramName = getString(map.get("param"));
-//        MatParam param = materialDef.getMaterialParam(paramName);
-//        if (param == null) {
-//            logger.log(Level.WARNING, "In technique ''{0}'':\n" 
-//                    + "Define ''{1}'' mapped to non-existent material parameter ''{2}'', ignoring.", 
-//                    new Object[] { technique.getName(), defineName, paramName });
-//            return;
-//        }
-//
-//        VarType paramType = param.getVarType();
-//        technique.addShaderParamDefine(paramName, paramType, defineName);
     }
     
     // <TYPE> <LANG> : <SOURCE>
     private void readShaderStatement(Map<String, Object> map) throws IOException {
         for (ShaderType shaderType : ShaderType.values()) {
-            String shaderName = shaderType.name() + "Shader";
+            String shaderName = StringUtils.uncapitalize(shaderType.name()) + "Shader";
             if (map.containsKey(shaderName)) {
                 String path = getString(map.get(shaderName));
-                String[] languages = parseStringArray(map.get("ShaderLanguages"));
+                String[] languages = parseStringArray(map.get("shaderLanguages"));
                 readShaderDefinition(shaderType, path, languages);
             }
         }
@@ -590,20 +627,6 @@ public class YamlMaterialLoader implements AssetLoader {
                 shaderLanguages.add(map);
             }
             shaderLanguages.get(i).put(shaderType, languages[i]);
-        }
-    }
-    
-    @SuppressWarnings("unchecked")
-    protected static String[] parseStringArray(Object obj) throws IOException {
-        if (obj instanceof List<?>) {
-            List<Object> list = (List<Object>) obj;
-            String[] a = new String[list.size()];
-            for (int i = 0; i < a.length; i++) {
-                a[i] = list.get(i).toString();
-            }
-            return a;
-        } else {
-            throw new IOException("Could not parse MaterialDef. Expected List at: " + obj);
         }
     }
     
@@ -641,13 +664,16 @@ public class YamlMaterialLoader implements AssetLoader {
         }
     }
     
-    protected static <T extends Enum<T>> T getEnum(Object obj, Class<T> enumType) {
+    protected static <T extends Enum<T>> T getEnum(Object obj, Class<T> enumType) throws IOException {
         String name = getString(obj);
         return Enum.valueOf(enumType, name);
     }
 
-    protected static String getString(Object obj) {
-        return obj.toString();
+    protected static String getString(Object obj) throws IOException {
+        if (obj != null) {
+            return obj.toString();
+        }
+        throw new IOException("Invalid yaml string value");
     }
     
     @SuppressWarnings("unchecked")
@@ -658,18 +684,22 @@ public class YamlMaterialLoader implements AssetLoader {
             throw new IOException("Could not parse material. Expected Map at: " + obj);
         }
     }
-
+    
     @SuppressWarnings("unchecked")
-    protected static List<Object> getList(Object obj, int size) throws IOException {
+    protected static List<Object> getList(Object obj) throws IOException {
         if (obj instanceof List<?>) {
-            List<Object> list = (List<Object>) obj;
-            if (list.size() != size) {
-                throw new IOException("Invalid format, array must have " + size + " entries. Value: " + obj);
-            }
-            return list;
+            return (List<Object>) obj;
         } else {
             throw new IOException("Could not parse material. Expected List at: " + obj);
         }
+    }
+
+    protected static List<Object> getList(Object obj, int size) throws IOException {
+        List<Object> list = getList(obj);
+        if (list.size() != size) {
+            throw new IOException("Invalid format, array must have " + size + " entries. Value: " + obj);
+        }
+        return list;
     }
 
     protected static float[] parseFloatArray(Object doc, int size) throws IOException {
@@ -677,6 +707,15 @@ public class YamlMaterialLoader implements AssetLoader {
         float[] a = new float[size];
         for (int i = 0; i < a.length; i++) {
             a[i] = getFloat(list.get(i));
+        }
+        return a;
+    }
+    
+    protected static String[] parseStringArray(Object obj) throws IOException {
+        List<Object> list = getList(obj);
+        String[] a = new String[list.size()];
+        for (int i = 0; i < a.length; i++) {
+            a[i] = list.get(i).toString();
         }
         return a;
     }
