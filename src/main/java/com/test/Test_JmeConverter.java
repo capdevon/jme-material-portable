@@ -8,6 +8,7 @@ import com.jme3.asset.MaterialKey;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.material.Material;
 import com.jme3.material.exporter.JsonMaterialExporter;
+import com.jme3.material.exporter.YamlMaterialExporter;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.SceneGraphVisitorAdapter;
@@ -25,6 +26,8 @@ public class Test_JmeConverter extends SimpleApplication {
     private static final String RESOURCE_DIR    = "src/main/resources/";
     private static final String ASSET_DIR       = "Models/YBot";
     private static final String CHARACTER_MODEL = "YBot"; // Main Character
+    
+    private static boolean useJsonFormat = true;
     
     /**
      *
@@ -47,11 +50,12 @@ public class Test_JmeConverter extends SimpleApplication {
             public void visit(Geometry geom) {
                 System.out.println("Processing: " + geom);
                 String fileName = geom.getName();
+                String fileExt = useJsonFormat ? ".json" : ".yaml";
                 
                 Material mat = geom.getMaterial();
                 mat.setName(fileName);
                 
-                File file = new File(dirName, fileName + ".json");
+                File file = new File(dirName, fileName + fileExt);
                 MaterialKey key = new MaterialKey(ASSET_DIR + "/" + file.getName());
                 mat.setKey(key);
                 writeJ3m(mat, file);
@@ -98,16 +102,20 @@ public class Test_JmeConverter extends SimpleApplication {
     }
     
     /**
-     * Writes the material to a JSON file.
+     * Writes the material to a file.
      * 
      * @param mat the material to export
      * @param file the file to write to
      */
     private void writeJ3m(Material mat, File file) {
         try {
-            JsonMaterialExporter exporter = new JsonMaterialExporter();
-            exporter.save(mat, file);
-
+            if (useJsonFormat) {
+                JsonMaterialExporter exporter = new JsonMaterialExporter();
+                exporter.save(mat, file);
+            } else {
+                YamlMaterialExporter exporter = new YamlMaterialExporter();
+                exporter.save(mat, file);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
