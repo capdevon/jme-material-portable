@@ -41,16 +41,16 @@ public abstract class AbstractMaterialExporter {
 
     protected JsonMaterial toJson(Material material) {
         JsonMaterial mat = new JsonMaterial();
-        mat.setName(material.getName());
+        mat.name = material.getName();
         
         String defName = material.getMaterialDef().getAssetName();
-        mat.setDef(matDefNameProcessor.apply(defName));
+        mat.def = matDefNameProcessor.apply(defName);
 
         List<JsonMatParam> parameters = toJson(MaterialUtils.sortMatParams(material.getParams()));
-        mat.setMaterialParameters(parameters);
+        mat.materialParameters = parameters;
 
         JsonRenderState renderState = toJson(material.getAdditionalRenderState());
-        mat.setAdditionalRenderState(renderState);
+        mat.additionalRenderState = renderState;
         return mat;
     }
 
