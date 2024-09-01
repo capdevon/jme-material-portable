@@ -163,6 +163,10 @@ public abstract class AbstractMaterialExporter {
                 if (key.isFlipY()) {
                     json.flipY = true;
                 }
+                
+                if (key.getAnisotropy() > 0) {
+                    json.anisotropy = key.getAnisotropy();
+                }
             }
 
             Texture.WrapAxis[] axis = { Texture.WrapAxis.S, Texture.WrapAxis.T, Texture.WrapAxis.R };

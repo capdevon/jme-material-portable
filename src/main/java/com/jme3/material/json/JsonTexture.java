@@ -15,6 +15,7 @@ public class JsonTexture {
     public WrapMode wrapR;
     public MinFilter minFilter;
     public MagFilter magFilter;
+    public Integer anisotropy;
     
     @Override
     public String toString() {
@@ -25,6 +26,7 @@ public class JsonTexture {
                 + ", wrapR=" + wrapR 
                 + ", minFilter=" + minFilter 
                 + ", magFilter=" + magFilter 
+                + ", anisotropy=" + anisotropy
                 + "]";
     }
     

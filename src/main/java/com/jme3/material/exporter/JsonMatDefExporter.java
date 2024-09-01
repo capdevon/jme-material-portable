@@ -92,6 +92,7 @@ public class JsonMatDefExporter {
             List<TechniqueDef> defs = matDef.getTechniqueDefs(defName);
             for (TechniqueDef techniqueDef : defs) {
                 tenchiques.add(writeTechnique(techniqueDef, matParams));
+                //break;
             }
         }
         data.add("techniques", tenchiques);
