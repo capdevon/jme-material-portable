@@ -87,7 +87,6 @@ public class YamlMaterialLoader implements AssetLoader {
             
             Yaml yaml = new Yaml();
             Map<String, Object> doc = yaml.load(new UnicodeReader(in));
-            logger.log(Level.INFO, doc.toString());
             loadFromRoot(doc);
         }
         
@@ -124,7 +123,6 @@ public class YamlMaterialLoader implements AssetLoader {
         try (InputStream in = getResourceAsStream(key.getName())) {
             Yaml yaml = new Yaml();
             Map<String, Object> doc = yaml.load(new UnicodeReader(in));
-            logger.log(Level.INFO, doc.toString());
             loadFromRoot(doc);
 
         } catch (IOException e) {
@@ -248,7 +246,7 @@ public class YamlMaterialLoader implements AssetLoader {
 
                 } else {
                     if (value != null) {
-                        defaultVal = readUniformValue(type, value);
+                        defaultVal = readValue(type, value);
                     }
                     materialDef.addMaterialParam(type, name, defaultVal);
                 }
@@ -256,35 +254,6 @@ public class YamlMaterialLoader implements AssetLoader {
         }
     }
 
-    private Object readUniformValue(VarType type, Object value) throws IOException {
-
-        switch (type) {
-            case Int:
-                return getInt(value);
-    
-            case Float:
-                return getFloat(value);
-    
-            case Boolean:
-                return getBoolean(value);
-    
-            case Vector2:
-                float[] v2 = parseFloatArray(value, 2);
-                return new Vector2f(v2[0], v2[1]);
-    
-            case Vector3:
-                float[] v3 = parseFloatArray(value, 3);
-                return new Vector3f(v3[0], v3[1], v3[2]);
-    
-            case Vector4:
-                float[] v4 = parseFloatArray(value, 4);
-                return new ColorRGBA(v4[0], v4[1], v4[2], v4[3]);
-    
-            default:
-                throw new UnsupportedOperationException("VarType not supported: " + type);
-        }
-    }
-    
     private void readRenderState(RenderState renderState, Map<String, Object> map) throws IOException {
 
         if (map.containsKey("faceCull")) {
@@ -346,42 +315,40 @@ public class YamlMaterialLoader implements AssetLoader {
         }
 
         VarType type = param.getVarType();
-        Object valueObj = readValue(type, map);
+        Object valueObj = null;
 
         if (type.isTextureType()) {
+            valueObj = parseTextureType(type, getMap(map.get("texture")));
             material.setTextureParam(name, type, (Texture) valueObj);
         } else {
+            valueObj = readValue(type, map.get("value"));
             material.setParam(name, type, valueObj);
         }
     }
+    
+    private Object readValue(VarType type, Object value) throws IOException {
 
-    private Object readValue(VarType type, Map<String, Object> map) throws IOException {
-        if (type.isTextureType()) {
-            return parseTextureType(type, getMap(map.get("texture")));
-        } else {
-            Object value = map.get("value");
-            switch (type) {
-                case Int:
-                    return getInt(value);
-                case Float:
-                    return getFloat(value);
-                case Boolean:
-                    return getBoolean(value);
-                case Vector2:
-                    float[] vec2 = parseFloatArray(value, 2);
-                    return new Vector2f(vec2[0], vec2[1]);
-                case Vector3:
-                    float[] vec3 = parseFloatArray(value, 3);
-                    return new Vector3f(vec3[0], vec3[1], vec3[2]);
-                case Vector4:
-                    float[] vec4 = parseFloatArray(value, 4);
-                    return new ColorRGBA(vec4[0], vec4[1], vec4[2], vec4[3]); //TODO: Vector4f ?
-                default:
-                    throw new UnsupportedOperationException("VarType not supported: " + type);
-            }
+        switch (type) {
+            case Int:
+                return getInt(value);
+            case Float:
+                return getFloat(value);
+            case Boolean:
+                return getBoolean(value);
+            case Vector2:
+                float[] vec2 = parseFloatArray(value, 2);
+                return new Vector2f(vec2[0], vec2[1]);
+            case Vector3:
+                float[] vec3 = parseFloatArray(value, 3);
+                return new Vector3f(vec3[0], vec3[1], vec3[2]);
+            case Vector4:
+                float[] vec4 = parseFloatArray(value, 4);
+                return new ColorRGBA(vec4[0], vec4[1], vec4[2], vec4[3]);
+            default:
+                throw new UnsupportedOperationException("VarType not supported: " + type);
         }
     }
-    
+
     private Texture parseTextureType(final VarType type, final Map<String, Object> map) throws IOException {
 
         TextureKey textureKey = null;
@@ -399,6 +366,11 @@ public class YamlMaterialLoader implements AssetLoader {
         if (map.containsKey("minFilter")) {
             MinFilter min = getEnum(map.get("minFilter"), MinFilter.class);
             textureKey.setGenerateMips(min.usesMipMapLevels());
+        }
+        
+        if (map.containsKey("anisotropy")) {
+            int anisotropy = getInt(map.get("anisotropy"));
+            textureKey.setAnisotropy(anisotropy);
         }
 
         switch (type) {
@@ -632,12 +604,12 @@ public class YamlMaterialLoader implements AssetLoader {
     
     /// YAML NODE CONVERTERS
 
-    protected static final List<String> YAML_YES_VALUES = Arrays.asList("y", "yes", "true", "on");
-    protected static final List<String> YAML_NO_VALUES = Arrays.asList("n", "no", "false", "off");
+    private static final List<String> YAML_YES_VALUES = Arrays.asList("y", "yes", "true", "on");
+    private static final List<String> YAML_NO_VALUES = Arrays.asList("n", "no", "false", "off");
 
     /// PROPERTY READERS
 
-    protected static boolean getBoolean(Object obj) throws IOException {
+    private boolean getBoolean(Object obj) throws IOException {
         String value = getString(obj).trim().toLowerCase();
         if (YAML_YES_VALUES.contains(value)) {
             return true;
@@ -648,7 +620,7 @@ public class YamlMaterialLoader implements AssetLoader {
         throw new IOException("Invalid yaml boolean value: " + value);
     }
 
-    protected static int getInt(Object obj) throws IOException {
+    private int getInt(Object obj) throws IOException {
         try {
             return Integer.parseInt(getString(obj));
         } catch (NumberFormatException e) {
@@ -656,7 +628,7 @@ public class YamlMaterialLoader implements AssetLoader {
         }
     }
 
-    protected static float getFloat(Object obj) throws IOException {
+    private float getFloat(Object obj) throws IOException {
         try {
             return Float.parseFloat(getString(obj));
         } catch (NumberFormatException e) {
@@ -664,12 +636,12 @@ public class YamlMaterialLoader implements AssetLoader {
         }
     }
     
-    protected static <T extends Enum<T>> T getEnum(Object obj, Class<T> enumType) throws IOException {
+    private <T extends Enum<T>> T getEnum(Object obj, Class<T> enumType) throws IOException {
         String name = getString(obj);
         return Enum.valueOf(enumType, name);
     }
 
-    protected static String getString(Object obj) throws IOException {
+    private String getString(Object obj) throws IOException {
         if (obj != null) {
             return obj.toString();
         }
@@ -677,7 +649,7 @@ public class YamlMaterialLoader implements AssetLoader {
     }
     
     @SuppressWarnings("unchecked")
-    protected static Map<String, Object> getMap(Object obj) throws IOException {
+    private Map<String, Object> getMap(Object obj) throws IOException {
         if (obj instanceof Map<?, ?>) {
             return (Map<String, Object>) obj;
         } else {
@@ -686,7 +658,7 @@ public class YamlMaterialLoader implements AssetLoader {
     }
     
     @SuppressWarnings("unchecked")
-    protected static List<Object> getList(Object obj) throws IOException {
+    private List<Object> getList(Object obj) throws IOException {
         if (obj instanceof List<?>) {
             return (List<Object>) obj;
         } else {
@@ -694,7 +666,7 @@ public class YamlMaterialLoader implements AssetLoader {
         }
     }
 
-    protected static List<Object> getList(Object obj, int size) throws IOException {
+    private List<Object> getList(Object obj, int size) throws IOException {
         List<Object> list = getList(obj);
         if (list.size() != size) {
             throw new IOException("Invalid format, array must have " + size + " entries. Value: " + obj);
@@ -702,7 +674,7 @@ public class YamlMaterialLoader implements AssetLoader {
         return list;
     }
 
-    protected static float[] parseFloatArray(Object doc, int size) throws IOException {
+    private float[] parseFloatArray(Object doc, int size) throws IOException {
         List<Object> list = getList(doc, size);
         float[] a = new float[size];
         for (int i = 0; i < a.length; i++) {
@@ -711,7 +683,7 @@ public class YamlMaterialLoader implements AssetLoader {
         return a;
     }
     
-    protected static String[] parseStringArray(Object obj) throws IOException {
+    private String[] parseStringArray(Object obj) throws IOException {
         List<Object> list = getList(obj);
         String[] a = new String[list.size()];
         for (int i = 0; i < a.length; i++) {
