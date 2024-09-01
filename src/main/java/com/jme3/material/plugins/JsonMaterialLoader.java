@@ -341,7 +341,7 @@ public class JsonMaterialLoader implements AssetLoader {
         if (jsonObject.has("flipY")) {
             flipY = jsonObject.get("flipY").getAsBoolean();
         }
-
+        
         textureKey = new TextureKey(texturePath, flipY);
         textureKey.setGenerateMips(true);
 
@@ -349,6 +349,11 @@ public class JsonMaterialLoader implements AssetLoader {
         if (jsonObject.has("minFilter")) {
             MinFilter min = MinFilter.valueOf(jsonObject.get("minFilter").getAsString());
             textureKey.setGenerateMips(min.usesMipMapLevels());
+        }
+        
+        if (jsonObject.has("anisotropy")) {
+            int anisotropy = jsonObject.get("anisotropy").getAsInt();
+            textureKey.setAnisotropy(anisotropy);
         }
         
         switch (type) {
@@ -411,7 +416,7 @@ public class JsonMaterialLoader implements AssetLoader {
         String name = jsonObject.get("name").getAsString();
         String stringType = jsonObject.get("type").getAsString();
 
-        ColorSpace colorSpace = null;
+        ColorSpace colorSpace = null; // Only for TextureType
         if (jsonObject.has("colorSpace")) {
             colorSpace = ColorSpace.valueOf(jsonObject.get("colorSpace").getAsString());
         }
