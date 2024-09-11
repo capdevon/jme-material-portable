@@ -7,18 +7,28 @@
  */
 
 plugins {
-    // Apply the java-library plugin to add support for Java Library
-    id 'java-library'
+    id 'java-library'  // to build JVM libraries
+    id 'maven-publish' // to publish artifacts to Maven repositories
 }
 
-description = 'jme-material-portable'
+group = 'com.github.capdevon'
+version = '0.0.1'
 
-// select one source-code (JDK) option
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+java {
+    // select one source-code (JDK) option
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
-// select one version of the Engine:
-ext.jmeVersion = '3.6.1-stable'
+ext {
+    // select one version of the Engine:
+    jmeVersion = '3.6.1-stable'
+    jacksonVersion = '2.13.0'
+    yamlVersion = '1.30'
+    
+    artifact = 'jme-material-portable'
+    baseName = "${artifact}-${version}" // for artifacts
+}
 
 repositories {
     mavenCentral()
@@ -28,23 +38,67 @@ dependencies {
     // jMonkeyEngine
     implementation 'org.jmonkeyengine:jme3-core:' + jmeVersion
     implementation 'org.jmonkeyengine:jme3-desktop:' + jmeVersion
-    
     implementation 'org.jmonkeyengine:jme3-plugins:' + jmeVersion
+    runtimeOnly 'org.jmonkeyengine:jme3-jogg:' + jmeVersion
     runtimeOnly 'org.jmonkeyengine:jme3-lwjgl3:' + jmeVersion // LWJGL 3.x
     
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.0'
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-yaml
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.13.0'
+    implementation 'com.fasterxml.jackson.core:jackson-core:' + jacksonVersion
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:' + jacksonVersion
+    implementation 'com.fasterxml.jackson.core:jackson-databind:' + jacksonVersion
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:' + jacksonVersion
+    implementation 'org.yaml:snakeyaml:' + yamlVersion
     
-    // https://mvnrepository.com/artifact/org.yaml/snakeyaml
-    implementation 'org.yaml:snakeyaml:1.30'
-    
-    //runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.1.0-stable'
-    runtimeOnly 'org.jmonkeyengine:jme3-testdata:3.4.0-alpha6'
-    
+}
+
+// Register cleanup tasks:
+
+clean.dependsOn('cleanDLLs', 'cleanDyLibs', 'cleanLogs', 'cleanSOs')
+
+tasks.register('cleanDLLs', Delete) { // extracted Windows native libraries
+    delete fileTree(dir: '.', include: '*.dll')
+}
+tasks.register('cleanDyLibs', Delete) { // extracted macOS native libraries
+    delete fileTree(dir: '.', include: '*.dylib')
+}
+tasks.register('cleanLogs', Delete) { // JVM crash logs
+    delete fileTree(dir: '.', include: 'hs_err_pid*.log')
+}
+tasks.register('cleanSOs', Delete) { // extracted Linux and Android native libraries
+    delete fileTree(dir: '.', include: '*.so')
+}
+
+// Register publishing tasks:
+
+tasks.register('install') {
+    dependsOn 'publishToMavenLocal'
+    description 'Installs Maven artifacts to the local repository.'
+}
+
+jar {
+    archiveBaseName = project.ext.baseName
+    doLast {
+        println "using Java ${JavaVersion.current()} (${System.getProperty("java.vendor")})"
+    }
+    manifest {
+        attributes 'Created-By': "${JavaVersion.current()} (${System.getProperty("java.vendor")})"
+    }
+}
+java.withJavadocJar()
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = project.ext.artifact
+            groupId = "${group}"
+            version = "${version}"
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+
+publishToMavenLocal.doLast {
+    println 'installed locally as ' + project.ext.baseName
 }
