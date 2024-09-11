@@ -19,7 +19,7 @@ Material mat = assetManager.loadMaterial("MyMaterial.json");
 Material mat = new Material(assetManager, "MatDefs/New/PBRLighting.yaml");
 Material mat = new Material(assetManager, "MatDefs/New/PBRLighting.json");
 
-// loads the Material without caching the file
+// loads the Material without caching the file (no need to register the loader)
 YamlMaterialLoader loader = new YamlMaterialLoader();
 Material mat = loader.loadMaterial(assetManager, new YamlMaterialKey("MyMaterial.yaml"));
 
