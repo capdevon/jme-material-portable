@@ -7,13 +7,24 @@ Material Description Format
 assetManager.registerLoader(JsonMaterialLoader.class, "json");
 assetManager.registerLoader(YamlMaterialLoader.class, "yaml");
 
-// with AssetKey
+// loads the Material with AssetKey
 Material mat = assetManager.loadAsset(new YamlMaterialKey("MyMaterial.yaml"));
 Material mat = assetManager.loadAsset(new JsonMaterialKey("MyMaterial.json"));
 
-// with  MaterialDef
+// loads the Material without AssetKey
+Material mat = assetManager.loadMaterial("MyMaterial.yaml");
+Material mat = assetManager.loadMaterial("MyMaterial.json");
+
+// loads the Material with  MaterialDef
 Material mat = new Material(assetManager, "MatDefs/New/PBRLighting.yaml");
 Material mat = new Material(assetManager, "MatDefs/New/PBRLighting.json");
+
+// loads the Material without caching the file
+YamlMaterialLoader loader = new YamlMaterialLoader();
+Material mat = loader.loadMaterial(assetManager, new YamlMaterialKey("MyMaterial.yaml"));
+
+JsonMaterialLoader loader = new JsonMaterialLoader();
+Material mat = loader.loadMaterial(assetManager, new JsonMaterialKey("MyMaterial.json"));
 ```
 
 ### Usage example: Exports material to file in desired format
