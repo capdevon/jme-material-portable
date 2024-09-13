@@ -43,7 +43,7 @@ public class YamlMaterialExporter extends AbstractMaterialExporter {
 
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         String yaml = mapper.writeValueAsString(data);
-        logger.log(Level.INFO, yaml);
+        logger.log(Level.FINE, yaml);
         
         // Write YAML String to file
         try (FileWriter writer = new FileWriter(file)) {
