@@ -1,5 +1,9 @@
 # jme-material-portable
-Material Description Format
+This Java library extends the capabilities of jMonkeyEngine 3 by allowing you to:
+
+* **Serialize Material objects**: Convert your jME3 materials into JSON or YAML formats.
+* **Portability**: Serialized materials can be easily shared and used across different platforms.
+* **Interoperability**: Integrate your jME3 materials with other tools and game engines that support JSON or YAML.
 
 ### Usage example: Creates a new Material from file
 ```java
