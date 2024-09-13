@@ -44,7 +44,7 @@ public class JsonMaterialExporter extends AbstractMaterialExporter {
         // Convert JsonObject to String
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonString = gson.toJson(data);
-        logger.log(Level.INFO, jsonString);
+        logger.log(Level.FINE, jsonString);
 
         // Write JSON String to file
         try (FileWriter writer = new FileWriter(file)) {
