@@ -44,3 +44,10 @@ public void export(Material mat, File file) {
     }
 }
 ```
+
+## Requirements
+- [jmonkeyengine](https://github.com/jMonkeyEngine/jmonkeyengine) - A complete 3D game development suite written purely in Java.
+- java 11+
+
+## Bug report / feature request
+The best way to report bug or feature request is [github's issues page](https://github.com/capdevon/jme-material-portable/issues).
