@@ -15,7 +15,7 @@ java {
 project.ext {
     // select one version of the Engine:
     jmeVersion = '3.6.1-stable'
-    jacksonVersion = '2.18.2'
+    jacksonVersion = '2.18.11'
     yamlVersion = '2.3'
     
     artifact = 'jme-material-portable'
